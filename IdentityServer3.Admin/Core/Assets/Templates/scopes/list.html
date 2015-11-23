@@ -1,0 +1,69 @@
+﻿<div id="page-title">
+    <h1 class="page-header text-overflow">Scopes</h1>
+
+    <!--Searchbox-->
+    <div class="searchbox">
+        <div class="input-group custom-search-form">
+            <form ng-submit="search(model.filter)">
+                <input type="text" id="filter" ng-model="model.filter" class="form-control" placeholder="Search..." autofocus>
+                <span class="input-group-btn">
+                    <button class="text-muted" type="button"><span aria-hidden="true" class="glyphicon glyphicon-search">&nbsp;</span></button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="panel panel-colorful panel-info" ng-hide="model.waiting || model.message || (model.scopes.length > 0)">
+        <div class="panel-heading">
+            <h3 class="panel-title">Info</h3>
+        </div>
+        <div class="panel-body">
+            <p>No scopes Found</p>
+        </div>
+    </div>
+    <div class="panel panel-colorful panel-danger" ng-show="model.message">
+        <div class="panel-heading">
+            <h3 class="panel-title">Warning</h3>
+        </div>
+        <div class="panel-body">
+            <p>{{model.message}}</p>
+        </div>
+    </div>
+
+    <div class="panel" ng-show="model.scopes.length > 0">
+        <div class="panel-body">
+            <span ng-show="model.waiting" class="waiting alert alert-info">Searching...</span>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="scope in model.scopes">
+                            <td>
+                                <a ng-show="scope.links.detail" href="#/scopes/edit/{{scope.data.subject}}" class="label label-table label-warning">edit</a>
+                            </td>
+                            <td>{{scope.data.name}}</td>
+                            <td>{{scope.data.subject}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="fixed-table-pagination" style="display: block;" ng-show="model.pager">
+                <div class="pull-left pagination-detail">
+                    <tt-pager-summary pager="model.pager"></tt-pager-summary>
+                </div>
+                <div class="pull-right pagination">
+                    <tt-pager-buttons pager="model.pager" path="scopes"></tt-pager-buttons>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

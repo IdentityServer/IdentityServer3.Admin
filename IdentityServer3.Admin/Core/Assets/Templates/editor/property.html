@@ -1,0 +1,160 @@
+﻿<form class="form-horizontal" ng-submit="setProperty(property)" name="form">
+    <div class="row">
+        <span ng-switch on="property.meta.dataType">
+            <span ng-switch-when="1">
+                <div class="form-group">
+                    <label class="col-sm-12 col-md-3 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                    <div class="col-sm-6 col-md-3">
+                        <input type="password"
+                               class="form-control"
+                               id="{{property.meta.type}}"
+                               name="data"
+                               placeholder="{{property.meta.name}}"
+                               required
+                               ng-model="property.data">
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="input-group">
+                            <input type="password"
+                                   class="form-control"
+                                   id="confirm_{{property.meta.type}}"
+                                   name="confirm"
+                                   placeholder="Confirm {{property.meta.name}}"
+                                   required
+                                   ng-model="confirm"
+                                   tt-match="property.data">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Set</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <small class="help-block" ng-show="form.data.$dirty && form.data.$error.required">{{property.meta.name}} is required</small>
+                        <small class="help-block" ng-show="form.confirm.$dirty && form.data.$valid && form.confirm.$error.required">Confirm is required</small>
+                        <small class="help-block" ng-show="form.confirm.$dirty && form.data.$valid && form.confirm.$error.ttMatch">Confirm must match</small>
+                    </div>
+                </div>
+            </span>
+            <span ng-switch-when="5">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <label class="form-checkbox form-normal form-primary form-text" ng-class="property.data ? 'active form-checkbox form-normal form-primary form-text' : 'form-checkbox form-normal form-primary form-text'">
+                                <input type="checkbox"
+                                       class="user-edit-regular"
+                                       id="{{property.meta.type}}"
+                                       name="data"
+                                       ng-model="property.data"
+                                       ng-change="setProperty(property)">
+                            </label>
+                        </div>
+                    </div>
+            </span>
+            <span ng-switch-when="4">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="input-group">
+                                <input type="number"
+                                       class="form-control"
+                                       id="{{property.meta.type}}"
+                                       name="data"
+                                       placeholder="{{property.meta.name}}"
+                                       ng-model="property.data"
+                                       ng-required="property.meta.required">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || form.$pristine">Set</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <small class="help-block" ng-show="form.data.$dirty && form.data.$error.required">{{property.meta.name}} is required</small>
+                            <small class="help-block" ng-show="form.data.$dirty && !form.data.$error.required && form.data.$error.number">{{property.meta.name}} must be a number</small>
+                        </div>
+                    </div>
+            </span>
+            <span ng-switch-when="6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <select class="form-control" ng-change="setProperty(property)" ng-model="property.data">
+                                <option ng-repeat="val in property.meta.enumOptions" value="{{val}}" ng-selected="{{property.data==val}}">
+                                    {{val}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+            </span>
+            <span ng-switch-when="2">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="input-group">
+                                <input type="email"
+                                       class="form-control"
+                                       id="{{property.meta.type}}"
+                                       name="data"
+                                       placeholder="{{property.meta.name}}"
+                                       ng-model="property.data"
+                                       ng-required="property.meta.required">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || form.$pristine">Set</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <small class="help-block" ng-show="form.data.$dirty && form.data.$error.required">{{property.meta.name}} is required</small>
+                            <small class="help-block" ng-show="form.data.$dirty && !form.data.$error.required && form.data.$error.email">{{property.meta.name}} must be a valid email</small>
+                        </div>
+                    </div>
+            </span>
+            <span ng-switch-when="3">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="input-group">
+                                <input type="url"
+                                       class="form-control"
+                                       id="{{property.meta.type}}"
+                                       name="data"
+                                       placeholder="{{property.meta.name}}"
+                                       ng-model="property.data"
+                                       ng-required="property.meta.required">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || form.$pristine">Set</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <small class="help-block" ng-show="form.data.$dirty && form.data.$error.required">{{property.meta.name}} is required</small>
+                            <small class="help-block" ng-show="form.data.$dirty && !form.data.$error.required && form.data.$error.url">{{property.meta.name}} must be a valid URL</small>
+                        </div>
+                    </div>
+            </span>
+            <span ng-switch-default>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-6 control-label" for="{{property.meta.type}}">{{property.meta.name}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       id="{{property.meta.type}}"
+                                       name="data"
+                                       placeholder="{{property.meta.name}}"
+                                       ng-model="property.data"
+                                       ng-required="property.meta.required">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || form.$pristine">Set</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <small class="help-block" ng-show="form.data.$dirty && form.data.$error.required">{{property.meta.name}} is required</small>
+                        </div>
+                    </div>
+            </span>
+        </span>
+    </div>
+</form>

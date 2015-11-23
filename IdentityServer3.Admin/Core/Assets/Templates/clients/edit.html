@@ -1,0 +1,363 @@
+﻿<div id="page-title">
+    <h1 class="page-header text-overflow">
+        <span ng-show="client.data.clientName">Client: {{client.data.clientName}}</span>
+
+        <form class="form-inline pull-right" style="margin-right: 20px;" name="deleteclientForm" ng-submit="deleteclient(client)">
+            <tt-prompt id="m" action="Delete">Are you sure you want to delete the client <strong>{{client.data.clientName}}</strong>?</tt-prompt>
+            <button type="submit" class="btn btn-primary" tt-confirm-click="#m">Delete client</button>
+        </form>
+    </h1>
+</div>
+
+
+<div ng-show="client">
+
+<div class="panel-body">
+<div class="tab-base">
+<ul class="nav nav-tabs">
+    <li class="{{!tab ?'active':''}}" ng-show="client.data.properties">
+        <a ng-click="tab=0" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Properties</a>
+    </li>
+    <li class="{{tab==1?'active':''}}" ng-show="client.data.claims">
+        <a ng-click="tab=1" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Claims</a>
+    </li>
+    <li class="{{tab==2?'active':''}}" ng-show="client.data.clientSecrets">
+        <a ng-click="tab=2" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Secrets</a>
+    </li>
+    <li class="{{tab==3?'active':''}}" ng-show="client.data.identityProviderRestrictions">
+        <a ng-click="tab=3" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">ipRestrictions</a>
+    </li>
+    <li class="{{tab==4?'active':''}}" ng-show="client.data.postLogoutRedirectUris">
+        <a ng-click="tab=4" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">LogoutRedirect Uris</a>
+    </li>
+    <li class="{{tab==5?'active':''}}" ng-show="client.data.redirectUris">
+        <a ng-click="tab=5" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Redirect Uris</a>
+    </li>
+    <li class="{{tab==6?'active':''}}" ng-show="client.data.allowedCorsOrigins">
+        <a ng-click="tab=6" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Cors</a>
+    </li>
+    <li class="{{tab==7?'active':''}}" ng-show="client.data.allowedCustomGrantTypes">
+        <a ng-click="tab=7" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Custom Grant Types</a>
+    </li>
+    <li class="{{tab==8?'active':''}}" ng-show="client.data.allowedScopes">
+        <a ng-click="tab=8" href="#/clients/edit/{{client.data.subject}}" role="tab" data-toggle="tab">Scopes</a>
+    </li>
+</ul>
+<div class="tab-content">
+<idm-message message="feedback"></idm-message>
+<div class="tab-pane {{!tab ?'active':''}}">
+    <div class="line" ng-repeat="property in client.data.properties">
+        <div class="row">
+            <tt-property-editor property="property" set-property="setProperty"></tt-property-editor>
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane {{tab==1?'active':''}}" ng-show="client.data.claims">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addClaimForm" class="form-inline" ng-submit="addClientClaim(client.data.claims, claim)">
+                <div class="form-group">
+                    <label for="type" class="column">Add Claim</label>
+                    <input type="text" class="form-control client-edit-regular" id="type" placeholder="Type" required autofocus ng-model="claim.type">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control client-edit-regular" id="value" placeholder="Value" required ng-model="claim.value">
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="addClaimForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-hide="client.data.claims.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No Claims For client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.claims.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="claim in client.data.claims.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeClientClaim(claim)">delete</button>
+                </td>
+                <td>{{claim.data.type}}</td>
+                <td>{{claim.data.value}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==2?'active':''}}" ng-show="client.data.clientSecrets">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addSecretForm" class="form-inline" ng-submit="addClientSecret(client.data.clientSecrets, clientSecret)">
+                <div class="form-group">
+                    <label for="type" class="column">Add Client Secret</label>
+                    <input type="text" class="form-control client-edit-regular" id="type" placeholder="Type" required autofocus ng-model="clientSecret.type">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control client-edit-regular" id="value" placeholder="Value" required ng-model="clientSecret.value">
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="addSecretForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.clientSecrets.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No Client secrets For this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.clientSecrets.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="clientSecret in client.data.clientSecrets.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeClientSecret(clientSecret)">delete</button>
+                </td>
+                <td>{{clientIdentityProviderRestriction.data.provider}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==3?'active':''}}" ng-show="client.data.identityProviderRestrictions">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addProviderRestrictionForm" class="form-inline" ng-submit="addIdentityProviderRestriction(client.data.identityProviderRestrictions, identityProviderRestriction)">
+                <div class="form-group">
+                    <label for="type" class="column">Add Client Identity provider restrictions</label>
+                    <input type="text" class="form-control client-edit-regular" id="provider" placeholder="provider" required autofocus ng-model="identityProviderRestriction.provider">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addProviderRestrictionForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.identityProviderRestrictions.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No identityProvider Restrictions for this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.identityProviderRestrictions.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Provider</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="identityProviderRestriction in client.data.identityProviderRestrictions.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeIdentityProviderRestriction(identityProviderRestriction)">delete</button>
+                </td>
+                <td>{{identityProviderRestriction.data.provider}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==4?'active':''}}" ng-show="client.data.postLogoutRedirectUris">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addPostLogoutRedirectUriForm" class="form-inline" ng-submit="addPostLogoutRedirectUri(client.data.postLogoutRedirectUris, postLogoutRedirectUri)">
+                <div class="form-group">
+                    <label for="type" class="column">Add Client post LogoutRedirect Uris</label>
+                    <input type="text" class="form-control client-edit-regular" id="uri" placeholder="uri" required autofocus ng-model="postLogoutRedirectUri.uri">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addPostLogoutRedirectUriForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.postLogoutRedirectUris.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No post logoutRedirect for this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.postLogoutRedirectUris.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Uri</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="postLogoutRedirectUri in client.data.postLogoutRedirectUris.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removePostLogoutRedirectUri(postLogoutRedirectUri)">delete</button>
+                </td>
+                <td>{{postLogoutRedirectUri.data.uri}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==5?'active':''}}" ng-show="client.data.redirectUris">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addRedirectUriForm" class="form-inline" ng-submit="addRedirectUri(client.data.redirectUris, redirectUri)">
+                <div class="form-group">
+                    <label for="type" class="column">Add Client redirect Uris</label>
+                    <input type="text" class="form-control client-edit-regular" id="uri" placeholder="uri" required autofocus ng-model="redirectUri.uri">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addRedirectUriForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.redirectUris.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No redirect uris for this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.redirectUris.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Uri</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="redirectUri in client.data.redirectUris.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeRedirectUri(redirectUri)">delete</button>
+                </td>
+                <td>{{redirectUri.data.uri}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==6?'active':''}}" ng-show="client.data.allowedCorsOrigins">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addAllowedCorsOriginForm" class="form-inline" ng-submit="addAllowedCorsOrigin(client.data.allowedCorsOrigins, allowedCorsOrigin)">
+                <div class="form-group">
+                    <label for="type" class="column">Add allowed cors</label>
+                    <input type="text" class="form-control client-edit-regular" id="origin" placeholder="origin" required autofocus ng-model="allowedCorsOrigin.origin">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addAllowedCorsOriginForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.allowedCorsOrigins.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No allowed cors this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.allowedCorsOrigins.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Origin</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="corsOrigin in client.data.allowedCorsOrigins.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeAllowedCorsOrigin(corsOrigin)">delete</button>
+                </td>
+                <td>{{corsOrigin.data.origin}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==7?'active':''}}" ng-show="client.data.allowedCustomGrantTypes">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addAllowedCustomGrantTypeForm" class="form-inline" ng-submit="addAllowedCustomGrantType(client.data.allowedCustomGrantTypes, allowedCustomGrantType)">
+                <div class="form-group">
+                    <label for="type" class="column">Add grantType</label>
+                    <input type="text" class="form-control client-edit-regular" id="grantType" placeholder="grantType" required autofocus ng-model="allowedCustomGrantType.grantType">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addAllowedCustomGrantTypeForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.allowedCustomGrantTypes.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No grantTypes this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.allowedCustomGrantTypes.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Grant type</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="allowedCustomGrantType in client.data.allowedCustomGrantTypes.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeAllowedCustomGrantType(allowedCustomGrantType)">delete</button>
+                </td>
+                <td>{{allowedCustomGrantType.data.grantType}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tab-pane {{tab==8?'active':''}}" ng-show="client.data.allowedScopes">
+    <div class="row section">
+        <div class="col-sm-12">
+            <form name="addAllowedScopeForm" class="form-inline" ng-submit="addAllowedScope(client.data.allowedScopes, allowedScope)">
+                <div class="form-group">
+                    <label for="type" class="column">Add scope</label>
+                    <input type="text" class="form-control client-edit-regular" id="scope" placeholder="scope" required autofocus ng-model="allowedScope.scope">
+                </div>&nbsp;
+                <button type="submit" class="btn btn-primary" ng-disabled="addAllowedScopeForm.$invalid">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div ng-hide="client.data.allowedScopes.data.length" class="col-sm-8">
+            <div class="alert alert-info">
+                <p>No scopes this client</p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" ng-show="client.data.allowedScopes.data.length">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Scope</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="allowedScope in client.data.allowedScopes.data">
+                <td>
+                    <button class="btn btn-warning btn-xs" ng-click="removeAllowedScope(allowedScope)">delete</button>
+                </td>
+                <td>{{allowedScope.data.scope}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>

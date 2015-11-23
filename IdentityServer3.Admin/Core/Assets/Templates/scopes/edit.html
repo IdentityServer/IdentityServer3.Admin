@@ -1,0 +1,80 @@
+﻿<div id="page-title">
+    <h1 class="page-header text-overflow">
+        <span ng-show="scope.data.name">Scope: {{scope.data.name}}</span>
+        <span ng-show="!scope.data.name && scope.data.scopename">{{scope.data.scopename}}</span>
+
+        <form class="form-inline pull-right" style="margin-right: 20px;" name="deletescopeForm" ng-submit="deleteScope(scope)">
+            <tt-prompt id="m" action="Delete">Are you sure you want to delete scope <strong>{{scope.data.name}}</strong>?</tt-prompt>
+            <button type="submit" class="btn btn-primary" tt-confirm-click="#m">Delete scope</button>
+        </form>
+    </h1>
+</div>
+
+<div ng-show="scope">
+    <div class="panel-body">
+        <div class="tab-base">
+            <ul class="nav nav-tabs">
+                <li class="{{!tab ?'active':''}}" ng-show="scope.data.properties">
+                    <a ng-click="tab=0" href="#/scopes/edit/{{scope.data.subject}}" role="tab" data-toggle="tab">Properties</a>
+                </li>
+                <li class="{{tab==1?'active':''}}" ng-show="scope.data.claims">
+                    <a ng-click="tab=1" href="#/scopes/edit/{{scope.data.subject}}" role="tab" data-toggle="tab">Claims</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <idm-message message="feedback"></idm-message>
+                <div class="tab-pane {{!tab ?'active':''}}">
+                    <div class="line" ng-repeat="property in scope.data.properties">
+                            <div class="row line">
+                                <tt-property-editor property="property" set-property="setProperty"></tt-property-editor>
+                            </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{tab==1?'active':''}}" ng-show="scope.data.claims">
+                    <div class="row section">
+                        <div class="col-sm-12">
+                            <form name="addClaimForm" class="form-inline" ng-submit="addScopeClaim(scope.data.claims, claim)">
+                                <div class="form-group">
+                                    <label for="type" class="column">Add Claim</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Name" required autofocus ng-model="claim.name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="description" placeholder="Description" required ng-model="claim.description">
+                                </div>
+                                <button type="submit" class="btn btn-primary" ng-disabled="addClaimForm.$invalid">Add</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div ng-hide="scope.data.claims.data.length" class="col-sm-8">
+                            <div class="alert alert-info">
+                                <p>No Claims For scope</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped" ng-show="scope.data.claims.data.length">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="claim in scope.data.claims.data">
+                                    <td>
+                                        <button class="btn btn-warning btn-xs" ng-click="removeScopeClaim(claim)">delete</button>
+                                    </td>
+                                    <td>{{claim.data.name}}</td>
+                                    <td>{{claim.data.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿<div class="navbar-content clearfix">
+    <ul class="nav navbar-top-links pull-left">
+        <img class="brand-icon" ng-src="{{PathBase}}/assets/Content.logo.png">
+        IdentityAdmin
+    </ul>
+    <ul class="nav navbar-top-links pull-right">
+        <li ng-hide="!layout.showLogin" >
+            <a href="#/" ng-click="login()" idm-prevent-default>
+                <span class="glyphicon glyphicon-user"></span> Login
+            </a>
+        </li>
+        <li ng-hide="!layout.showLogout" >
+            <a href="#/" ng-click="logout()" idm-prevent-default>
+                <span class="glyphicon glyphicon-user"></span> Logout
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="side-menu" id ="identityNavBar">
+    <nav class="navbar" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <div class="brand-wrapper">
+                <!-- Hamburger -->
+                <button type="button" class="navbar-toggle" ng-click="toggle()">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- Brand -->
+                <div class="brand-name-wrapper">
+                    <a class="navbar-brand" href="#/home">
+                      {{username}}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="side-menu-container">
+            <ul class="nav navbar-nav">
+                <li class="panel panel-default dropdownSidebar">
+                    <a data-toggle="collapse" href="#dropdown-clients" idm-prevent-default>
+                        <span class="glyphicon glyphicon-road"></span> Clients <span class="caret"></span>
+                    </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-clients" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li ng-show="layout.links.clients"><a href="#/clients/list">All Clients</a></li>
+                                <li ng-show="layout.links.clients"><a href="#/clients/create">New Client</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="panel panel-default dropdownSidebar">
+                    <a data-toggle="collapse" href="#dropdown-scopes" idm-prevent-default>
+                        <span class="glyphicon glyphicon-align-justify"></span> Scopes <span class="caret"></span>
+                    </a>
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-scopes" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li ng-show="layout.links.clients"><a href="#/scopes/list">All Scopes</a></li>
+                                <li ng-show="layout.links.clients"><a href="#/scopes/create">New Scope</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
