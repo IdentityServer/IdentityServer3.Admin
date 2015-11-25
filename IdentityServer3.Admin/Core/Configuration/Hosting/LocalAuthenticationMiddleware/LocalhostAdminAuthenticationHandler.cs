@@ -23,7 +23,7 @@ using Microsoft.Owin.Security.Infrastructure;
 
 namespace IdentityAdmin.Configuration.Hosting.LocalAuthenticationMiddleware
 {
-    public class LocalhostAuthenticationHandler : AuthenticationHandler<LocalhostAuthenticationOptions>
+    public class LocalhostAdminAuthenticationHandler : AuthenticationHandler<LocalhostAdminAuthenticationOptions>
     {
         protected override Task<Microsoft.Owin.Security.AuthenticationTicket> AuthenticateCoreAsync()
         {

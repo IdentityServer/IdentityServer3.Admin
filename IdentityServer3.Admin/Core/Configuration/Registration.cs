@@ -63,13 +63,13 @@ namespace IdentityAdmin.Configuration
         /// A factory function to obtain the dependency. The function will be invoked each time the dependency is 
         /// resolved. If the returned object impelments <see cref="System.IDisposable"/>
         /// then <c>Dispose</c> will be called after each request.
-        /// The <see cref="IDependencyResolver"/> parameter can be 
+        /// The <see cref="IAdminDependencyResolver"/> parameter can be 
         /// used to resolve other dependencies.
         /// </summary>
         /// <value>
         /// The factory.
         /// </value>
-        public Func<IDependencyResolver, object> Factory { get; protected set; }
+        public Func<IAdminDependencyResolver, object> Factory { get; protected set; }
     }
 
 
@@ -122,7 +122,7 @@ namespace IdentityAdmin.Configuration
         /// <param name="factory">The factory.</param>
         /// <param name="name">The name.</param>
         /// <exception cref="System.ArgumentNullException">factory</exception>
-        public Registration(Func<IDependencyResolver, T> factory, string name = null)
+        public Registration(Func<IAdminDependencyResolver, T> factory, string name = null)
         {
             if (factory == null) throw new ArgumentNullException("factory");
 

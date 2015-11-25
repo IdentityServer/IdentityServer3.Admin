@@ -275,11 +275,11 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
     var app = angular.module("ttidAdm", []);
 
     function config($httpProvider) {
-        function intercept($q, idmTokenManager, idmErrorService) {
+        function intercept($q, idAdmTokenManager, idAdmErrorService) {
             return {
                 'request': function (config) {
-                    idmErrorService.clear();
-                    var token = idmTokenManager.access_token;
+                    idAdmErrorService.clear();
+                    var token = idAdmTokenManager.access_token;
                     if (token) {
                         config.headers['Authorization'] = 'Bearer ' + token;
                     }
@@ -287,22 +287,22 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                 },
                 'responseError': function (response) {
                     if (response.status === 401) {
-                        //idmTokenManager.removeToken();
+                        //idAdmTokenManager.removeToken();
                     }
                     if (response.status === 403) {
-                        //idmTokenManager.removeToken();
+                        //idAdmTokenManager.removeToken();
                     }
                     return $q.reject(response);
                 }
             };
         };
-        intercept.$inject = ["$q", "idmTokenManager", "idmErrorService"];
+        intercept.$inject = ["$q", "idAdmTokenManager", "idAdmErrorService"];
         $httpProvider.interceptors.push(intercept);
     };
     config.$inject = ["$httpProvider"];
     app.config(config);
 
-    function idmErrorService($rootScope, $timeout) {
+    function idAdmErrorService($rootScope, $timeout) {
         var svc = {
             show: function (err) {
                 $timeout(function () {
@@ -321,10 +321,10 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         return svc;
     }
-    idmErrorService.$inject = ["$rootScope", "$timeout"];
-    app.factory("idmErrorService", idmErrorService);
+    idAdmErrorService.$inject = ["$rootScope", "$timeout"];
+    app.factory("idAdmErrorService", idAdmErrorService);
 
-    function idmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
+    function idAdmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
 
         oauthSettings.response_type = "token";
 
@@ -346,13 +346,13 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         return mgr;
     }
-    idmTokenManager.$inject = ["OidcTokenManager", "oauthSettings", "PathBase", "$window", "$rootScope"];
-    app.factory("idmTokenManager", idmTokenManager);
+    idAdmTokenManager.$inject = ["OidcTokenManager", "oauthSettings", "PathBase", "$window", "$rootScope"];
+    app.factory("idAdmTokenManager", idAdmTokenManager);
 
-    function idmApi(idmTokenManager, $http, $q, PathBase,$location) {
+    function idAdmApi(idAdmTokenManager, $http, $q, PathBase,$location) {
         var cache = null;
 
-        idmTokenManager.addOnTokenRemoved(function () {
+        idAdmTokenManager.addOnTokenRemoved(function () {
             cache = null;
         });
 
@@ -369,6 +369,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                     return cache;
                 }, function (resp) {
                     cache = null;
+                    console.log(resp)
                     if (resp.status === 401) {
                         $location.path('/error');
                         throw 'You are not authorized to use this service.';
@@ -380,11 +381,11 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             }
         };
     }
-    idmApi.$inject = ["idmTokenManager", "$http", "$q", "PathBase",'$location'];
-    app.factory("idmApi", idmApi);
+    idAdmApi.$inject = ["idAdmTokenManager", "$http", "$q", "PathBase",'$location'];
+    app.factory("idAdmApi", idAdmApi);
 
     //clients
-    function idmClients($http, idmApi, $log) {
+    function idAdmClients($http, idAdmApi, $log) {
         function nop() {
         }
         function mapResponseData(response) {
@@ -400,7 +401,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             }
         }
 
-        var svc = idmApi.get().then(function (api) {
+        var svc = idAdmApi.get().then(function (api) {
             svc.getClients = function (filter, start, count) {
                 return $http.get(api.links.clients, { params: { filter: filter, start: start, count: count } })
                     .then(mapResponseData, errorHandler("Error Getting Clients"));
@@ -505,11 +506,11 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         return svc;
     }
-    idmClients.$inject = ["$http", "idmApi", "$log"];
-    app.factory("idmClients", idmClients);
+    idAdmClients.$inject = ["$http", "idAdmApi", "$log"];
+    app.factory("idAdmClients", idAdmClients);
 
     //scopes
-    function idmScopes($http, idmApi, $log) {
+    function idAdmScopes($http, idAdmApi, $log) {
         function nop() {
         }
         function mapResponseData(response) {
@@ -525,7 +526,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             }
         }
 
-        var svc = idmApi.get().then(function (api) {
+        var svc = idAdmApi.get().then(function (api) {
             svc.getScopes = function (filter, start, count) {
                 return $http.get(api.links.scopes, { params: { filter: filter, start: start, count: count } })
                     .then(mapResponseData, errorHandler("Error Getting Scopes"));
@@ -568,8 +569,8 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         return svc;
     }
-    idmScopes.$inject = ["$http", "idmApi", "$log"];
-    app.factory("idmScopes", idmScopes);
+    idAdmScopes.$inject = ["$http", "idAdmApi", "$log"];
+    app.factory("idAdmScopes", idAdmScopes);
 
 })(angular);
 
@@ -752,7 +753,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
     ttPagerSummary.$inject = ["PathBase"];
     app.directive("ttPagerSummary", ttPagerSummary);
 
-    function idmPager($sce) {
+    function idAdmPager($sce) {
         function Pager(result, pageSize) {
             function PagerButton(text, page, enabled, current) {
                 this.text = $sce.trustAsHtml(text + "");
@@ -804,8 +805,8 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         }
         return Pager;
     }
-    idmPager.$inject = ["$sce"];
-    app.service("idmPager", idmPager);
+    idAdmPager.$inject = ["$sce"];
+    app.service("idAdmPager", idAdmPager);
 
     function ttConfirmClick() {
         return {
@@ -833,7 +834,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
     ttConfirmClick.$inject = [];
     app.directive("ttConfirmClick", ttConfirmClick);
 
-    function idmMessage(PathBase) {
+    function idAdmMessage(PathBase) {
         return {
             restrict: 'E',
             scope: {
@@ -850,10 +851,10 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             }
         };
     }
-    idmMessage.$inject = ["PathBase"];
-    app.directive("idmMessage", idmMessage);
+    idAdmMessage.$inject = ["PathBase"];
+    app.directive("idAdmMessage", idAdmMessage);
 
-    function idmPreventDefault() {
+    function idAdmPreventDefault() {
         return {
             link: function (scope, elem) {
                 elem.on("click", function (e) {
@@ -862,8 +863,8 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             }
         }
     }
-    idmPreventDefault.$inject = [];
-    app.directive("idmPreventDefault", idmPreventDefault);
+    idAdmPreventDefault.$inject = [];
+    app.directive("idAdmPreventDefault", idAdmPreventDefault);
 })(angular);
 
 ///#source 1 1 /Assets/Scripts/App/ttidAdmClients.js
@@ -877,28 +878,28 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         $routeProvider
             .when("/clients/list/:filter?/:page?", {
                 controller: 'ListClientsCtrl',
-                resolve: { clients: "idmClients" },
+                resolve: { clients: "idAdmClients" },
                 templateUrl: PathBase + '/assets/Templates.clients.list.html'
             })
             .when("/clients/create", {
                 controller: 'NewClientCtrl',
                 resolve: {
-                    api: function (idmApi) {
-                        return idmApi.get();
+                    api: function (idAdmApi) {
+                        return idAdmApi.get();
                     }
                 },
                 templateUrl: PathBase + '/assets/Templates.clients.new.html'
             })
             .when("/clients/edit/:subject", {
                 controller: 'EditClientCtrl',
-                resolve: { clients: "idmClients" },
+                resolve: { clients: "idAdmClients" },
                 templateUrl: PathBase + '/assets/Templates.clients.edit.html'
             });
     }
     config.$inject = ["$routeProvider", "PathBase"];
     app.config(config);
 
-    function ListClientsCtrl($scope, idmClients, idmPager, $routeParams, $location) {
+    function ListClientsCtrl($scope, idAdmClients, idAdmPager, $routeParams, $location) {
         var model = {
             message : null,
             clients : null,
@@ -920,21 +921,21 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         var itemsPerPage = 10;
         var startItem = (model.page - 1) * itemsPerPage;
 
-        idmClients.getClients(model.filter, startItem, itemsPerPage).then(function (result) {
+        idAdmClients.getClients(model.filter, startItem, itemsPerPage).then(function (result) {
             $scope.model.waiting = false;
             $scope.model.clients = result.data.items;
             if (result.data.items && result.data.items.length) {
-                $scope.model.pager = new idmPager(result.data, itemsPerPage);
+                $scope.model.pager = new idAdmPager(result.data, itemsPerPage);
             }
         }, function (error) {
             $scope.model.message = error;
             $scope.model.waiting = false;
         });
     }
-    ListClientsCtrl.$inject = ["$scope", "idmClients", "idmPager", "$routeParams", "$location"];
+    ListClientsCtrl.$inject = ["$scope", "idAdmClients", "idAdmPager", "$routeParams", "$location"];
     app.controller("ListClientsCtrl", ListClientsCtrl);
 
-    function NewClientCtrl($scope, idmClients, api, ttFeedback) {
+    function NewClientCtrl($scope, idAdmClients, api, ttFeedback) {
         var feedback = new ttFeedback();
         $scope.feedback = feedback;
         if (!api.links.createClient) {
@@ -957,7 +958,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                         value: item.data
                     };
                 });
-                idmClients.createClient(props)
+                idAdmClients.createClient(props)
                     .then(function (result) {
                         $scope.last = result;
                         feedback.message = "Create Success";
@@ -965,15 +966,15 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             };
         }
     }
-    NewClientCtrl.$inject = ["$scope", "idmClients", "api", "ttFeedback"];
+    NewClientCtrl.$inject = ["$scope", "idAdmClients", "api", "ttFeedback"];
     app.controller("NewClientCtrl", NewClientCtrl);
 
-    function EditClientCtrl($scope, idmClients, $routeParams, ttFeedback, $location) {
+    function EditClientCtrl($scope, idAdmClients, $routeParams, ttFeedback, $location) {
         var feedback = new ttFeedback();
         $scope.feedback = feedback;
 
         function loadClient() {
-            return idmClients.getClient($routeParams.subject)
+            return idAdmClients.getClient($routeParams.subject)
                 .then(function (result) {
                     $scope.client = result;
                     if (!result.data.properties) {
@@ -985,7 +986,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         loadClient();
 
         $scope.setProperty = function (property) {
-            idmClients.setProperty(property)
+            idAdmClients.setProperty(property)
                 .then(function () {
                     if (property.meta.dataType !== 1) {
                         feedback.message = property.meta.name + " Changed to: " + property.data;
@@ -998,7 +999,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
 
         $scope.deleteClient = function (client) {
-         idmClients.deleteClient(client)
+         idAdmClients.deleteClient(client)
                 .then(function () {
                     feedback.message = "Client Deleted";
                     $scope.client = null;
@@ -1008,14 +1009,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         //Claims
         $scope.addClientClaim = function (claims, claim) {
-            idmClients.addClientClaim(claims, claim)
+            idAdmClients.addClientClaim(claims, claim)
                 .then(function () {
                     feedback.message = "Claim Added : " + claim.type + ", " + claim.value;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeClientClaim = function (claim) {
-            idmClients.removeClientClaim(claim)
+            idAdmClients.removeClientClaim(claim)
                 .then(function () {
                     feedback.message = "Claim Removed : " + claim.data.type + ", " + claim.data.value;
                     loadClient().then(function () {
@@ -1025,14 +1026,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //Client Scret
         $scope.addClientSecret = function (clientSecrets, clientSecret) {
-            idmClients.addClientSecret(clientSecrets, clientSecret)
+            idAdmClients.addClientSecret(clientSecrets, clientSecret)
                 .then(function () {
                     feedback.message = "Client Secret Added : " + clientSecret.type + ", " + clientSecret.value;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeClientSecret = function (clientSecret) {
-            idmClients.removeClientSecret(clientSecret)
+            idAdmClients.removeClientSecret(clientSecret)
                 .then(function () {
                     feedback.message = "Client Secret Removed : " + clientSecret.data.type + ", " + clientSecret.data.value;
                     loadClient().then(function () {
@@ -1042,14 +1043,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //IdentityProviderRestriction
         $scope.addIdentityProviderRestriction = function (identityProviderRestrictions, identityProviderRestriction) {
-            idmClients.addIdentityProviderRestriction(identityProviderRestrictions, identityProviderRestriction)
+            idAdmClients.addIdentityProviderRestriction(identityProviderRestrictions, identityProviderRestriction)
                 .then(function () {
                     feedback.message = "Client Provider Restriction Added : " + identityProviderRestriction.data.provider;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeIdentityProviderRestriction = function (identityProviderRestriction) {
-            idmClients.removeIdentityProviderRestriction(identityProviderRestriction)
+            idAdmClients.removeIdentityProviderRestriction(identityProviderRestriction)
                 .then(function () {
                     feedback.message = "Client  Provider Restriction Removed : " + identityProviderRestriction.data.provider;
                     loadClient().then(function () {
@@ -1059,14 +1060,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //PostLogoutRedirectUri
         $scope.addPostLogoutRedirectUri = function (postLogoutRedirectUris, postLogoutRedirectUri) {
-            idmClients.addPostLogoutRedirectUri(postLogoutRedirectUris, postLogoutRedirectUri)
+            idAdmClients.addPostLogoutRedirectUri(postLogoutRedirectUris, postLogoutRedirectUri)
                 .then(function () {
                     feedback.message = "Client Post Logout Redirect Uri : " + postLogoutRedirectUri.uri;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removePostLogoutRedirectUri = function (postLogoutRedirectUri) {
-            idmClients.removePostLogoutRedirectUri(postLogoutRedirectUri)
+            idAdmClients.removePostLogoutRedirectUri(postLogoutRedirectUri)
                 .then(function () {
                     feedback.message = "Client Post Logout Redirect Uri  Removed : " + postLogoutRedirectUri.data.uri;
                     loadClient().then(function () {
@@ -1076,14 +1077,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //RedirectUri
         $scope.addRedirectUri = function (redirectUris, redirectUri) {
-            idmClients.addRedirectUri(redirectUris, redirectUri)
+            idAdmClients.addRedirectUri(redirectUris, redirectUri)
                 .then(function () {
                     feedback.message = "Client redirect uri : " + redirectUri.uri;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeRedirectUri = function (redirectUri) {
-            idmClients.removeRedirectUri(redirectUri)
+            idAdmClients.removeRedirectUri(redirectUri)
                 .then(function () {
                     feedback.message = "Client redirect uri removed : " + redirectUri.data.uri;
                     loadClient().then(function () {
@@ -1093,14 +1094,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //AllowedCorsOrigin
         $scope.addAllowedCorsOrigin = function (allowedCorsOrigins, allowedCorsOrigin) {
-            idmClients.addAllowedCorsOrigin(allowedCorsOrigins, allowedCorsOrigin)
+            idAdmClients.addAllowedCorsOrigin(allowedCorsOrigins, allowedCorsOrigin)
                 .then(function () {
                     feedback.message = "Client allowed cors : " + allowedCorsOrigin.origin;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeAllowedCorsOrigin = function (allowedCorsOrigin) {
-            idmClients.removeAllowedCorsOrigin(allowedCorsOrigin)
+            idAdmClients.removeAllowedCorsOrigin(allowedCorsOrigin)
                 .then(function () {
                     feedback.message = "Client allowed cors removed : " + allowedCorsOrigin.data.origin;
                     loadClient().then(function () {
@@ -1110,14 +1111,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //AllowedGrantType
         $scope.addAllowedCustomGrantType = function (grantTypes, grantType) {
-            idmClients.addAllowedCustomGrantType(grantTypes, grantType)
+            idAdmClients.addAllowedCustomGrantType(grantTypes, grantType)
                 .then(function () {
                     feedback.message = "Client grant type : " + grantType.grantType;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeAllowedCustomGrantType = function (grantType) {
-            idmClients.removeAllowedCustomGrantType(grantType)
+            idAdmClients.removeAllowedCustomGrantType(grantType)
                 .then(function () {
                     feedback.message = "Client grant type removed : " + grantType.data.grantType;
                     loadClient().then(function () {
@@ -1127,14 +1128,14 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         //AllowedScope
         $scope.addAllowedScope = function (scopes, scope) {
-            idmClients.addAllowedScope(scopes, scope)
+            idAdmClients.addAllowedScope(scopes, scope)
                 .then(function () {
                     feedback.message = "Client scope : " + scope.scope;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeAllowedScope = function (scope) {
-            idmClients.removeAllowedScope(scope)
+            idAdmClients.removeAllowedScope(scope)
                 .then(function () {
                     feedback.message = "Client scope removed : " + scope.data.scope;
                     loadClient().then(function () {
@@ -1143,7 +1144,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                 }, feedback.errorHandler);
         };
     }  
-    EditClientCtrl.$inject = ["$scope", "idmClients", "$routeParams", "ttFeedback", "$location"];
+    EditClientCtrl.$inject = ["$scope", "idAdmClients", "$routeParams", "ttFeedback", "$location"];
     app.controller("EditClientCtrl", EditClientCtrl);
 
 })(angular);
@@ -1159,28 +1160,28 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         $routeProvider
             .when("/scopes/list/:filter?/:page?", {
                 controller: 'ListScopesCtrl',
-                resolve: { scopes: "idmScopes" },
+                resolve: { scopes: "idAdmScopes" },
                 templateUrl: PathBase + '/assets/Templates.scopes.list.html'
             })
             .when("/scopes/create", {
                 controller: 'NewScopeCtrl',
                 resolve: {
-                    api: function (idmApi) {
-                        return idmApi.get();
+                    api: function (idAdmApi) {
+                        return idAdmApi.get();
                     }
                 },
                 templateUrl: PathBase + '/assets/Templates.scopes.new.html'
             })
             .when("/scopes/edit/:subject", {
                 controller: 'EditScopeCtrl',
-                resolve: { scopes: "idmScopes" },
+                resolve: { scopes: "idAdmScopes" },
                 templateUrl: PathBase + '/assets/Templates.scopes.edit.html'
             });
     }
     config.$inject = ["$routeProvider", "PathBase"];
     app.config(config);
 
-    function ListScopesCtrl($scope, idmScopes, idmPager, $routeParams, $location) {
+    function ListScopesCtrl($scope, idAdmScopes, idAdmPager, $routeParams, $location) {
         var model = {
             message: null,
             scopes: null,
@@ -1202,22 +1203,22 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         var itemsPerPage = 10;
         var startItem = (model.page - 1) * itemsPerPage;
 
-        idmScopes.getScopes(model.filter, startItem, itemsPerPage).then(function (result) {
+        idAdmScopes.getScopes(model.filter, startItem, itemsPerPage).then(function (result) {
             $scope.model.waiting = false;
    
             $scope.model.scopes = result.data.items;
             if (result.data.items && result.data.items.length) {
-                $scope.model.pager = new idmPager(result.data, itemsPerPage);
+                $scope.model.pager = new idAdmPager(result.data, itemsPerPage);
             }
         }, function (error) {
             $scope.model.message = error;
             $scope.model.waiting = false;
         });
     }
-    ListScopesCtrl.$inject = ["$scope", "idmScopes", "idmPager", "$routeParams", "$location"];
+    ListScopesCtrl.$inject = ["$scope", "idAdmScopes", "idAdmPager", "$routeParams", "$location"];
     app.controller("ListScopesCtrl", ListScopesCtrl);
 
-    function NewScopeCtrl($scope, idmScopes, api, ttFeedback) {
+    function NewScopeCtrl($scope, idAdmScopes, api, ttFeedback) {
         var feedback = new ttFeedback();
         $scope.feedback = feedback;
         if (!api.links.createScope) {
@@ -1240,7 +1241,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                         value: item.data
                     };
                 });
-                idmScopes.createScope(props)
+                idAdmScopes.createScope(props)
                     .then(function (result) {
                         $scope.last = result;
                         feedback.message = "Create Success";
@@ -1248,15 +1249,15 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
             };
         }
     }
-    NewScopeCtrl.$inject = ["$scope", "idmScopes", "api", "ttFeedback"];
+    NewScopeCtrl.$inject = ["$scope", "idAdmScopes", "api", "ttFeedback"];
     app.controller("NewScopeCtrl", NewScopeCtrl);
 
-    function EditScopeCtrl($scope, idmScopes, $routeParams, ttFeedback, $location) {
+    function EditScopeCtrl($scope, idAdmScopes, $routeParams, ttFeedback, $location) {
         var feedback = new ttFeedback();
         $scope.feedback = feedback;
 
         function loadScope() {
-            return idmScopes.getScope($routeParams.subject)
+            return idAdmScopes.getScope($routeParams.subject)
                 .then(function (result) {
                     $scope.scope = result;
                     if (!result.data.properties) {
@@ -1268,7 +1269,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         loadScope();
 
         $scope.setProperty = function (property) {
-            idmScopes.setProperty(property)
+            idAdmScopes.setProperty(property)
                 .then(function () {
                     if (property.meta.dataType !== 1) {
                         feedback.message = property.meta.name + " Changed to: " + property.data;
@@ -1281,7 +1282,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
 
         $scope.deleteScope = function (scope) {
-            idmScopes.deleteScope(scope)
+            idAdmScopes.deleteScope(scope)
                    .then(function () {
                        feedback.message = "Scope Deleted";
                        $scope.scope = null;
@@ -1291,7 +1292,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
 
         //Claims
         $scope.addScopeClaim = function (scopeClaims, scopeClaim) {
-            idmScopes.addScopeClaim(scopeClaims, scopeClaim)
+            idAdmScopes.addScopeClaim(scopeClaims, scopeClaim)
                 .then(function () {
                     feedback.message = "Scope Claim Added : " + scopeClaim.name + ", " + scopeClaim.description;
                     loadScope().then(function () {
@@ -1301,7 +1302,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                 }, feedback.errorHandler);
         };
         $scope.removeScopeClaim = function (scopeClaim) {
-            idmScopes.removeScopeClaim(scopeClaim)
+            idAdmScopes.removeScopeClaim(scopeClaim)
                 .then(function () {
                     feedback.message = "Scope Claim Removed : " + scopeClaim.data.name + ", " + scopeClaim.data.description;
                     loadScope().then(function () {
@@ -1311,7 +1312,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         };
         
     }
-    EditScopeCtrl.$inject = ["$scope", "idmScopes", "$routeParams", "ttFeedback", "$location"];
+    EditScopeCtrl.$inject = ["$scope", "idAdmScopes", "$routeParams", "ttFeedback", "$location"];
     app.controller("EditScopeCtrl", EditScopeCtrl);
 
 })(angular);
@@ -1346,36 +1347,36 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
     config.$inject = ["PathBase", "$routeProvider"];
     app.config(config);
 
-    function LayoutCtrl($rootScope, PathBase, idmApi, $location, $window, idmTokenManager, idmErrorService, ShowLoginButton) {
+    function LayoutCtrl($rootScope, PathBase, idAdmApi, $location, $window, idAdmTokenManager, idAdmErrorService, ShowLoginButton) {
         $rootScope.PathBase = PathBase;
         $rootScope.layout = {};
 
         function removed() {
-            idmErrorService.clear();
+            idAdmErrorService.clear();
             $rootScope.layout.username = null;
             $rootScope.layout.links = null;
-            $rootScope.layout.showLogout = !idmTokenManager.expired;
-            $rootScope.layout.showLogin = idmTokenManager.expired;
+            $rootScope.layout.showLogout = !idAdmTokenManager.expired;
+            $rootScope.layout.showLogin = idAdmTokenManager.expired;
         }
 
         function load() {
             removed();
 
-            if (!idmTokenManager.expired) {
-                idmApi.get().then(function (api) {
+            if (!idAdmTokenManager.expired) {
+                idAdmApi.get().then(function (api) {
                     $rootScope.layout.username = api.data.currentUser.username;
                     $rootScope.layout.links = api.links;
                 }, function (err) {
-                    idmErrorService.show(err);
+                    idAdmErrorService.show(err);
                 });
             }
         }
 
-        idmTokenManager.addOnTokenObtained(load);
-        idmTokenManager.addOnTokenRemoved(removed);
+        idAdmTokenManager.addOnTokenObtained(load);
+        idAdmTokenManager.addOnTokenRemoved(removed);
         load();
 
-        if (idmTokenManager.expired &&
+        if (idAdmTokenManager.expired &&
             $location.path() !== "/" &&
             $location.path().indexOf("/callback/") !== 0 && 
             $location.path() !== "/error" && 
@@ -1383,18 +1384,18 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                 $location.path("/");
         }
 
-        idmTokenManager.addOnTokenExpired(function () {
+        idAdmTokenManager.addOnTokenExpired(function () {
             $location.path("/");
-            idmErrorService.show("Your session has expired.");
+            idAdmErrorService.show("Your session has expired.");
         });
 
         $rootScope.login = function () {
-            idmErrorService.clear();
-            idmTokenManager.redirectForToken();
+            idAdmErrorService.clear();
+            idAdmTokenManager.redirectForToken();
         }
         $rootScope.logout = function () {
-            idmErrorService.clear();
-            idmTokenManager.removeToken();
+            idAdmErrorService.clear();
+            idAdmTokenManager.removeToken();
             $location.path("/logout");
             if (ShowLoginButton !== false) {
                 $window.location = PathBase + "/logout";
@@ -1407,29 +1408,29 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
         }
        
     }
-    LayoutCtrl.$inject = ["$rootScope", "PathBase", "idmApi", "$location", "$window", "idmTokenManager", "idmErrorService", "ShowLoginButton"];
+    LayoutCtrl.$inject = ["$rootScope", "PathBase", "idAdmApi", "$location", "$window", "idAdmTokenManager", "idAdmErrorService", "ShowLoginButton"];
     app.controller("LayoutCtrl", LayoutCtrl);
 
-    function HomeCtrl(ShowLoginButton, idmTokenManager, $routeParams) {
-        if (ShowLoginButton === false && idmTokenManager.expired) {
-            idmTokenManager.redirectForToken();
+    function HomeCtrl(ShowLoginButton, idAdmTokenManager, $routeParams) {
+        if (ShowLoginButton === false && idAdmTokenManager.expired) {
+            idAdmTokenManager.redirectForToken();
         }
     }
-    HomeCtrl.$inject = ["ShowLoginButton", "idmTokenManager", "$routeParams"];
+    HomeCtrl.$inject = ["ShowLoginButton", "idAdmTokenManager", "$routeParams"];
     app.controller("HomeCtrl", HomeCtrl);
 
-    function CallbackCtrl(idmTokenManager, $location, $rootScope, $routeParams, idmErrorService) {
+    function CallbackCtrl(idAdmTokenManager, $location, $rootScope, $routeParams, idAdmErrorService) {
         var hash = $routeParams.response;
         if (hash.charAt(0) === "&") {
             hash = hash.substr(1);
         }
-        idmTokenManager.processTokenCallbackAsync(hash).then(function() {
+        idAdmTokenManager.processTokenCallbackAsync(hash).then(function() {
             $location.url("/");
         }, function (error) {
-            idmErrorService.error(error && error.message || error);
+            idAdmErrorService.error(error && error.message || error);
         });
     }
-    CallbackCtrl.$inject = ["idmTokenManager", "$location", "$rootScope", "$routeParams", "idmErrorService"];
+    CallbackCtrl.$inject = ["idAdmTokenManager", "$location", "$rootScope", "$routeParams", "idAdmErrorService"];
     app.controller("CallbackCtrl", CallbackCtrl);
 })(angular);
 

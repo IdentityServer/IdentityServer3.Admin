@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-using Microsoft.Owin.Security;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Infrastructure;
 
 namespace IdentityAdmin.Configuration.Hosting.LocalAuthenticationMiddleware
 {
-    public class LocalhostAuthenticationOptions : AuthenticationOptions
+    public class LocalhostAdminAuthenticationMiddleware : AuthenticationMiddleware<LocalhostAdminAuthenticationOptions>
     {
-        public HostSecurityConfiguration Configuration { get; set; }
-        
-        public LocalhostAuthenticationOptions(HostSecurityConfiguration securityConfiguration)
-            : base(securityConfiguration.HostAuthenticationType)
+        public LocalhostAdminAuthenticationMiddleware(OwinMiddleware next, LocalhostAdminAuthenticationOptions options)
+            : base(next, options)
         {
-            this.Configuration = securityConfiguration;
+        }
+
+        protected override AuthenticationHandler<LocalhostAdminAuthenticationOptions> CreateHandler()
+        {
+            return new LocalhostAdminAuthenticationHandler();
         }
     }
 }

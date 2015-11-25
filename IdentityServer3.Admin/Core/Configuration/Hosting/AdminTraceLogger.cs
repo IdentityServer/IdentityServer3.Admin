@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-namespace IdentityAdmin.Configuration
+
+using System.Diagnostics;
+using System.Web.Http.ExceptionHandling;
+
+namespace IdentityAdmin.Configuration.Hosting
 {
-    /// <summary>
-    /// Allows resolving dependencies from the dependency injection system.
-    /// </summary>
-    public interface IDependencyResolver
+    public class AdminTraceLogger : ExceptionLogger
     {
-        /// <summary>
-        /// Resolves the dependency based upon the type. If name is provided then the dependency is also resolved by name.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name">The name.</param>
-        /// <returns>The dependency.</returns>
-        T Resolve<T>(string name = null);
+        public override void Log(ExceptionLoggerContext context)
+        {
+            Trace.WriteLine(context.Exception.ToString());
+        }
     }
 }

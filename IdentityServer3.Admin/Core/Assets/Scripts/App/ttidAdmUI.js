@@ -166,7 +166,7 @@
     ttPagerSummary.$inject = ["PathBase"];
     app.directive("ttPagerSummary", ttPagerSummary);
 
-    function idmPager($sce) {
+    function idAdmPager($sce) {
         function Pager(result, pageSize) {
             function PagerButton(text, page, enabled, current) {
                 this.text = $sce.trustAsHtml(text + "");
@@ -218,8 +218,8 @@
         }
         return Pager;
     }
-    idmPager.$inject = ["$sce"];
-    app.service("idmPager", idmPager);
+    idAdmPager.$inject = ["$sce"];
+    app.service("idAdmPager", idAdmPager);
 
     function ttConfirmClick() {
         return {
@@ -247,7 +247,7 @@
     ttConfirmClick.$inject = [];
     app.directive("ttConfirmClick", ttConfirmClick);
 
-    function idmMessage(PathBase) {
+    function idAdmMessage(PathBase) {
         return {
             restrict: 'E',
             scope: {
@@ -264,10 +264,10 @@
             }
         };
     }
-    idmMessage.$inject = ["PathBase"];
-    app.directive("idmMessage", idmMessage);
+    idAdmMessage.$inject = ["PathBase"];
+    app.directive("idAdmMessage", idAdmMessage);
 
-    function idmPreventDefault() {
+    function idAdmPreventDefault() {
         return {
             link: function (scope, elem) {
                 elem.on("click", function (e) {
@@ -276,6 +276,6 @@
             }
         }
     }
-    idmPreventDefault.$inject = [];
-    app.directive("idmPreventDefault", idmPreventDefault);
+    idAdmPreventDefault.$inject = [];
+    app.directive("idAdmPreventDefault", idAdmPreventDefault);
 })(angular);

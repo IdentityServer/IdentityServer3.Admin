@@ -20,7 +20,7 @@ using Owin;
 
 namespace IdentityAdmin.Configuration
 {
-    public abstract class SecurityConfiguration
+    public abstract class AdminSecurityConfiguration
     {
         public bool RequireSsl { get; set; }
         public string BearerAuthenticationType { get; set; }
@@ -32,7 +32,7 @@ namespace IdentityAdmin.Configuration
 
         public virtual bool? ShowLoginButton { get; set; }
 
-        internal SecurityConfiguration()
+        internal AdminSecurityConfiguration()
         {
             RequireSsl = true;
             BearerAuthenticationType = Constants.BearerAuthenticationType;

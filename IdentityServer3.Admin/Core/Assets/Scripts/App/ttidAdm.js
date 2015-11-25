@@ -5,11 +5,11 @@
     var app = angular.module("ttidAdm", []);
 
     function config($httpProvider) {
-        function intercept($q, idmTokenManager, idmErrorService) {
+        function intercept($q, idAdmTokenManager, idAdmErrorService) {
             return {
                 'request': function (config) {
-                    idmErrorService.clear();
-                    var token = idmTokenManager.access_token;
+                    idAdmErrorService.clear();
+                    var token = idAdmTokenManager.access_token;
                     if (token) {
                         config.headers['Authorization'] = 'Bearer ' + token;
                     }
@@ -17,22 +17,22 @@
                 },
                 'responseError': function (response) {
                     if (response.status === 401) {
-                        //idmTokenManager.removeToken();
+                        //idAdmTokenManager.removeToken();
                     }
                     if (response.status === 403) {
-                        //idmTokenManager.removeToken();
+                        //idAdmTokenManager.removeToken();
                     }
                     return $q.reject(response);
                 }
             };
         };
-        intercept.$inject = ["$q", "idmTokenManager", "idmErrorService"];
+        intercept.$inject = ["$q", "idAdmTokenManager", "idAdmErrorService"];
         $httpProvider.interceptors.push(intercept);
     };
     config.$inject = ["$httpProvider"];
     app.config(config);
 
-    function idmErrorService($rootScope, $timeout) {
+    function idAdmErrorService($rootScope, $timeout) {
         var svc = {
             show: function (err) {
                 $timeout(function () {
@@ -51,10 +51,10 @@
 
         return svc;
     }
-    idmErrorService.$inject = ["$rootScope", "$timeout"];
-    app.factory("idmErrorService", idmErrorService);
+    idAdmErrorService.$inject = ["$rootScope", "$timeout"];
+    app.factory("idAdmErrorService", idAdmErrorService);
 
-    function idmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
+    function idAdmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
 
         oauthSettings.response_type = "token";
 
@@ -76,13 +76,13 @@
 
         return mgr;
     }
-    idmTokenManager.$inject = ["OidcTokenManager", "oauthSettings", "PathBase", "$window", "$rootScope"];
-    app.factory("idmTokenManager", idmTokenManager);
+    idAdmTokenManager.$inject = ["OidcTokenManager", "oauthSettings", "PathBase", "$window", "$rootScope"];
+    app.factory("idAdmTokenManager", idAdmTokenManager);
 
-    function idmApi(idmTokenManager, $http, $q, PathBase,$location) {
+    function idAdmApi(idAdmTokenManager, $http, $q, PathBase,$location) {
         var cache = null;
 
-        idmTokenManager.addOnTokenRemoved(function () {
+        idAdmTokenManager.addOnTokenRemoved(function () {
             cache = null;
         });
 
@@ -99,6 +99,7 @@
                     return cache;
                 }, function (resp) {
                     cache = null;
+                    console.log(resp)
                     if (resp.status === 401) {
                         $location.path('/error');
                         throw 'You are not authorized to use this service.';
@@ -110,11 +111,11 @@
             }
         };
     }
-    idmApi.$inject = ["idmTokenManager", "$http", "$q", "PathBase",'$location'];
-    app.factory("idmApi", idmApi);
+    idAdmApi.$inject = ["idAdmTokenManager", "$http", "$q", "PathBase",'$location'];
+    app.factory("idAdmApi", idAdmApi);
 
     //clients
-    function idmClients($http, idmApi, $log) {
+    function idAdmClients($http, idAdmApi, $log) {
         function nop() {
         }
         function mapResponseData(response) {
@@ -130,7 +131,7 @@
             }
         }
 
-        var svc = idmApi.get().then(function (api) {
+        var svc = idAdmApi.get().then(function (api) {
             svc.getClients = function (filter, start, count) {
                 return $http.get(api.links.clients, { params: { filter: filter, start: start, count: count } })
                     .then(mapResponseData, errorHandler("Error Getting Clients"));
@@ -235,11 +236,11 @@
 
         return svc;
     }
-    idmClients.$inject = ["$http", "idmApi", "$log"];
-    app.factory("idmClients", idmClients);
+    idAdmClients.$inject = ["$http", "idAdmApi", "$log"];
+    app.factory("idAdmClients", idAdmClients);
 
     //scopes
-    function idmScopes($http, idmApi, $log) {
+    function idAdmScopes($http, idAdmApi, $log) {
         function nop() {
         }
         function mapResponseData(response) {
@@ -255,7 +256,7 @@
             }
         }
 
-        var svc = idmApi.get().then(function (api) {
+        var svc = idAdmApi.get().then(function (api) {
             svc.getScopes = function (filter, start, count) {
                 return $http.get(api.links.scopes, { params: { filter: filter, start: start, count: count } })
                     .then(mapResponseData, errorHandler("Error Getting Scopes"));
@@ -298,8 +299,8 @@
 
         return svc;
     }
-    idmScopes.$inject = ["$http", "idmApi", "$log"];
-    app.factory("idmScopes", idmScopes);
+    idAdmScopes.$inject = ["$http", "idAdmApi", "$log"];
+    app.factory("idAdmScopes", idAdmScopes);
 
 })(angular);
 

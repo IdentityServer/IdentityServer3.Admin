@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Infrastructure;
+using Autofac;
 
-namespace IdentityAdmin.Configuration.Hosting.LocalAuthenticationMiddleware
+namespace IdentityAdmin.Configuration.Hosting
 {
-    public class LocalhostAuthenticationMiddleware : AuthenticationMiddleware<LocalhostAuthenticationOptions>
+    internal class AutofacAdminDependencyResolver : IAdminDependencyResolver
     {
-        public LocalhostAuthenticationMiddleware(OwinMiddleware next, LocalhostAuthenticationOptions options)
-            : base(next, options)
+        readonly IComponentContext ctx;
+        public AutofacAdminDependencyResolver(IComponentContext ctx)
         {
+            this.ctx = ctx;
         }
-
-        protected override AuthenticationHandler<LocalhostAuthenticationOptions> CreateHandler()
+        
+        public T Resolve<T>(string name)
         {
-            return new LocalhostAuthenticationHandler();
+            if (name != null)
+            {
+                return ctx.ResolveNamed<T>(name);
+            }
+
+            return ctx.Resolve<T>();
         }
     }
 }

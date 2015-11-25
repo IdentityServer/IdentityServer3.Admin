@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2014 Dominick Baier, Brock Allen
+ * Copyright 2014 Dominick Baier, Brock Allen, Bert Hoorne
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ namespace IdentityAdmin.Api.Controllers
 {
     [NoCache]
     [SecurityHeaders]
-    public class PageController : ApiController
+    public class AdminPageController : ApiController
     {
         readonly IdentityAdminOptions _identityAdminOptions;
-        public PageController(IdentityAdminOptions identityAdminOptions)
+        public AdminPageController(IdentityAdminOptions identityAdminOptions)
         {
             if (identityAdminOptions == null) throw new ArgumentNullException("identityAdminOptions");
 
@@ -39,14 +39,14 @@ namespace IdentityAdmin.Api.Controllers
         [AllowAnonymous]
         public IHttpActionResult Index()
         {
-            return new EmbeddedHtmlResult(Request, "IdentityAdmin.Assets.Templates.index.html", _identityAdminOptions.SecurityConfiguration);
+            return new EmbeddedHtmlResult(Request, "IdentityAdmin.Assets.Templates.index.html", _identityAdminOptions.AdminSecurityConfiguration);
         }
 
         [HttpGet]
         [AllowAnonymous]
         public IHttpActionResult Logout()
         {
-            _identityAdminOptions.SecurityConfiguration.SignOut(Request.GetOwinContext());
+            _identityAdminOptions.AdminSecurityConfiguration.SignOut(Request.GetOwinContext());
             return RedirectToRoute(Constants.RouteNames.Home, null);
         }
     }

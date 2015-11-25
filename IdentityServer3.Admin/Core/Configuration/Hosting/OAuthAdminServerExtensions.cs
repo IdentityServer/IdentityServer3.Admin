@@ -25,11 +25,11 @@ using Owin;
 
 namespace IdentityAdmin.Configuration.Hosting
 {
-    static class OAuthServerExtensions
+    static class OAuthAdminServerExtensions
     {
         private readonly static ILog Logger = LogProvider.GetCurrentClassLogger();
 
-        public static void UseOAuthAuthorizationServer(this IAppBuilder app, HostSecurityConfiguration config)
+        public static void UseOAuthAuthorizationServer(this IAppBuilder app, AdminHostSecurityConfiguration config)
         {
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
@@ -40,7 +40,7 @@ namespace IdentityAdmin.Configuration.Hosting
                 {
                     OnValidateClientRedirectUri = ctx =>
                     {
-                        if (ctx.ClientId == Constants.IdMgrClientId)
+                        if (ctx.ClientId == Constants.IdAdmMgrClientId)
                         {
                             var path = ctx.Request.PathBase.ToString();
                             if (String.IsNullOrWhiteSpace(path)) path = "/";

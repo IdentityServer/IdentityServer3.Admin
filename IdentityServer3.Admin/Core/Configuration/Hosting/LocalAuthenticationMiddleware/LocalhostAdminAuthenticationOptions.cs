@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-using Autofac;
+using Microsoft.Owin.Security;
 
-namespace IdentityAdmin.Configuration.Hosting
+namespace IdentityAdmin.Configuration.Hosting.LocalAuthenticationMiddleware
 {
-    internal class AutofacDependencyResolver : IDependencyResolver
+    public class LocalhostAdminAuthenticationOptions : AuthenticationOptions
     {
-        readonly IComponentContext ctx;
-        public AutofacDependencyResolver(IComponentContext ctx)
-        {
-            this.ctx = ctx;
-        }
+        public AdminHostSecurityConfiguration Configuration { get; set; }
         
-        public T Resolve<T>(string name)
+        public LocalhostAdminAuthenticationOptions(AdminHostSecurityConfiguration securityConfiguration)
+            : base(securityConfiguration.HostAuthenticationType)
         {
-            if (name != null)
-            {
-                return ctx.ResolveNamed<T>(name);
-            }
-
-            return ctx.Resolve<T>();
+            this.Configuration = securityConfiguration;
         }
     }
 }

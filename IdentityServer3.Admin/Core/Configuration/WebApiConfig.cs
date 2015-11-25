@@ -35,18 +35,15 @@ namespace IdentityAdmin.Configuration
             {
                 config.Routes.MapHttpRoute(Constants.RouteNames.Home,
                     "",
-                    new { controller = "Page", action = "Index" });
+                    new { controller = "AdminPage", action = "Index" });
                 config.Routes.MapHttpRoute(Constants.RouteNames.Logout,
                     "logout",
-                    new { controller = "Page", action = "Logout" });
-                //config.Routes.MapHttpRoute(Constants.RouteNames.OAuthFrameCallback,
-                //    "frame",
-                //    new { controller = "Page", action = "Frame" });
+                    new { controller = "AdminPage", action = "Logout" });
             }
 
             config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationAttribute(options.SecurityConfiguration.BearerAuthenticationType));
-            config.Filters.Add(new AuthorizeAttribute() { Roles = options.SecurityConfiguration.AdminRoleName });
+            config.Filters.Add(new HostAuthenticationAttribute(options.AdminSecurityConfiguration.BearerAuthenticationType));
+            config.Filters.Add(new AuthorizeAttribute() { Roles = options.AdminSecurityConfiguration.AdminRoleName });
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.Remove(config.Formatters.FormUrlEncodedFormatter);

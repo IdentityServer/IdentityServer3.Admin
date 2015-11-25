@@ -19,7 +19,7 @@ using Owin;
 
 namespace IdentityAdmin.Configuration
 {
-    public class LocalhostSecurityConfiguration : HostSecurityConfiguration
+    public class LocalhostSecurityConfiguration : AdminHostSecurityConfiguration
     {
         public LocalhostSecurityConfiguration()
         {
@@ -32,7 +32,7 @@ namespace IdentityAdmin.Configuration
             {
                 this.ShowLoginButton = false;
             }
-            app.Use<LocalhostAuthenticationMiddleware>(new LocalhostAuthenticationOptions(this));
+            app.Use<LocalhostAdminAuthenticationMiddleware>(new LocalhostAdminAuthenticationOptions(this));
 
             base.Configure(app);
         }

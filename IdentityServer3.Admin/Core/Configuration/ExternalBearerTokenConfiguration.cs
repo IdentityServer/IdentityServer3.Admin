@@ -25,7 +25,7 @@ using Thinktecture.IdentityModel.Owin.ScopeValidation;
 
 namespace IdentityAdmin.Configuration
 {
-    public class ExternalBearerTokenConfiguration : SecurityConfiguration
+    public class ExternalBearerTokenConfiguration : AdminSecurityConfiguration
     {
         public ExternalBearerTokenConfiguration()
         {

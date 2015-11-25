@@ -72,8 +72,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -105,7 +106,7 @@
   <ItemGroup>
     <Compile Include="Api\Controllers\ClientController.cs" />
     <Compile Include="Api\Controllers\MetaController.cs" />
-    <Compile Include="Api\Controllers\PageController.cs" />
+    <Compile Include="Api\Controllers\AdminPageController.cs" />
     <Compile Include="Api\Controllers\ScopeController.cs" />
     <Compile Include="Api\Filters\NoCacheAttribute.cs" />
     <Compile Include="Api\Filters\SecurityHeadersAttribute.cs" />
@@ -125,27 +126,27 @@
     <Compile Include="App_Packages\LibLog.1.4\LibLog.cs" />
     <Compile Include="Assets\AssetManager.cs" />
     <Compile Include="Assets\EmbeddedHtmlResult.cs" />
-    <Compile Include="Configuration\AppBuilderExtensions.cs" />
+    <Compile Include="Configuration\IdentityAdminAppBuilderExtensions.cs" />
     <Compile Include="Configuration\AutofacConfig.cs" />
     <Compile Include="Configuration\ExternalBearerTokenConfiguration.cs" />
     <Compile Include="Configuration\Hosting\AsyncHelper.cs" />
     <Compile Include="Configuration\Hosting\AutofacContainerMiddleware.cs" />
-    <Compile Include="Configuration\Hosting\AutofacDependencyResolver.cs" />
+    <Compile Include="Configuration\Hosting\AutofacAdminDependencyResolver.cs" />
     <Compile Include="Configuration\Hosting\AutofacScope.cs" />
     <Compile Include="Configuration\Hosting\KatanaDependencyResolver.cs" />
-    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalhostAuthenticationHandler.cs" />
-    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalhostAuthenticationMiddleware.cs" />
-    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalHostAuthenticationOptions.cs" />
+    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalhostAdminAuthenticationHandler.cs" />
+    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalhostAdminAuthenticationMiddleware.cs" />
+    <Compile Include="Configuration\Hosting\LocalAuthenticationMiddleware\LocalhostAdminAuthenticationOptions.cs" />
     <Compile Include="Configuration\Hosting\LogProviderExceptionLogger.cs" />
-    <Compile Include="Configuration\Hosting\OAuthServerExtensions.cs" />
-    <Compile Include="Configuration\Hosting\TraceLogger.cs" />
-    <Compile Include="Configuration\HostSecurityConfiguration.cs" />
+    <Compile Include="Configuration\Hosting\OAuthAdminServerExtensions.cs" />
+    <Compile Include="Configuration\Hosting\AdminTraceLogger.cs" />
+    <Compile Include="Configuration\AdminHostSecurityConfiguration.cs" />
     <Compile Include="Configuration\IdentityAdminOptions.cs" />
     <Compile Include="Configuration\IdentityAdminServiceFactory.cs" />
-    <Compile Include="Configuration\IDependencyResolver.cs" />
+    <Compile Include="Configuration\IAdminDependencyResolver.cs" />
     <Compile Include="Configuration\LocalhostSecurityConfiguration.cs" />
     <Compile Include="Configuration\Registration.cs" />
-    <Compile Include="Configuration\SecurityConfiguration.cs" />
+    <Compile Include="Configuration\AdminSecurityConfiguration.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Core\Client\BaseClientValue.cs" />
@@ -195,47 +196,63 @@
     <Compile Include="Resources\Messages.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Content\Bootstrap.css" />
-    <Content Include="Assets\Content\Bootstrap.min.css" />
+    <Content Include="Assets\Content\Bootstrap.css">
+      <DependentUpon>Bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Assets\Content\Bootstrap.min.css">
+      <DependentUpon>Bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Assets\Content\bootstrap\variables.css" />
     <Content Include="Assets\Content\bootstrap\variables.min.css" />
-    <Content Include="Assets\Content\Bundle.css" />
-    <Content Include="Assets\Content\Bundle.min.css" />
+    <Content Include="Assets\Content\Bundle.css">
+      <DependentUpon>Bundle.css.bundle</DependentUpon>
+    </Content>
+    <EmbeddedResource Include="Assets\Content\Bundle.min.css">
+      <DependentUpon>Bundle.css</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Assets\Content\favicon.ico" />
-    <Content Include="Assets\Content\logo.jpg" />
-    <Content Include="Assets\Content\logo.png" />
-    <Content Include="Assets\Content\Style.css" />
-    <Content Include="Assets\Content\Style.min.css" />
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="Assets\Content\logo.jpg" />
+    <EmbeddedResource Include="Assets\Content\logo.png" />
+    <EmbeddedResource Include="Assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Assets\Content\style.css">
+      <DependentUpon>style.less</DependentUpon>
+    </Content>
+    <EmbeddedResource Include="Assets\Content\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Assets\Scripts\App\ttidAdm.js" />
     <Content Include="Assets\Scripts\App\ttidAdmApp.js" />
     <Content Include="Assets\Scripts\App\ttidAdmClients.js" />
     <Content Include="Assets\Scripts\App\ttidAdmScopes.js" />
     <Content Include="Assets\Scripts\App\ttidAdmUI.js" />
-    <Content Include="Assets\Scripts\Bundle.js" />
+    <EmbeddedResource Include="Assets\Scripts\Bundle.js">
+      <DependentUpon>Bundle.js.bundle</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Assets\Scripts\Libs\angular-route.min.js" />
     <Content Include="Assets\Scripts\Libs\angular.min.js" />
     <Content Include="Assets\Scripts\Libs\bootstrap.min.js" />
     <Content Include="Assets\Scripts\Libs\jquery-2.1.0.min.js" />
     <Content Include="Assets\Scripts\Libs\oidc-token-manager.min.js" />
-    <Content Include="Assets\Templates\clients\edit.html" />
-    <Content Include="Assets\Templates\clients\list.html" />
-    <Content Include="Assets\Templates\clients\new.html" />
-    <Content Include="Assets\Templates\editor\property.html" />
-    <Content Include="Assets\Templates\home.html" />
-    <Content Include="Assets\Templates\index.html" />
-    <Content Include="Assets\Templates\message.html" />
-    <Content Include="Assets\Templates\modal.html" />
-    <Content Include="Assets\Templates\navbar.html" />
-    <Content Include="Assets\Templates\pager\buttons.html" />
-    <Content Include="Assets\Templates\pager\summary.html" />
-    <Content Include="Assets\Templates\scopes\edit.html" />
-    <Content Include="Assets\Templates\scopes\list.html" />
-    <Content Include="Assets\Templates\scopes\new.html" />
+    <EmbeddedResource Include="Assets\Templates\clients\edit.html" />
+    <EmbeddedResource Include="Assets\Templates\clients\list.html" />
+    <EmbeddedResource Include="Assets\Templates\clients\new.html" />
+    <EmbeddedResource Include="Assets\Templates\editor\property.html" />
+    <EmbeddedResource Include="Assets\Templates\home.html" />
+    <EmbeddedResource Include="Assets\Templates\index.html" />
+    <EmbeddedResource Include="Assets\Templates\message.html" />
+    <EmbeddedResource Include="Assets\Templates\modal.html" />
+    <EmbeddedResource Include="Assets\Templates\navbar.html" />
+    <EmbeddedResource Include="Assets\Templates\pager\buttons.html" />
+    <EmbeddedResource Include="Assets\Templates\pager\summary.html" />
+    <EmbeddedResource Include="Assets\Templates\scopes\edit.html" />
+    <EmbeddedResource Include="Assets\Templates\scopes\list.html" />
+    <EmbeddedResource Include="Assets\Templates\scopes\new.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Assets\Content\Bootstrap.css.map" />
+    <None Include="Assets\Content\Bootstrap.css.map">
+      <DependentUpon>Bootstrap.css</DependentUpon>
+    </None>
     <None Include="Assets\Content\Bootstrap.less" />
     <None Include="Assets\Content\bootstrap\.csscomb.json" />
     <None Include="Assets\Content\bootstrap\.csslintrc" />
@@ -312,12 +329,14 @@
     <None Include="Assets\Content\bootstrap\variables.less" />
     <None Include="Assets\Content\bootstrap\wells.less" />
     <None Include="Assets\Content\Bundle.css.bundle" />
-    <None Include="Assets\Content\Style.css.map" />
-    <None Include="Assets\Content\Style.less" />
-    <None Include="Assets\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Assets\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="Assets\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="Assets\fonts\glyphicons-halflings-regular.woff2" />
+    <EmbeddedResource Include="Assets\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="Assets\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="Assets\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="Assets\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Assets\Content\style.css.map">
+      <DependentUpon>style.css</DependentUpon>
+    </None>
+    <None Include="Assets\Content\style.less" />
     <None Include="Assets\Scripts\Bundle.js.bundle" />
     <None Include="packages.config" />
   </ItemGroup>

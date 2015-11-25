@@ -45,7 +45,7 @@ namespace Owin
             app.Use(async (ctx, next) =>
             {
                 if (!ctx.Request.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase) && 
-                    options.SecurityConfiguration.RequireSsl)
+                    options.AdminSecurityConfiguration.RequireSsl)
                 {
                     ctx.Response.Write("HTTPS required");
                 }
@@ -58,7 +58,7 @@ namespace Owin
             var container = AutofacConfig.Configure(options);
             app.Use<AutofacContainerMiddleware>(container);
 
-            options.SecurityConfiguration.Configure(app);
+            options.AdminSecurityConfiguration.Configure(app);
 
             if (!options.DisableUserInterface)
             {

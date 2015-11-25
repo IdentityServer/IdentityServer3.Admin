@@ -23,11 +23,11 @@ namespace IdentityAdmin.Configuration
         public IdentityAdminOptions()
         {
             Factory = new IdentityAdminServiceFactory();
-            SecurityConfiguration = new LocalhostSecurityConfiguration();
+            AdminSecurityConfiguration = new LocalhostSecurityConfiguration();
         }
 
         public IdentityAdminServiceFactory Factory { get; set; }
-        public SecurityConfiguration SecurityConfiguration { get; set; }
+        public AdminSecurityConfiguration AdminSecurityConfiguration { get; set; }
         public bool DisableUserInterface { get; set; }
         
         internal void Validate()
@@ -36,12 +36,12 @@ namespace IdentityAdmin.Configuration
             {
                 throw new Exception("Factory is required.");
             }
-            if (this.SecurityConfiguration == null)
+            if (this.AdminSecurityConfiguration == null)
             {
-                throw new Exception("SecurityConfiguration is required.");
+                throw new Exception("AdminSecurityConfiguration is required.");
             }
 
-            SecurityConfiguration.Validate();
+            AdminSecurityConfiguration.Validate();
         }
     }
 }

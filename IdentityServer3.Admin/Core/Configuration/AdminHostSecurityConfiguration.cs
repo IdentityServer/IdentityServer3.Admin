@@ -21,13 +21,13 @@ using Owin;
 
 namespace IdentityAdmin.Configuration
 {
-    public class HostSecurityConfiguration : SecurityConfiguration
+    public class AdminHostSecurityConfiguration : AdminSecurityConfiguration
     {
         public string HostAuthenticationType { get; set; }
         public string AdditionalSignOutType { get; set; }
         public TimeSpan TokenExpiration { get; set; }
 
-        public HostSecurityConfiguration()
+        public AdminHostSecurityConfiguration()
         {
             TokenExpiration = Constants.DefaultTokenExpiration;
         }

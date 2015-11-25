@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2014 Dominick Baier, Brock Allen
+ * Copyright 2014 Dominick Baier, Brock Allen, Bert Hoorne
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ namespace IdentityAdmin
 
         public const string AuthorizePath = "/authorize";
         public const string CallbackFragment = "/#/callback/";
-        public const string IdMgrClientId = "idmgr";
-        public const string IdMgrScope = "idmgr";
+        public const string IdAdmMgrClientId = "idAdmin";
+        public const string IdMgrScope = "idAdmin";
         public const string AdminRoleName = "IdentityAdminAdministrator";
 
-        internal const string AutofacScope = "idm:AutofacScope";
+        internal const string AutofacScope = "idAdmin:AutofacScope";
 
         public static readonly TimeSpan DefaultTokenExpiration = TimeSpan.FromHours(10);
 
@@ -79,8 +79,8 @@ namespace IdentityAdmin
             public const string GetScopes = "GetScopes";
             public const string GetScope = "GetScope";
             public const string CreateScope = "CreateScope";
-            public const string DeleteScope = "DeleteSCope";
-            public const string UpdateScopProperty = "UpdateScopProperty";
+            public const string DeleteScope = "DeleteScope";
+            public const string UpdateScopeProperty = "UpdateScopeProperty";
             public const string AddScopeClaim = "AddScopeClaim";
             public const string RemoveScopeClaim = "RemoveScopeClaim";
 

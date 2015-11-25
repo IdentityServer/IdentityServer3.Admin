@@ -160,7 +160,7 @@ namespace IdentityAdmin.Configuration
             }
             else if (registration.Factory != null)
             {
-                var reg = builder.Register(ctx => registration.Factory(new AutofacDependencyResolver(ctx)));
+                var reg = builder.Register(ctx => registration.Factory(new AutofacAdminDependencyResolver(ctx)));
                 if (name != null)
                 {
                     reg.Named(name, registration.DependencyType);
