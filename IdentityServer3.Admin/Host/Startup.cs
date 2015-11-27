@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
+using System.Web.Security;
 using Owin;
 using Microsoft.Owin;
 using IdentityAdmin.Configuration;
@@ -38,6 +40,10 @@ namespace IdentityAdmin.Host
                 {
                     IdentityAdminService = new Registration<IIdentityAdminService, InMemoryIdentityManagerService>()
                 };
+                var clients = ClientSeeder.Get();
+                var scopes = ScopeSeeder.Get();
+                factory.Register(new Registration<ICollection<InMemoryScope>>(scopes));
+                factory.Register(new Registration<ICollection<InMemoryClient>>(clients));
                 adminApp.UseIdentityAdmin(new IdentityAdminOptions
                 {
                     Factory = factory

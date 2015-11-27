@@ -385,7 +385,7 @@ namespace IdentityAdmin.Host.InMemoryService
             var metadata = GetMetadata();
             var createProps = metadata.ClientMetaData.CreateProperties;
 
-            var inMemoryClient = new InMemoryClient {ClientId = clientId, ClientName = clientName};
+            var inMemoryClient = new InMemoryClient {ClientId = clientId, ClientName = clientName, Id =  _clients.Count + 1};
 
             foreach (var prop in otherProperties)
             {

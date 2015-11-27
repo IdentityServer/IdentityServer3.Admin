@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace IdentityAdmin.Host.InMemoryService
 {
-    public class Scopes
+    public class ScopeSeeder
     {
         public static ICollection<InMemoryScope> Get()
         {

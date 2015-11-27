@@ -19,7 +19,7 @@ using Thinktecture.IdentityServer.Core.Models;
 
 namespace IdentityAdmin.Host.InMemoryService
 {
-    public class Clients
+    public class ClientSeeder
     {
         public static ICollection<InMemoryClient> Get()
         {

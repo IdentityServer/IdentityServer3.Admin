@@ -111,11 +111,11 @@
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="IdSvr\Cert.cs" />
     <Compile Include="IdSvr\IdSvrConfig.cs" />
-    <Compile Include="InMemoryService\Clients.cs" />
+    <Compile Include="InMemoryService\ClientSeeder.cs" />
     <Compile Include="InMemoryService\InMemoryClient.cs" />
     <Compile Include="InMemoryService\InMemoryIdentityManagerService.cs" />
     <Compile Include="InMemoryService\InMemoryScope.cs" />
-    <Compile Include="InMemoryService\Scopes.cs" />
+    <Compile Include="InMemoryService\ScopeSeeder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
