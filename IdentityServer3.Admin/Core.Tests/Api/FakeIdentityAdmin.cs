@@ -1,8 +1,5 @@
 ﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
@@ -49,64 +46,64 @@ namespace Core.Tests.Api
 
 
 
-        //public void SetupCreateUserAsync(CreateResult result)
+        //public void SetupCreateClientAsync(CreateResult result)
         //{
-        //    Setup(x => x.CreateUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<UserClaim>>()))
-        //       .Returns(Task.FromResult(new IdentityManagerResult<CreateResult>(result)));
+        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
+        //       .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(result)));
         //}
-        //public void SetupCreateUserAsync(params string[] errors)
+        //public void SetupCreateClientAsync(params string[] errors)
         //{
-        //    Setup(x => x.CreateUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<UserClaim>>()))
-        //       .Returns(Task.FromResult(new IdentityManagerResult<CreateResult>(errors)));
+        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
+        //       .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(errors)));
         //}
-        //public void SetupCreateUserAsync(Exception ex)
+        //public void SetupCreateClientAsync(Exception ex)
         //{
-        //    Setup(x => x.CreateUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<UserClaim>>()))
+        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
         //        .Throws(ex);
         //}
-        //public void VerifyCreateUserAsync(string username, string password)
+        //public void VerifyCreateClientAsync(string Clientname, string password)
         //{
-        //    Verify(x => x.CreateUserAsync(username, password, null));
+        //    Verify(x => x.CreateClientAsync(Clientname, password, null));
         //}
-        //public void VerifyCreateUserAsyncNotCalled()
+        //public void VerifyCreateClientAsyncNotCalled()
         //{
-        //    Verify(x => x.CreateUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<UserClaim>>()), Times.Never());
+        //    Verify(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()), Times.Never());
         //}
 
         
-        internal void VerifyGetUserAsync(string subject)
+        internal void VerifyGetClientAsync(string subject)
         {
-            Verify(x => x.GetUserAsync(subject));
+            Verify(x => x.GetClientAsync(subject));
         }
-        internal void SetupGetUserAsync(UserDetail userResult)
+        internal void SetupGetClientAsync(ClientDetail ClientResult)
         {
-            Setup(x => x.GetUserAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityManagerResult<UserDetail>(userResult)));
+            Setup(x => x.GetClientAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new IdentityAdminResult<ClientDetail>(ClientResult)));
         }
-        internal void SetupGetUserAsync(params string[] errors)
+        internal void SetupGetClientAsync(params string[] errors)
         {
-            Setup(x => x.GetUserAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityManagerResult<UserDetail>(errors)));
+            Setup(x => x.GetClientAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new IdentityAdminResult<ClientDetail>(errors)));
         }
-        public void SetupGetUserAsync(Exception ex)
+        public void SetupGetClientAsync(Exception ex)
         {
-            Setup(x => x.GetUserAsync(It.IsAny<string>()))
+            Setup(x => x.GetClientAsync(It.IsAny<string>()))
                 .Throws(ex);
         }
 
         
-        internal void VerifyDeleteUserAsync(string subject)
+        internal void VerifyDeleteClientAsync(string subject)
         {
-            Verify(x => x.DeleteUserAsync(subject));
+            Verify(x => x.DeleteClientAsync(subject));
         }
-        internal void SetupDeleteUserAsync(params string[] errors)
+        internal void SetupDeleteClientAsync(params string[] errors)
         {
-            Setup(x => x.DeleteUserAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityManagerResult(errors)));
+            Setup(x => x.DeleteClientAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new IdentityAdminResult(errors)));
         }
-        public void SetupDeleteUserAsync(Exception ex)
+        public void SetupDeleteClientAsync(Exception ex)
         {
-            Setup(x => x.DeleteUserAsync(It.IsAny<string>()))
+            Setup(x => x.DeleteClientAsync(It.IsAny<string>()))
                 .Throws(ex);
         }
 
@@ -122,7 +119,7 @@ namespace Core.Tests.Api
         //internal void SetupSetPasswordAsync(params string[] errors)
         //{
         //    Setup(x=>x.SetPasswordAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityManagerResult(errors)));
+        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
         //}
         //public void SetupSetPasswordAsync(Exception ex)
         //{
@@ -142,7 +139,7 @@ namespace Core.Tests.Api
         //internal void SetupSetEmailAsync(params string[] errors)
         //{
         //    Setup(x => x.SetEmailAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityManagerResult(errors)));
+        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
         //}
         //public void SetupSetEmailAsync(Exception ex)
         //{
@@ -161,7 +158,7 @@ namespace Core.Tests.Api
         //internal void SetupSetPhoneAsync(params string[] errors)
         //{
         //    Setup(x => x.SetPhoneAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityManagerResult(errors)));
+        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
         //}
         //public void SetupSetPhoneAsync(Exception ex)
         //{
@@ -171,41 +168,41 @@ namespace Core.Tests.Api
 
         internal void VerifyAddClaimAsync(string subject, string type, string value)
         {
-            Verify(x => x.AddUserClaimAsync(subject, type, value));
+            Verify(x => x.AddClientClaimAsync(subject, type, value));
         }
         internal void VerifyAddClaimAsyncNotCalled()
         {
-            Verify(x => x.AddUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            Verify(x => x.AddClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
         }
         internal void SetupAddClaimAsync(params string[] errors)
         {
-            Setup(x => x.AddUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityManagerResult(errors)));
+            Setup(x => x.AddClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(new IdentityAdminResult(errors)));
         }
         public void SetupAddClaimAsync(Exception ex)
         {
-            Setup(x => x.AddUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            Setup(x => x.AddClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Throws(ex);
         }
 
-        internal void VerifyRemoveClaimAsync(string subject, string type, string value)
-        {
-            Verify(x => x.RemoveUserClaimAsync(subject, type, value));
-        }
-        internal void VerifyRemoveClaimAsyncNotCalled()
-        {
-            Verify(x => x.RemoveUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-        }
-        internal void SetupRemoveClaimAsync(params string[] errors)
-        {
-            Setup(x => x.RemoveUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityManagerResult(errors)));
-        }
-        public void SetupRemoveClaimAsync(Exception ex)
-        {
-            Setup(x => x.RemoveUserClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Throws(ex);
-        }
+        //internal void VerifyRemoveClaimAsync(string subject, string type, string value)
+        //{
+        //    Verify(x => x.RemoveClientClaimAsync(subject, type, value));
+        //}
+        //internal void VerifyRemoveClaimAsyncNotCalled()
+        //{
+        //    Verify(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+        //}
+        //internal void SetupRemoveClaimAsync(params string[] errors)
+        //{
+        //    Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
+        //}
+        //public void SetupRemoveClaimAsync(Exception ex)
+        //{
+        //    Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+        //        .Throws(ex);
+        //}
 
 
         internal void GetMetadataAsync()

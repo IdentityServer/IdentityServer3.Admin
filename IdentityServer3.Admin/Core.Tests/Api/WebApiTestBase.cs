@@ -51,7 +51,7 @@ namespace Core.Tests.Api
             {
                 clients[i] = new ClientSummary { Subject = i.ToString() };
             }
-            IdentityAdmin.SetupQueryUsersAsync(new QueryResult<ClientSummary> { Items = clients });
+            IdentityAdmin.SetupQueryClientsAsync(new QueryResult<ClientSummary> { Items = clients });
         }
 
         protected HttpResponseMessage Get(string path)
