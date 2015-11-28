@@ -40,8 +40,9 @@ namespace IdentityAdmin.Host
                 {
                     IdentityAdminService = new Registration<IIdentityAdminService, InMemoryIdentityManagerService>()
                 };
-                var clients = ClientSeeder.Get();
-                var scopes = ScopeSeeder.Get();
+                var rand = new System.Random();
+                var clients = ClientSeeder.Get(rand.Next(1000, 3000));
+                var scopes = ScopeSeeder.Get(rand.Next(15));
                 factory.Register(new Registration<ICollection<InMemoryScope>>(scopes));
                 factory.Register(new Registration<ICollection<InMemoryClient>>(clients));
                 adminApp.UseIdentityAdmin(new IdentityAdminOptions

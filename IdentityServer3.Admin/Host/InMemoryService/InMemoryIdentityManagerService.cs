@@ -38,9 +38,9 @@ namespace IdentityAdmin.Host.InMemoryService
         }
 
 
-        private IdentityAdminManagerMetadata _metadata;
+        private IdentityAdminMetadata _metadata;
 
-        private IdentityAdminManagerMetadata GetMetadata()
+        private IdentityAdminMetadata GetMetadata()
         {
             if (_metadata == null)
             {
@@ -79,7 +79,7 @@ namespace IdentityAdmin.Host.InMemoryService
                 };
 
 
-                _metadata = new IdentityAdminManagerMetadata
+                _metadata = new IdentityAdminMetadata
                 {
                     ClientMetaData = client,
                     ScopeMetaData = scope
@@ -812,7 +812,7 @@ namespace IdentityAdmin.Host.InMemoryService
 
         #endregion
 
-        Task<IdentityAdminManagerMetadata> IIdentityAdminService.GetMetadataAsync()
+        Task<IdentityAdminMetadata> IIdentityAdminService.GetMetadataAsync()
         {
             return Task.FromResult(GetMetadata());
         }

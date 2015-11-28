@@ -10,7 +10,7 @@ namespace Core.Tests.Api
         public void GetMetadata_CallsClientManager()
         {
             Get("api/metadata");
-            IdentityAdmin.GetMetadataAsync();
+            IdentityAdminImpl.GetMetadataAsync();
         }
     }
 }

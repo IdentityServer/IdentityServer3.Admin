@@ -8,7 +8,7 @@ namespace IdentityAdmin.Core
 {
     public interface IIdentityAdminService
     {
-        Task<IdentityAdminManagerMetadata> GetMetadataAsync();
+        Task<IdentityAdminMetadata> GetMetadataAsync();
         Task<IdentityAdminResult<ScopeDetail>> GetScopeAsync(string subject);
         Task<IdentityAdminResult<QueryResult<ScopeSummary>>> QueryScopesAsync(string filter, int start, int count);
         Task<IdentityAdminResult<CreateResult>> CreateScopeAsync(IEnumerable<PropertyValue> properties);

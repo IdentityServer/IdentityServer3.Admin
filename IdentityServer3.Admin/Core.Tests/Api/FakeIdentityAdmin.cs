@@ -16,8 +16,7 @@ namespace Core.Tests.Api
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<QueryResult<ClientSummary>>(new QueryResult<ClientSummary>())));
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<CreateResult>(new CreateResult())));
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<ClientSummary>(new ClientSummary())));
-            this.SetupGetMetadataAsync(new IdentityAdminManagerMetadata());
-        }
+            this.SetupGetMetadataAsync(new IdentityAdminMetadata{});}
 
 
         public void SetupQueryClientsAsync(QueryResult<ClientSummary> result)
@@ -185,31 +184,31 @@ namespace Core.Tests.Api
                 .Throws(ex);
         }
 
-        //internal void VerifyRemoveClaimAsync(string subject, string type, string value)
-        //{
-        //    Verify(x => x.RemoveClientClaimAsync(subject, type, value));
-        //}
-        //internal void VerifyRemoveClaimAsyncNotCalled()
-        //{
-        //    Verify(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-        //}
-        //internal void SetupRemoveClaimAsync(params string[] errors)
-        //{
-        //    Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
-        //}
-        //public void SetupRemoveClaimAsync(Exception ex)
-        //{
-        //    Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-        //        .Throws(ex);
-        //}
-
+        internal void VerifyRemoveClaimAsync(string subject, string id)
+        {
+            Verify(x => x.RemoveClientClaimAsync(subject, id));
+        }
+        internal void VerifyRemoveClaimAsyncNotCalled()
+        {
+            Verify(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+        }
+        internal void SetupRemoveClaimAsync(params string[] errors)
+        {
+            Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(new IdentityAdminResult(errors)));
+        }
+        public void SetupRemoveClaimAsync(Exception ex)
+        {
+            Setup(x => x.RemoveClientClaimAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .Throws(ex);
+        }
+         
 
         internal void GetMetadataAsync()
         {
             Verify(x => x.GetMetadataAsync());
         }
-        internal void SetupGetMetadataAsync(IdentityAdminManagerMetadata data)
+        internal void SetupGetMetadataAsync(IdentityAdminMetadata data)
         {
             Setup(x => x.GetMetadataAsync())
                 .Returns(Task.FromResult(data));

@@ -24,7 +24,7 @@ namespace IdentityAdmin.Api.Models.Client
 {
     public class ClientDetailResource
     {
-        public ClientDetailResource(ClientDetail client, UrlHelper url, IdentityAdminManagerMetadata idmAdminMeta)
+        public ClientDetailResource(ClientDetail client, UrlHelper url, IdentityAdminMetadata idmAdminMeta)
         {
             if (client == null) throw new ArgumentNullException("client");
             if (url == null) throw new ArgumentNullException("url");

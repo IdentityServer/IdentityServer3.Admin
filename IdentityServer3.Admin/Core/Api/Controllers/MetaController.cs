@@ -40,9 +40,9 @@ namespace IdentityAdmin.Api.Controllers
             this._identityAdminService = identityAdminService;
         }
 
-        private IdentityAdminManagerMetadata _metadata;
+        private IdentityAdminMetadata _metadata;
 
-        private async Task<IdentityAdminManagerMetadata> GetMetadataAsync()
+        private async Task<IdentityAdminMetadata> GetMetadataAsync()
         {
             if (_metadata == null)
             {

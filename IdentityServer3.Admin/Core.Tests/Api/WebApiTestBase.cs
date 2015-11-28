@@ -1,42 +1,42 @@
 ﻿using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
+using IdentityAdmin.Configuration;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
 using Owin;
-using Moq;
 
 namespace Core.Tests.Api
 {
     public class WebApiTestBase
     {
-        protected FakeIdentityAdmin IdentityAdmin;
-        protected TestServer server;
-        protected HttpClient client;
+        protected FakeIdentityAdmin IdentityAdminImpl;
+        protected TestServer Server;
+        protected HttpClient Client;
 
         [TestInitialize]
         public void Init()
         {
-            IdentityAdmin = new FakeIdentityAdmin();
-            server = TestServer.Create(app =>
+            IdentityAdminImpl = new FakeIdentityAdmin();
+         
+            Server = TestServer.Create(adminApp =>
             {
-                app.UseIdentityManager(new IdentityManagerConfiguration {
-                    IdentityManagerFactory = () => IdentityAdmin.Object
+                var factory = new IdentityAdminServiceFactory
+                {
+                    IdentityAdminService = new Registration<IIdentityAdminService>(IdentityAdminImpl.Object)
+                };
+                adminApp.UseIdentityAdmin(new IdentityAdminOptions
+                {
+                    Factory = factory
                 });
             });
-            client = server.HttpClient;
+            Client = Server.HttpClient;
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            server.Dispose();
+            Server.Dispose();
         }
 
         protected string Url(string path)
@@ -51,12 +51,12 @@ namespace Core.Tests.Api
             {
                 clients[i] = new ClientSummary { Subject = i.ToString() };
             }
-            IdentityAdmin.SetupQueryClientsAsync(new QueryResult<ClientSummary> { Items = clients });
+            IdentityAdminImpl.SetupQueryClientsAsync(new QueryResult<ClientSummary> { Items = clients });
         }
 
         protected HttpResponseMessage Get(string path)
         {
-            return client.GetAsync(Url(path)).Result;
+            return Client.GetAsync(Url(path)).Result;
         }
         
         protected T Get<T>(string path)
@@ -68,17 +68,17 @@ namespace Core.Tests.Api
 
         protected HttpResponseMessage Post<T>(string path, T value)
         {
-            return client.PostAsJsonAsync(Url(path), value).Result;
+            return Client.PostAsJsonAsync(Url(path), value).Result;
         }
         
         protected HttpResponseMessage Put<T>(string path, T value)
         {
-            return client.PutAsJsonAsync(Url(path), value).Result;
+            return Client.PutAsJsonAsync(Url(path), value).Result;
         }
 
         protected HttpResponseMessage Delete(string path)
         {
-            return client.DeleteAsync(Url(path)).Result;
+            return Client.DeleteAsync(Url(path)).Result;
         }
     }
 }

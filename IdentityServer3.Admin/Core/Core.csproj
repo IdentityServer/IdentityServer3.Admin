@@ -167,7 +167,7 @@
     <Compile Include="Core\IIdentityAdminService.cs" />
     <Compile Include="Core\Metadata\ExecutablePropertyMetadata.cs" />
     <Compile Include="Core\Metadata\ExpressionPropertyMetadata.cs" />
-    <Compile Include="Core\Metadata\IdentityAdminManagerMetadata.cs" />
+    <Compile Include="Core\Metadata\IdentityAdminMetadata.cs" />
     <Compile Include="Core\Metadata\PropertyDataType.cs" />
     <Compile Include="Core\Metadata\PropertyMetadata.cs" />
     <Compile Include="Core\Metadata\ReflectedPropertyMetadata.cs" />

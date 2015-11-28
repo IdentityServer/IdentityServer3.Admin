@@ -57,9 +57,9 @@ namespace IdentityAdmin.Api.Controllers
             return StatusCode(HttpStatusCode.MethodNotAllowed);
         }
 
-        IdentityAdminManagerMetadata _adminMetadata;
+        IdentityAdminMetadata _adminMetadata;
         
-        async Task<IdentityAdminManagerMetadata> GetCoreMetaDataAsync()
+        async Task<IdentityAdminMetadata> GetCoreMetaDataAsync()
         {
             if (_adminMetadata == null)
             {

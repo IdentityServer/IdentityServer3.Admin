@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
 
 namespace IdentityAdmin.Host.InMemoryService
 {
     public class ScopeSeeder
     {
-        public static ICollection<InMemoryScope> Get()
+        public static ICollection<InMemoryScope> Get(int random = 0)
         {
             var scopes = new HashSet<InMemoryScope>
             {
@@ -36,8 +37,35 @@ namespace IdentityAdmin.Host.InMemoryService
                 },
             };
 
+            
+            for (var i = 0; i < random; i++)
+            {
+                var client = new InMemoryScope
+                {
+                    Name = GenName().ToLower(),
+                    Description = GenName().ToLower(),
+                    Id = scopes.Count + 1
+                };
+
+                scopes.Add(client);
+            }
 
             return scopes;
+
         }
+
+        private static string GenName()
+        {
+            var firstChar = (char)((rnd.Next(26)) + 65);
+            var username = firstChar.ToString();
+            for (var j = 0; j < 6; j++)
+            {
+                username += Char.ToLower((char)(rnd.Next(26) + 65));
+            }
+            return username;
+        }
+
+        static Random rnd = new Random();
+
     }
 }

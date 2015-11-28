@@ -25,7 +25,7 @@ namespace IdentityAdmin.Api.Models.Scope
 {
     public class ScopeDetailDataResource : Dictionary<string, object>
     {
-        public ScopeDetailDataResource(ScopeDetail scope, UrlHelper url, IdentityAdminManagerMetadata idmAdminMeta)
+        public ScopeDetailDataResource(ScopeDetail scope, UrlHelper url, IdentityAdminMetadata idmAdminMeta)
         {
             if (scope == null) throw new ArgumentNullException("scope");
             if (url == null) throw new ArgumentNullException("url");

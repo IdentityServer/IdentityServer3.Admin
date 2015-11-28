@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core.Models;
 
@@ -21,7 +22,7 @@ namespace IdentityAdmin.Host.InMemoryService
 {
     public class ClientSeeder
     {
-        public static ICollection<InMemoryClient> Get()
+        public static ICollection<InMemoryClient> Get(int random = 0)
         {
             var clients = new HashSet<InMemoryClient>
             {
@@ -54,9 +55,34 @@ namespace IdentityAdmin.Host.InMemoryService
                 }
             };
 
+            for (var i = 0; i < random; i++)
+            {
+                var client = new InMemoryClient
+                {
+                    ClientName = GenName().ToLower(),
+                    ClientId = GenName().ToLower(),
+                    Id = clients.Count +1
+                };
+
+                clients.Add(client);
+            }
+
             return clients;
 
         }
+
+        private static string GenName()
+        {
+            var firstChar = (char)((rnd.Next(26)) + 65);
+            var username = firstChar.ToString();
+            for (var j = 0; j < 6; j++)
+            {
+                username += Char.ToLower((char)(rnd.Next(26) + 65));
+            }
+            return username;
+        }
+
+        static Random rnd = new Random();
 
     }
 }

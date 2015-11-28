@@ -25,7 +25,7 @@ namespace IdentityAdmin.Api.Models.Client
 {
     public class ClientDetailDataResource : Dictionary<string, object>
     {
-        public ClientDetailDataResource(ClientDetail client, UrlHelper url, IdentityAdminManagerMetadata idmAdminMeta)
+        public ClientDetailDataResource(ClientDetail client, UrlHelper url, IdentityAdminMetadata idmAdminMeta)
         {
             if (client == null) throw new ArgumentNullException("client");
             if (url == null) throw new ArgumentNullException("url");

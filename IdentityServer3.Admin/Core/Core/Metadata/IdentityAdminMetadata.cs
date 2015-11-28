@@ -20,9 +20,9 @@ using IdentityAdmin.Core.Scope;
 
 namespace IdentityAdmin.Core.Metadata
 {
-    public class IdentityAdminManagerMetadata
+    public class IdentityAdminMetadata
     {
-        public IdentityAdminManagerMetadata()
+        public IdentityAdminMetadata()
         {
             this.ClientMetaData = new ClientMetaData();
             this.ScopeMetaData = new ScopeMetaData();
