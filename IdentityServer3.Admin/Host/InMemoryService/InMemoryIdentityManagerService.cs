@@ -23,6 +23,7 @@ using IdentityAdmin.Core.Client;
 using IdentityAdmin.Core.Metadata;
 using IdentityAdmin.Core.Scope;
 using IdentityAdmin.Extensions;
+using Thinktecture.IdentityServer.Core.Models;
 
 namespace IdentityAdmin.Host.InMemoryService
 {
@@ -384,8 +385,20 @@ namespace IdentityAdmin.Host.InMemoryService
 
             var metadata = GetMetadata();
             var createProps = metadata.ClientMetaData.CreateProperties;
+            var client  = new Client();
+            var inMemoryClient = new InMemoryClient
+            {
+                ClientId = clientId,
+                ClientName = clientName,
+                Id = _clients.Count + 1,
+                AbsoluteRefreshTokenLifetime = client.AbsoluteRefreshTokenLifetime,
+                AccessTokenLifetime = client.AccessTokenLifetime,
+                IdentityTokenLifetime = client.IdentityTokenLifetime,
+                SlidingRefreshTokenLifetime = client.SlidingRefreshTokenLifetime,
+                Enabled =  true,
+                EnableLocalLogin =  true,
 
-            var inMemoryClient = new InMemoryClient {ClientId = clientId, ClientName = clientName, Id =  _clients.Count + 1};
+            };
 
             foreach (var prop in otherProperties)
             {
