@@ -16,7 +16,8 @@ namespace Core.Tests.Api
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<QueryResult<ClientSummary>>(new QueryResult<ClientSummary>())));
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<CreateResult>(new CreateResult())));
             this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<ClientSummary>(new ClientSummary())));
-            this.SetupGetMetadataAsync(new IdentityAdminMetadata{});}
+            this.SetupGetMetadataAsync(new IdentityAdminMetadata());
+        }
 
 
         public void SetupQueryClientsAsync(QueryResult<ClientSummary> result)
@@ -206,11 +207,11 @@ namespace Core.Tests.Api
 
         internal void GetMetadataAsync()
         {
-            Verify(x => x.GetMetadataAsync());
+            this.Verify(x => x.GetMetadataAsync());
         }
         internal void SetupGetMetadataAsync(IdentityAdminMetadata data)
         {
-            Setup(x => x.GetMetadataAsync())
+             this.Setup(x => x.GetMetadataAsync())
                 .Returns(Task.FromResult(data));
         }
     }

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
 using IdentityAdmin.Core.Metadata;
@@ -36,6 +37,26 @@ namespace IdentityAdmin.Host.InMemoryService
         {
             this._clients = clients;
             this._scopes = scopes;
+            Mapper.CreateMap<InMemoryClientClaim, ClientClaimValue>();
+            Mapper.CreateMap<ClientClaimValue, InMemoryClientClaim>();
+            Mapper.CreateMap<InMemoryClientSecret, ClientSecretValue>();
+            Mapper.CreateMap<ClientSecretValue, InMemoryClientSecret>();
+            Mapper.CreateMap<InMemoryClientIdPRestriction, ClientIdPRestrictionValue>();
+            Mapper.CreateMap<ClientIdPRestrictionValue, InMemoryClientIdPRestriction>();
+            Mapper.CreateMap<InMemoryClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriValue>();
+            Mapper.CreateMap<ClientPostLogoutRedirectUriValue, InMemoryClientPostLogoutRedirectUri>();
+            Mapper.CreateMap<InMemoryClientRedirectUri, ClientRedirectUriValue>();
+            Mapper.CreateMap<ClientRedirectUriValue, InMemoryClientRedirectUri>();
+            Mapper.CreateMap<InMemoryClientCorsOrigin, ClientCorsOriginValue>();
+            Mapper.CreateMap<ClientCorsOriginValue, InMemoryClientCorsOrigin>();
+            Mapper.CreateMap<InMemoryClientCustomGrantType, ClientCustomGrantTypeValue>();
+            Mapper.CreateMap<ClientCustomGrantTypeValue, InMemoryClientCustomGrantType>();
+            Mapper.CreateMap<InMemoryClientScope, ClientScopeValue>();
+            Mapper.CreateMap<ClientScopeValue, InMemoryClientScope>();
+            Mapper.CreateMap<InMemoryScopeClaim, ScopeClaimValue>();
+            Mapper.CreateMap<ScopeClaimValue, InMemoryScopeClaim>();
+            Mapper.CreateMap<InMemoryScope, Scope>();
+            Mapper.CreateMap<Scope, InMemoryScope>();
         }
 
 
@@ -101,6 +122,7 @@ namespace IdentityAdmin.Host.InMemoryService
                 {
                     return Task.FromResult(new IdentityAdminResult<ScopeDetail>((ScopeDetail) null));
                 }
+            
                 var result = new ScopeDetail
                 {
                     Subject = subject,
@@ -118,7 +140,7 @@ namespace IdentityAdmin.Host.InMemoryService
 
                 result.Properties = props.ToArray();
                 result.ScopeClaimValues = new List<ScopeClaimValue>();
-
+                Mapper.Map(inMemoryScope.ScopeClaims.ToList(), result.ScopeClaimValues);
                 return Task.FromResult(new IdentityAdminResult<ScopeDetail>(result));
             }
             return Task.FromResult(new IdentityAdminResult<ScopeDetail>((ScopeDetail) null));
@@ -299,7 +321,22 @@ namespace IdentityAdmin.Host.InMemoryService
                     ClientId = inMemoryClient.ClientId,
                     ClientName = inMemoryClient.ClientName,
                 };
-
+                result.AllowedCorsOrigins = new List<ClientCorsOriginValue>();
+                Mapper.Map(inMemoryClient.AllowedCorsOrigins.ToList(), result.AllowedCorsOrigins);
+                result.AllowedCustomGrantTypes = new List<ClientCustomGrantTypeValue>();
+                Mapper.Map(inMemoryClient.AllowedCustomGrantTypes.ToList(), result.AllowedCustomGrantTypes);
+                result.AllowedScopes = new List<ClientScopeValue>();
+                Mapper.Map(inMemoryClient.AllowedScopes.ToList(), result.AllowedScopes);
+                result.Claims = new List<ClientClaimValue>();
+                Mapper.Map(inMemoryClient.Claims.ToList(), result.Claims);
+                result.ClientSecrets = new List<ClientSecretValue>();
+                Mapper.Map(inMemoryClient.ClientSecrets.ToList(), result.ClientSecrets);
+                result.IdentityProviderRestrictions = new List<ClientIdPRestrictionValue>();
+                Mapper.Map(inMemoryClient.IdentityProviderRestrictions.ToList(), result.IdentityProviderRestrictions);
+                result.PostLogoutRedirectUris = new List<ClientPostLogoutRedirectUriValue>();
+                Mapper.Map(inMemoryClient.PostLogoutRedirectUris.ToList(), result.PostLogoutRedirectUris);
+                result.RedirectUris = new List<ClientRedirectUriValue>();
+                Mapper.Map(inMemoryClient.RedirectUris.ToList(), result.RedirectUris);
 
                 var metadata = GetMetadata();
                 var props = from prop in metadata.ClientMetaData.UpdateProperties

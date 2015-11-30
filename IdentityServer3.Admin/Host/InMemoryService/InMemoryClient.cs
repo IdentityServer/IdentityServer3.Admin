@@ -23,6 +23,18 @@ namespace IdentityAdmin.Host.InMemoryService
 {
     public class InMemoryClient 
     {
+        public InMemoryClient()
+        {
+            Claims = new List<InMemoryClientClaim>();
+            ClientSecrets = new List<InMemoryClientSecret>();
+            IdentityProviderRestrictions = new List<InMemoryClientIdPRestriction>();
+            PostLogoutRedirectUris = new List<InMemoryClientPostLogoutRedirectUri>();
+            RedirectUris = new List<InMemoryClientRedirectUri>();
+            AllowedCorsOrigins = new List<InMemoryClientCorsOrigin>();
+            AllowedCustomGrantTypes = new List<InMemoryClientCustomGrantType>();
+            AllowedScopes = new List<InMemoryClientScope>();
+        }
+
         public int Id { get; set; }
         public int AbsoluteRefreshTokenLifetime { get; set; }
         public int AccessTokenLifetime { get; set; }
@@ -56,6 +68,8 @@ namespace IdentityAdmin.Host.InMemoryService
         public ICollection<InMemoryClientCorsOrigin> AllowedCorsOrigins { get; set; }
         public ICollection<InMemoryClientCustomGrantType> AllowedCustomGrantTypes { get; set; }
         public ICollection<InMemoryClientScope> AllowedScopes { get; set; }
+
+        
     }
 
     public class InMemoryClientClaim

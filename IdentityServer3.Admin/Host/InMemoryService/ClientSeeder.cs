@@ -22,6 +22,7 @@ namespace IdentityAdmin.Host.InMemoryService
 {
     public class ClientSeeder
     {
+
         public static ICollection<InMemoryClient> Get(int random = 0)
         {
             var clients = new HashSet<InMemoryClient>
@@ -61,7 +62,8 @@ namespace IdentityAdmin.Host.InMemoryService
                 {
                     ClientName = GenName().ToLower(),
                     ClientId = GenName().ToLower(),
-                    Id = clients.Count +1
+                    Id = clients.Count + 1,
+                    
                 };
 
                 clients.Add(client);

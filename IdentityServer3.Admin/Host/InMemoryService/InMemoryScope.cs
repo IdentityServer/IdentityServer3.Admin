@@ -20,6 +20,10 @@ namespace IdentityAdmin.Host.InMemoryService
 {
     public class InMemoryScope 
     {
+        public InMemoryScope()
+        {
+            ScopeClaims = new List<InMemoryScopeClaim>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string ClaimsRule { get; set; }

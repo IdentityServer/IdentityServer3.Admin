@@ -18,7 +18,6 @@ namespace Core.Tests.Api
         public void Init()
         {
             IdentityAdminImpl = new FakeIdentityAdmin();
-         
             Server = TestServer.Create(adminApp =>
             {
                 var factory = new IdentityAdminServiceFactory
