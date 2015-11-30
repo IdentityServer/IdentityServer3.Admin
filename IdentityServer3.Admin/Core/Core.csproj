@@ -191,7 +191,7 @@
     <Compile Include="Logging\LibLogTraceListener.cs" />
     <Compile Include="Logging\LogSerializer.cs" />
     <Compile Include="Logging\RequestResponseLogger.cs" />
-    <Compile Include="obj\TraceSourceLogProvider.cs" />
+    <Compile Include="Logging\TraceSourceLogProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Messages.Designer.cs" />
   </ItemGroup>
