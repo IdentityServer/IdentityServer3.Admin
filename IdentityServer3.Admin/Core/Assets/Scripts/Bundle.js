@@ -808,6 +808,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
     idAdmPager.$inject = ["$sce"];
     app.service("idAdmPager", idAdmPager);
 
+
     function ttConfirmClick() {
         return {
             restrict: 'A',
@@ -1334,7 +1335,7 @@ return this.DIGESTINFOHEAD[e]+t},this.getPaddedDigestInfoHex=function(t,e,r){var
                 templateUrl: PathBase + '/assets/Templates.home.html'
             })
             .when("/callback/:response", {
-                templateUrl: PathBase + '/assets/Templates.message.html',
+                templateUrl: PathBase + '/assets/Templates.message.html', 
                 controller: 'CallbackCtrl'
             })
             .when("/error", {

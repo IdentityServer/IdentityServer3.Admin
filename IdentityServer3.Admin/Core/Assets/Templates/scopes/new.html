@@ -7,7 +7,8 @@
 
 <div class="panel">
     <div class="panel-body">
-        <idm-message message="feedback"></idm-message>
+
+        <id-adm-message message="feedback"></id-adm-message>
         <form class="form" ng-submit="create(properties)" name="form" ng-show="create">
             <div ng-repeat="property in properties" class="row" ng-form="childForm">
                 <div ng-switch on="property.meta.dataType">

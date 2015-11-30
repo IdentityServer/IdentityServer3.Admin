@@ -14,7 +14,7 @@
                 templateUrl: PathBase + '/assets/Templates.home.html'
             })
             .when("/callback/:response", {
-                templateUrl: PathBase + '/assets/Templates.message.html',
+                templateUrl: PathBase + '/assets/Templates.message.html', 
                 controller: 'CallbackCtrl'
             })
             .when("/error", {
