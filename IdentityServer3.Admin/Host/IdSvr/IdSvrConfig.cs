@@ -34,7 +34,7 @@ namespace IdentityAdmin.Host.IdSvr
             var factory = InMemoryFactory.Create(users:GetUsers(), scopes:GetScopes(), clients:GetClients());
             var idsrvOptions = new IdentityServerOptions
             {
-                SiteName = "IdentityServer v3",
+                SiteName = "IdentityAdmin",
                 SigningCertificate = Cert.Load(),
                 Endpoints = new EndpointOptions {
                     EnableCspReportEndpoint = true
@@ -54,7 +54,7 @@ namespace IdentityAdmin.Host.IdSvr
                     Password = "admin",
                     Claims = new Claim[]{
                         new Claim(Constants.ClaimTypes.Name, "Admin"),
-                        new Claim(Constants.ClaimTypes.Role, "IdentityManagerAdministrator"),
+                        new Claim(Constants.ClaimTypes.Role, "IdentityAdminAdministrator"),
                     }
                 },
                 new InMemoryUser{
@@ -73,8 +73,8 @@ namespace IdentityAdmin.Host.IdSvr
         {
             return new Client[]{
                 new Client{
-                    ClientId = "idmgr_client",
-                    ClientName = "IdentityManager",
+                    ClientId = "idmAdmgr_client",
+                    ClientName = "IdentityAdmin",
                     Enabled = true,
                     Flow = Flows.Implicit,
                     RequireConsent = false,
@@ -94,9 +94,9 @@ namespace IdentityAdmin.Host.IdSvr
             return new Scope[] {
                 StandardScopes.OpenId,
                  new Scope{
-                    Name = "idmgr",
-                    DisplayName = "IdentityManager",
-                    Description = "Authorization for IdentityManager",
+                    Name = "idmAdmgr",
+                    DisplayName = "IdentityAdmin",
+                    Description = "Authorization for IdentityAdmin",
                     Type = ScopeType.Identity,
                     Claims = new List<ScopeClaim>{
                         new ScopeClaim(Constants.ClaimTypes.Name),
