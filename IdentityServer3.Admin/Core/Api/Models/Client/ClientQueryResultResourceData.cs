@@ -31,6 +31,14 @@ namespace IdentityAdmin.Api.Models.Client
                 .ForMember(x => x.Data, opts => opts.MapFrom(x => x));
         }
 
+        /// <summary>
+        /// Needed for Unit Testing
+        /// </summary>
+        public ClientQueryResultResourceData()
+        {
+            
+        }
+
         public ClientQueryResultResourceData(QueryResult<ClientSummary> result, UrlHelper url, ClientMetaData meta)
         {
             if (result == null) throw new ArgumentNullException("result");

@@ -58,7 +58,10 @@ namespace Owin
             var container = AutofacConfig.Configure(options);
             app.Use<AutofacContainerMiddleware>(container);
 
-            options.AdminSecurityConfiguration.Configure(app);
+            if (!options.DisableSecurity)
+            {
+                options.AdminSecurityConfiguration.Configure(app);
+            }
 
             if (!options.DisableUserInterface)
             {

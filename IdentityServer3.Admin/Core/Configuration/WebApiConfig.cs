@@ -42,8 +42,12 @@ namespace IdentityAdmin.Configuration
             }
 
             config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationAttribute(options.AdminSecurityConfiguration.BearerAuthenticationType));
-            config.Filters.Add(new AuthorizeAttribute() { Roles = options.AdminSecurityConfiguration.AdminRoleName });
+            if (!options.DisableSecurity)
+            {
+                config.Filters.Add(new HostAuthenticationAttribute(options.AdminSecurityConfiguration.BearerAuthenticationType));
+                config.Filters.Add(new AuthorizeAttribute() { Roles = options.AdminSecurityConfiguration.AdminRoleName });
+            }
+
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.Remove(config.Formatters.FormUrlEncodedFormatter);

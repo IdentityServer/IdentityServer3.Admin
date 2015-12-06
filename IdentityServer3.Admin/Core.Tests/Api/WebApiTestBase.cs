@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Testing;
+﻿using System;
+using Microsoft.Owin.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Http;
 using IdentityAdmin.Configuration;
@@ -24,9 +25,9 @@ namespace Core.Tests.Api
                 {
                     IdentityAdminService = new Registration<IIdentityAdminService>(IdentityAdminImpl.Object)
                 };
-                adminApp.UseIdentityAdmin(new IdentityAdminOptions
+                adminApp.UseIdentityAdmin(new IdentityAdminOptions(true)
                 {
-                    Factory = factory
+                    Factory = factory,
                 });
             });
             Client = Server.HttpClient;
@@ -40,7 +41,7 @@ namespace Core.Tests.Api
 
         protected string Url(string path)
         {
-            return "http://foo/" + path;
+            return "https://foo/" + path;
         }
 
         protected void ConfigureQueryClients(int number)
@@ -48,7 +49,7 @@ namespace Core.Tests.Api
             var clients = new ClientSummary[number];
             for (var i = 0; i < number; i++)
             {
-                clients[i] = new ClientSummary { Subject = i.ToString() };
+                clients[i] = new ClientSummary { Subject = i.ToString() , ClientName = string.Format("name{0}", i) , ClientId = string.Format("id{0}", i)};
             }
             IdentityAdminImpl.SetupQueryClientsAsync(new QueryResult<ClientSummary> { Items = clients });
         }

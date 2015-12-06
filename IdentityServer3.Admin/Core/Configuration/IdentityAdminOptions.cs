@@ -20,12 +20,22 @@ namespace IdentityAdmin.Configuration
 {
     public class IdentityAdminOptions
     {
-        public IdentityAdminOptions()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disableSecurity">Warning: If this parameter is set to <value>TRUE</value> ALL security will be switched off </param>
+        public IdentityAdminOptions(bool disableSecurity = false)
         {
+            DisableSecurity = disableSecurity;
             Factory = new IdentityAdminServiceFactory();
-            AdminSecurityConfiguration = new LocalhostSecurityConfiguration();
+            if (!DisableSecurity)
+            {
+                AdminSecurityConfiguration = new LocalhostSecurityConfiguration();
+            }
+
         }
 
+        public bool DisableSecurity { get; private set; }
         public IdentityAdminServiceFactory Factory { get; set; }
         public AdminSecurityConfiguration AdminSecurityConfiguration { get; set; }
         public bool DisableUserInterface { get; set; }
@@ -36,12 +46,17 @@ namespace IdentityAdmin.Configuration
             {
                 throw new Exception("Factory is required.");
             }
-            if (this.AdminSecurityConfiguration == null)
+
+            if (!DisableSecurity)
             {
-                throw new Exception("AdminSecurityConfiguration is required.");
+                if (this.AdminSecurityConfiguration == null)
+                {
+                    throw new Exception("AdminSecurityConfiguration is required.");
+                }
+
+                AdminSecurityConfiguration.Validate();
             }
 
-            AdminSecurityConfiguration.Validate();
         }
     }
 }

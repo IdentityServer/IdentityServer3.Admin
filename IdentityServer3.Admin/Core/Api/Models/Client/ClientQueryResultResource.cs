@@ -23,6 +23,14 @@ namespace IdentityAdmin.Api.Models.Client
 {
     public class ClientQueryResultResource
     {
+        /// <summary>
+        /// Needed for Unit Testing
+        /// </summary>
+        public ClientQueryResultResource()
+        {
+            
+        }
+
         public ClientQueryResultResource(QueryResult<ClientSummary> result, UrlHelper url, ClientMetaData meta)
         {
             if (result == null) throw new ArgumentNullException("result");

@@ -57,7 +57,6 @@ namespace IdentityAdmin.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            var meta = await GetMetadataAsync();
             var coreMeta = await GetMetadataAsync();
             var data = new Dictionary<string, object>();
 
