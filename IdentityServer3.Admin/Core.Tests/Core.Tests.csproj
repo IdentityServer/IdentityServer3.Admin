@@ -75,7 +75,6 @@
     <Compile Include="Api\WebApiTestBase.cs" />
     <Compile Include="Core\IdentityAdminResultTests.cs" />
     <Compile Include="Core\IdentityAdminResult`1Tests.cs" />
-    <Compile Include="Core\IdentityAdminSemanticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
