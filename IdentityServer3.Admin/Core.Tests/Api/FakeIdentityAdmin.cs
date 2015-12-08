@@ -1,9 +1,11 @@
 ﻿using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
 using IdentityAdmin.Core.Metadata;
+using IdentityAdmin.Core.Scope;
 
 
 namespace Core.Tests.Api
@@ -12,11 +14,51 @@ namespace Core.Tests.Api
     {
         public FakeIdentityAdmin()
         {
-            this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult()));
-            this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<QueryResult<ClientSummary>>(new QueryResult<ClientSummary>())));
-            this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<CreateResult>(new CreateResult())));
-            this.SetReturnsDefault(Task.FromResult(new IdentityAdminResult<ClientSummary>(new ClientSummary())));
-            this.SetupGetMetadataAsync(new IdentityAdminMetadata());
+            SetReturnsDefault(Task.FromResult(new IdentityAdminResult()));
+            SetReturnsDefault(Task.FromResult(new IdentityAdminResult<QueryResult<ClientSummary>>(new QueryResult<ClientSummary>())));
+            SetReturnsDefault(Task.FromResult(new IdentityAdminResult<CreateResult>(new CreateResult())));
+            SetReturnsDefault(Task.FromResult(new IdentityAdminResult<ClientSummary>(new ClientSummary())));
+
+            SetupGetMetadataAsync(new IdentityAdminMetadata
+            {
+                ClientMetaData = new ClientMetaData
+                {
+                    SupportsCreate = true,
+                    SupportsDelete = true,
+                    CreateProperties = new List<PropertyMetadata>
+                    {
+                        new PropertyMetadata
+                        {
+                            Type = "ClientId",
+                            Name = "ClientId",  
+                            DataType = PropertyDataType.String,
+                            Required =  true
+                        },new PropertyMetadata
+                        {
+                            Type = "ClientName",
+                            Name = "ClientName",  
+                            DataType = PropertyDataType.String,
+                            Required =  true
+                        }
+                    }
+
+                },
+                ScopeMetaData = new ScopeMetaData
+                {
+                    SupportsDelete =  true,
+                    SupportsCreate = true,
+                    CreateProperties = new List<PropertyMetadata>
+                    {
+                        new PropertyMetadata
+                        {
+                            Type = "Name",
+                            Name = "Name",  
+                            DataType = PropertyDataType.String,
+                            Required =  true
+                        }
+                    }
+                }
+            });
         }
 
 
@@ -43,42 +85,40 @@ namespace Core.Tests.Api
         {
             Verify(x=>x.QueryClientsAsync(filter, start, count));
         }
-
-
-
-        //public void SetupCreateClientAsync(CreateResult result)
-        //{
-        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
-        //       .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(result)));
-        //}
-        //public void SetupCreateClientAsync(params string[] errors)
-        //{
-        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
-        //       .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(errors)));
-        //}
-        //public void SetupCreateClientAsync(Exception ex)
-        //{
-        //    Setup(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()))
-        //        .Throws(ex);
-        //}
-        //public void VerifyCreateClientAsync(string Clientname, string password)
-        //{
-        //    Verify(x => x.CreateClientAsync(Clientname, password, null));
-        //}
-        //public void VerifyCreateClientAsyncNotCalled()
-        //{
-        //    Verify(x => x.CreateClientAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<ClientClaim>>()), Times.Never());
-        //}
+        
+        public void SetupCreateClientAsync(CreateResult result)
+        {
+            Setup(x => x.CreateClientAsync(It.IsAny<IEnumerable<PropertyValue>>()))
+               .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(result)));
+        }
+   
+        public void SetupCreateClientAsync(params string[] errors)
+        {
+            Setup(x => x.CreateClientAsync(It.IsAny<IEnumerable<PropertyValue>>()))
+               .Returns(Task.FromResult(new IdentityAdminResult<CreateResult>(errors)));
+        }
+        public void SetupCreateClientAsync(Exception ex)
+        {
+            Setup(x => x.CreateClientAsync(It.IsAny<IEnumerable<PropertyValue>>())).Throws(ex);
+        }
+        public void VerifyCreateClientAsync()
+        {
+            Verify(x => x.CreateClientAsync(It.IsAny<IEnumerable<PropertyValue>>()));
+        }
+        public void VerifyCreateClientAsyncNotCalled()
+        {
+            Verify(x => x.CreateClientAsync(It.IsAny<IEnumerable<PropertyValue>>()), Times.Never());
+        }
 
         
         internal void VerifyGetClientAsync(string subject)
         {
             Verify(x => x.GetClientAsync(subject));
         }
-        internal void SetupGetClientAsync(ClientDetail ClientResult)
+        internal void SetupGetClientAsync(ClientDetail clientResult)
         {
             Setup(x => x.GetClientAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(new IdentityAdminResult<ClientDetail>(ClientResult)));
+                .Returns(Task.FromResult(new IdentityAdminResult<ClientDetail>(clientResult)));
         }
         internal void SetupGetClientAsync(params string[] errors)
         {
@@ -108,64 +148,6 @@ namespace Core.Tests.Api
         }
 
 
-        //internal void VerifySetPasswordAsync(string subject, string password)
-        //{
-        //    Verify(x => x.SetPasswordAsync(subject, password));
-        //}
-        //internal void VerifySetPasswordAsyncNotCalled()
-        //{
-        //    Verify(x => x.SetPasswordAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-        //}
-        //internal void SetupSetPasswordAsync(params string[] errors)
-        //{
-        //    Setup(x=>x.SetPasswordAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
-        //}
-        //public void SetupSetPasswordAsync(Exception ex)
-        //{
-        //    Setup(x => x.SetPasswordAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Throws(ex);
-        //}
-
-
-        //internal void VerifySetEmailAsync(string subject, string email)
-        //{
-        //    Verify(x => x.SetEmailAsync(subject, email));
-        //}
-        //internal void VerifySetEmailAsyncNotCalled()
-        //{
-        //    Verify(x => x.SetEmailAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-        //}
-        //internal void SetupSetEmailAsync(params string[] errors)
-        //{
-        //    Setup(x => x.SetEmailAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
-        //}
-        //public void SetupSetEmailAsync(Exception ex)
-        //{
-        //    Setup(x => x.SetEmailAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Throws(ex);
-        //}
-
-        //internal void VerifySetPhoneAsync(string subject, string phone)
-        //{
-        //    Verify(x => x.SetPhoneAsync(subject, phone));
-        //}
-        //internal void VerifySetPhoneAsyncNotCalled()
-        //{
-        //    Verify(x => x.SetPhoneAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-        //}
-        //internal void SetupSetPhoneAsync(params string[] errors)
-        //{
-        //    Setup(x => x.SetPhoneAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Returns(Task.FromResult(new IdentityAdminResult(errors)));
-        //}
-        //public void SetupSetPhoneAsync(Exception ex)
-        //{
-        //    Setup(x => x.SetPhoneAsync(It.IsAny<string>(), It.IsAny<string>()))
-        //        .Throws(ex);
-        //}
-
         internal void VerifyAddClaimAsync(string subject, string type, string value)
         {
             Verify(x => x.AddClientClaimAsync(subject, type, value));
@@ -181,8 +163,7 @@ namespace Core.Tests.Api
         }
         public void SetupAddClaimAsync(Exception ex)
         {
-            Setup(x => x.AddClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Throws(ex);
+            Setup(x => x.AddClientClaimAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Throws(ex);
         }
 
         internal void VerifyRemoveClaimAsync(string subject, string id)
@@ -204,14 +185,13 @@ namespace Core.Tests.Api
                 .Throws(ex);
         }
          
-
         internal void GetMetadataAsync()
         {
-            this.Verify(x => x.GetMetadataAsync());
+            Verify(x => x.GetMetadataAsync());
         }
         internal void SetupGetMetadataAsync(IdentityAdminMetadata data)
         {
-             this.Setup(x => x.GetMetadataAsync())
+             Setup(x => x.GetMetadataAsync())
                 .Returns(Task.FromResult(data));
         }
     }

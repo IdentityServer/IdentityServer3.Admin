@@ -129,6 +129,9 @@
   <data name="ClaimValueRequired" xml:space="preserve">
     <value>Claim value is required.</value>
   </data>
+  <data name="ClientDataRequired" xml:space="preserve">
+    <value>Client data required.</value>
+  </data>
   <data name="ConversionFailed" xml:space="preserve">
     <value>The value failed to be converted.</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>Email is required.</value>
+  </data>
+  <data name="IdIsRequired" xml:space="preserve">
+    <value>Id is required</value>
+  </data>
+  <data name="IdRequired" xml:space="preserve">
+    <value>Subject is required.</value>
   </data>
   <data name="InvalidBoolean" xml:space="preserve">
     <value>{0} is not a valid boolen.</value>

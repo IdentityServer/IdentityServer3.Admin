@@ -1,13 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
 using IdentityAdmin.Api.Models;
 using IdentityAdmin.Api.Models.Client;
 using IdentityAdmin.Core;
@@ -25,6 +21,7 @@ namespace Core.Tests.Api
             Get("api/Clients");
             IdentityAdminImpl.VerifyQueryClientsAsync();
         }
+
         [TestMethod]
         public void GetClientsAsync_WithParams_PassesParamsToIdentityAdmin()
         {
@@ -39,14 +36,15 @@ namespace Core.Tests.Api
             var result = Get<ClientQueryResultResource>("api/Clients");
             Assert.AreEqual(53, result.Data.Items.Count());
         }        
+
         [TestMethod]
         public void GetClientsAsync_IdentityAdminFails_ReturnsErrors()
         {
             IdentityAdminImpl.SetupQueryClientsAsync("foo", "bar", "baz");
 
-            var response = Get("api/GetClients");
+            var response = Get("api/Clients");
 
-            //Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
             
             var error = response.Content.ReadAsAsync<ErrorModel>().Result;
             Assert.AreEqual(3, error.Errors.Length);
@@ -54,6 +52,7 @@ namespace Core.Tests.Api
             CollectionAssert.Contains(error.Errors, "bar");
             CollectionAssert.Contains(error.Errors, "baz");
         }
+
         [TestMethod]
         public void GetClientsAsync_IdentityAdminThrows_ReturnsErrors()
         {
@@ -61,90 +60,114 @@ namespace Core.Tests.Api
             var response = Get("api/Clients");
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+        
+        [TestMethod]
+        public void CreateClientAsync_ValidModel_CallsIdentityAdmin()
+        {
+            IdentityAdminImpl.SetupCreateClientAsync(new CreateResult { Subject = "123" });
+            var propertyValues = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = "testName"},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
+            Post("api/Clients", propertyValues);
+            IdentityAdminImpl.VerifyCreateClientAsync();
+        }
 
+        [TestMethod]
+        public void CreateClientAsync_IdentityAdminReturnsSuccess_CorrectResults()
+        {
+            IdentityAdminImpl.SetupCreateClientAsync(new CreateResult { Subject = "123" });
+            var propertyValues = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = "testName"},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
+            var response = Post("api/Clients", propertyValues);
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.AreEqual(Url("api/clients/123"), response.Headers.Location.AbsoluteUri);
+        }
 
-        //[TestMethod]
-        //public void CreateClientAsync_ValidModel_CallsIdentityAdmin()
-        //{
-        //    Post("api/Clients", new CreateClientModel() { Clientname = "Client", Password = "pass" });
-        //    IdentityAdminImpl.VerifyCreateClientAsync("Client", "pass");
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_IdentityAdminReturnsSuccess_CorrectResults()
-        //{
-        //    IdentityAdminImpl.SetupCreateClientAsync(new CreateResult { Subject = "123" });
-        //    var response = Post("api/Clients", new CreateClientModel() { Clientname = "Client", Password = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-        //    Assert.AreEqual(Url("api/Clients/123"), response.Headers.Location.AbsoluteUri);
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_InvalidModel_DoesNotCallIdentityAdmin()
-        //{
-        //    Post("api/Clients", new CreateClientModel() { Clientname = "", Password = "pass" });
-        //    Post("api/Clients", new CreateClientModel() { Clientname = "Client", Password = "" });
-        //    Post("api/Clients", (CreateClientModel)null);
-        //    IdentityAdminImpl.VerifyCreateClientAsyncNotCalled();
-        //}
+        [TestMethod]
+        public void CreateClientAsync_InvalidModel_DoesNotCallIdentityAdmin()
+        {
+            var propertyValuesNoName = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = ""},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
 
-        //[TestMethod]
-        //public void CreateClientAsync_MissingModel_ReturnsError()
-        //{
-        //    var response = Post("api/Clients", (CreateClientModel)null);
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-        //    var error = response.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.ClientDataRequired);
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_MissingClientname_ReturnsError()
-        //{
-        //    var response = Post("api/Clients", new CreateClientModel { Clientname = "", Password = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-        //    var error = response.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.ClientnameRequired);
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_MissingPassword_ReturnsError()
-        //{
-        //    var response = Post("api/Clients", new CreateClientModel { Clientname = "Client", Password = "" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-        //    var error = response.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.PasswordRequired);
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_IdentityAdminReturnsErrors_ReturnsErrors()
-        //{
-        //    IdentityAdminImpl.SetupCreateClientAsync("foo", "bar");
-        //    var response = Post("api/Clients", new CreateClientModel() { Clientname="Client", Password="pass" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-        //    var error = response.Content.ReadAsAsync<ErrorModel>().Result;
-        //    Assert.AreEqual(2, error.Errors.Length);
-        //    CollectionAssert.Contains(error.Errors, "foo");
-        //    CollectionAssert.Contains(error.Errors, "bar");
-        //}
-        //[TestMethod]
-        //public void CreateClientAsync_IdentityAdminThrows_ReturnsErrors()
-        //{
-        //    IdentityAdminImpl.SetupCreateClientAsync(new Exception("Boom"));
-        //    var response = Post("api/Clients", new CreateClientModel() { Clientname = "Client", Password = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
-        //}
+            var propertyValuesNoId = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = "testName"},
+                new PropertyValue {Type = "ClientId", Value = ""}
+            };
+            Post("api/Clients", propertyValuesNoName);
+            Post("api/Clients", propertyValuesNoId);
+            Post("api/Clients", (IEnumerable<PropertyValue>)null);
+            IdentityAdminImpl.VerifyCreateClientAsyncNotCalled();
+        }
 
+        [TestMethod]
+        public void CreateClientAsync_MissingModel_ReturnsError()
+        {
+            var response = Post("api/Clients", (IEnumerable<PropertyValue>)null);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            var error = response.Content.ReadAsAsync<ErrorModel>().Result;
+            CollectionAssert.Contains(error.Errors, Messages.ClientDataRequired);
+        }
 
+        [TestMethod]
+        public void CreateClientAsync_MissingClientname_ReturnsError()
+        {
+            var propertyValuesNoName = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = ""},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
+            var response = Post("api/Clients", propertyValuesNoName);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            var error = response.Content.ReadAsAsync<ErrorModel>().Result;
+            CollectionAssert.Contains(error.Errors, string.Format("{0} is required.", "ClientName"));
+        }
 
+        [TestMethod]
+        public void CreateClientAsync_IdentityAdminReturnsErrors_ReturnsErrors()
+        {
+            IdentityAdminImpl.SetupCreateClientAsync("foo", "bar");
+                 var propertyValuesNoName = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = "testName"},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
+            var response = Post("api/Clients",propertyValuesNoName);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            var error = response.Content.ReadAsAsync<ErrorModel>().Result;
+            Assert.AreEqual(2, error.Errors.Length);
+            CollectionAssert.Contains(error.Errors, "foo");
+            CollectionAssert.Contains(error.Errors, "bar");
+        }
+
+        [TestMethod]
+        public void CreateClientAsync_IdentityAdminThrows_ReturnsErrors()
+        {
+            IdentityAdminImpl.SetupCreateClientAsync(new Exception("Boom"));
+            var propertyValuesNoName = new List<PropertyValue>
+            {
+                new PropertyValue {Type = "ClientName", Value = "testName"},
+                new PropertyValue {Type = "ClientId", Value = "testId"}
+            };
+            var response = Post("api/Clients", propertyValuesNoName);
+            Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+        
         [TestMethod]
         public void GetClientAsync_CallsIdentityAdmin()
         {
             Get("api/Clients/123");
             IdentityAdminImpl.VerifyGetClientAsync("123");
         }
-        [TestMethod]
-        public void GetClientAsync_ClientFound_ReturnsClient()
-        {
-            IdentityAdminImpl.SetupGetClientAsync(new ClientDetail { Subject = "foo", ClientName = "Client" });
-            var result = Get<ClientSummary>("api/Clients/123");
-            Assert.AreEqual("foo", result.Subject);
-            Assert.AreEqual("Client", result.ClientName);
-        }
+
         [TestMethod]
         public void GetClientAsync_ClientNotFound_ReturnsNotFound()
         {
@@ -152,6 +175,7 @@ namespace Core.Tests.Api
             var resp = Get("api/Clients/123");
             Assert.AreEqual(HttpStatusCode.NotFound, resp.StatusCode);
         }
+
         [TestMethod]
         public void GetClientAsync_IdentityAdminReturnsErrors_ReturnsErrors()
         {
@@ -163,6 +187,8 @@ namespace Core.Tests.Api
             CollectionAssert.Contains(error.Errors, "foo");
             CollectionAssert.Contains(error.Errors, "bar");
         }
+
+
         [TestMethod]
         public void GetClientAsync_IdentityAdminThrows_ReturnsErrors()
         {
@@ -170,6 +196,7 @@ namespace Core.Tests.Api
             var response = Get("api/Clients/123");
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+
         [TestMethod]
         public void GetClient_MissingSubject_ReturnsError()
         {
@@ -191,6 +218,7 @@ namespace Core.Tests.Api
             var resp = Delete("api/Clients/123");
             Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
         }
+
         [TestMethod]
         public void DeleteClientAsync_IdentityAdminReturnsError_ReturnsError()
         {
@@ -202,6 +230,7 @@ namespace Core.Tests.Api
             CollectionAssert.Contains(error.Errors, "foo");
             CollectionAssert.Contains(error.Errors, "bar");
         }
+
         [TestMethod]
         public void DeleteClientAsync_IdentityAdminThrows_ReturnsErrors()
         {
@@ -209,6 +238,7 @@ namespace Core.Tests.Api
             var response = Delete("api/Clients/123");
             Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+
         [TestMethod]
         public void DeleteClient_MissingSubject_ReturnsError()
         {
@@ -218,222 +248,23 @@ namespace Core.Tests.Api
             CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);
         }
 
-        //[TestMethod]
-        //public void SetPasswordAsync_CallsIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/password", new PasswordModel { Value = "pass" });
-        //    IdentityAdminImpl.VerifySetPasswordAsync("123", "pass");
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_IdentityAdminReturnsSuccess_ReturnsNoContent()
-        //{
-        //    var resp = Put("api/Clients/123/password", new PasswordModel { Value = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_IdentityAdminReturnsError_ReturnsError()
-        //{
-        //    IdentityAdminImpl.SetupSetPasswordAsync("foo", "bar");
-        //    var resp = Put("api/Clients/123/password", new PasswordModel { Value = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    Assert.AreEqual(2, error.Errors.Length);
-        //    CollectionAssert.Contains(error.Errors, "foo");
-        //    CollectionAssert.Contains(error.Errors, "bar");
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_IdentityAdminThrows_ReturnsErrors()
-        //{
-        //    IdentityAdminImpl.SetupSetPasswordAsync(new Exception("Boom"));
-        //    var resp = Put("api/Clients/123/password", new PasswordModel { Value = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.InternalServerError, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_InvalidModel_DoesNotCallIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/password", new PasswordModel { Value = "" });
-        //    Put("api/Clients/ /password", new PasswordModel { Value = "pass" });
-        //    Put("api/Clients/123/password", (PasswordModel)null);
-        //    IdentityAdminImpl.VerifySetPasswordAsyncNotCalled();
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_MissingModel_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/password", (PasswordModel)null);
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.PasswordDataRequired);
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_MissingPassword_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/password", new PasswordModel { Value = "" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.PasswordRequired);
-        //}
-        //[TestMethod]
-        //public void SetPasswordAsync_MissingSubject_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/ /password", new PasswordModel { Value = "pass" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);
-        //}
-
-
-        //[TestMethod]
-        //public void SetEmailAsync_CallsIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/email", new EmailModel { Value = "Client@test.com" });
-        //    IdentityAdminImpl.VerifySetEmailAsync("123", "Client@test.com");
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_IdentityAdminReturnsSuccess_ReturnsNoContent()
-        //{
-        //    var resp = Put("api/Clients/123/email", new EmailModel { Value = "Client@test.com" });
-        //    Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_IdentityAdminReturnsError_ReturnsError()
-        //{
-        //    IdentityAdminImpl.SetupSetEmailAsync("foo", "bar");
-        //    var resp = Put("api/Clients/123/email", new EmailModel { Value = "Client@test.com" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    Assert.AreEqual(2, error.Errors.Length);
-        //    CollectionAssert.Contains(error.Errors, "foo");
-        //    CollectionAssert.Contains(error.Errors, "bar");
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_IdentityAdminThrows_ReturnsErrors()
-        //{
-        //    IdentityAdminImpl.SetupSetEmailAsync(new Exception("Boom"));
-        //    var resp = Put("api/Clients/123/email", new EmailModel { Value = "Client@test.com" });
-        //    Assert.AreEqual(HttpStatusCode.InternalServerError, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_InvalidModel_DoesNotCallIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/email", new EmailModel { Value = "" });
-        //    Put("api/Clients/ /email", new EmailModel { Value = "Client@test.com" });
-        //    Put("api/Clients/123/email", (EmailModel)null);
-        //    IdentityAdminImpl.VerifySetEmailAsyncNotCalled();
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_MissingModel_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/email", (EmailModel)null);
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.EmailDataRequired);
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_MissingEmail_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/email", new EmailModel { Value = "" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.EmailRequired);
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_InvalidEmail_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/email", new EmailModel { Value = "foo" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.InvalidEmail);
-        //}
-        //[TestMethod]
-        //public void SetEmailAsync_MissingSubject_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/ /email", new EmailModel { Value = "Client@test.com" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);
-        //}
-
-        //[TestMethod]
-        //public void SetPhoneAsync_CallsIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/phone", new PhoneModel { Value = "555" });
-        //    IdentityAdminImpl.VerifySetPhoneAsync("123", "555");
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_IdentityAdminReturnsSuccess_ReturnsNoContent()
-        //{
-        //    var resp = Put("api/Clients/123/phone", new PhoneModel { Value = "555" });
-        //    Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_IdentityAdminReturnsError_ReturnsError()
-        //{
-        //    IdentityAdminImpl.SetupSetPhoneAsync("foo", "bar");
-        //    var resp = Put("api/Clients/123/phone", new PhoneModel { Value = "555" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    Assert.AreEqual(2, error.Errors.Length);
-        //    CollectionAssert.Contains(error.Errors, "foo");
-        //    CollectionAssert.Contains(error.Errors, "bar");
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_IdentityAdminThrows_ReturnsErrors()
-        //{
-        //    IdentityAdminImpl.SetupSetPhoneAsync(new Exception("Boom"));
-        //    var resp = Put("api/Clients/123/phone", new PhoneModel { Value = "555" });
-        //    Assert.AreEqual(HttpStatusCode.InternalServerError, resp.StatusCode);
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_InvalidModel_DoesNotCallIdentityAdmin()
-        //{
-        //    Put("api/Clients/123/phone", new PhoneModel { Value = "" });
-        //    Put("api/Clients/ /phone", new PhoneModel { Value = "555" });
-        //    Put("api/Clients/123/phone", (PhoneModel)null);
-        //    IdentityAdminImpl.VerifySetPhoneAsyncNotCalled();
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_MissingModel_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/phone", (PhoneModel)null);
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.PhoneDataRequired);
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_MissingPhone_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/123/phone", new PhoneModel { Value = "" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.PhoneRequired);
-        //}
-        //[TestMethod]
-        //public void SetPhoneAsync_MissingSubject_ReturnsError()
-        //{
-        //    var resp = Put("api/Clients/ /phone", new PhoneModel { Value = "555" });
-        //    Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-        //    var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-        //    CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);
-        //}
-
-
-        [TestMethod]
+       [TestMethod]
         public void AddClaimAsync_CallsIdentityAdmin()
         {
-            Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "blue" });
+            Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "blue" });
             IdentityAdminImpl.VerifyAddClaimAsync("123", "color", "blue");
         }
         [TestMethod]
         public void AddClaimAsync_IdentityAdminReturnsSuccess_ReturnsNoContent()
         {
-            var resp = Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "blue" });
+            var resp = Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "blue" });
             Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
         }
         [TestMethod]
         public void AddClaimAsync_IdentityAdminReturnsError_ReturnsError()
         {
             IdentityAdminImpl.SetupAddClaimAsync("foo", "bar");
-            var resp = Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "blue" });
+            var resp = Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "blue" });
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
             Assert.AreEqual(2, error.Errors.Length);
@@ -444,22 +275,22 @@ namespace Core.Tests.Api
         public void AddClaimAsync_IdentityAdminThrows_ReturnsErrors()
         {
             IdentityAdminImpl.SetupAddClaimAsync(new Exception("Boom"));
-            var resp = Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "blue" });
+            var resp = Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "blue" });
             Assert.AreEqual(HttpStatusCode.InternalServerError, resp.StatusCode);
         }
         [TestMethod]
         public void AddClaimAsync_InvalidModel_DoesNotCallIdentityAdmin()
         {
-            Post("api/Clients/123/claims", new ClientClaimValue { Type = "", Value = "blue" });
-            Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "" });
-            Post("api/Clients/ /claims", new ClientClaimValue { Type = "color", Value = "blue" });
-            Post("api/Clients/123/claims", (ClientClaimValue)null);
+            Post("api/Clients/123/claim", new ClientClaimValue { Type = "", Value = "blue" });
+            Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "" });
+            Post("api/Clients/ /claim", new ClientClaimValue { Type = "color", Value = "blue" });
+            Post("api/Clients/123/claim", (ClientClaimValue)null);
             IdentityAdminImpl.VerifyAddClaimAsyncNotCalled();
         }
         [TestMethod]
         public void AddClaimAsync_MissingModel_ReturnsError()
         {
-            var resp = Post("api/Clients/123/claims", (ClientClaimValue)null);
+            var resp = Post("api/Clients/123/claim", (ClientClaimValue)null);
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
             CollectionAssert.Contains(error.Errors, Messages.ClaimDataRequired);
@@ -467,23 +298,25 @@ namespace Core.Tests.Api
         [TestMethod]
         public void AddClaimAsync_MissingType_ReturnsError()
         {
-            var resp = Post("api/Clients/123/claims", new ClientClaimValue { Type = "", Value = "blue" });
+            var resp = Post("api/Clients/123/claim", new ClientClaimValue { Type = "", Value = "blue" });
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-            CollectionAssert.Contains(error.Errors, Messages.ClaimTypeRequired);
+            CollectionAssert.Contains(error.Errors, "The Type field is required.");
         }
+
         [TestMethod]
         public void AddClaimAsync_MissingValue_ReturnsError()
         {
-            var resp = Post("api/Clients/123/claims", new ClientClaimValue { Type = "color", Value = "" });
+            var resp = Post("api/Clients/123/claim", new ClientClaimValue { Type = "color", Value = "" });
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-            CollectionAssert.Contains(error.Errors, Messages.ClaimValueRequired);
+            CollectionAssert.Contains(error.Errors, "The Value field is required.");
         }
+
         [TestMethod]
         public void AddClaimAsync_MissingSubject_ReturnsError()
         {
-            var resp = Post("api/Clients/ /claims", new ClientClaimValue { Type = "color", Value = "blue" });
+            var resp = Post("api/Clients/ /claim", new ClientClaimValue { Type = "color", Value = "blue" });
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
             CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);
@@ -492,33 +325,37 @@ namespace Core.Tests.Api
         [TestMethod]
         public void RemoveClaimAsync_CallsIdentityAdmin()
         {
-            Delete("api/Clients/123/claims/color/blue");
+            Delete("api/Clients/123/claim/123");
             IdentityAdminImpl.VerifyRemoveClaimAsync("123", "123");
         }
+
         [TestMethod]
         public void RemoveClaimAsync_IdentityAdminReturnsSuccess_ReturnsNoContent()
         {
-            var resp = Delete("api/Clients/123/claims/color/blue");
+            var resp = Delete("api/Clients/123/claim/123");
             Assert.AreEqual(HttpStatusCode.NoContent, resp.StatusCode);
         }
+
         [TestMethod]
         public void RemoveClaimAsync_IdentityAdminReturnsError_ReturnsError()
         {
             IdentityAdminImpl.SetupRemoveClaimAsync("foo", "bar");
-            var resp = Delete("api/Clients/123/claims/color/blue");
+            var resp = Delete("api/Clients/123/claim/123");
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
             Assert.AreEqual(2, error.Errors.Length);
             CollectionAssert.Contains(error.Errors, "foo");
             CollectionAssert.Contains(error.Errors, "bar");
         }
+        
         [TestMethod]
         public void RemoveClaimAsync_IdentityAdminThrows_ReturnsErrors()
         {
             IdentityAdminImpl.SetupRemoveClaimAsync(new Exception("Boom"));
-            var resp = Delete("api/Clients/123/claims/color/blue");
+            var resp = Delete("api/Clients/123/claim/123");
             Assert.AreEqual(HttpStatusCode.InternalServerError, resp.StatusCode);
         }
+
         [TestMethod]
         public void RemoveClaimAsync_InvalidModel_DoesNotCallIdentityAdmin()
         {
@@ -527,26 +364,12 @@ namespace Core.Tests.Api
             Delete("api/Clients/123/claims/color/ ");
             IdentityAdminImpl.VerifyRemoveClaimAsyncNotCalled();
         }
-        [TestMethod]
-        public void RemoveClaimAsync_MissingType_ReturnsError()
-        {
-            var resp = Delete("api/Clients/123/claims/ /blue"); 
-            Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-            var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-            CollectionAssert.Contains(error.Errors, Messages.ClaimTypeRequired);
-        }
-        [TestMethod]
-        public void RemoveClaimAsync_MissingValue_ReturnsError()
-        {
-            var resp = Delete("api/Clients/123/claims/color/ /");
-            Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
-            var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
-            CollectionAssert.Contains(error.Errors, Messages.ClaimValueRequired);
-        }
+
+       
         [TestMethod]
         public void RemoveClaimAsync_MissingSubject_ReturnsError()
         {
-            var resp = Delete("api/Clients/ /claims/color/blue");
+            var resp = Delete("api/Clients/ /claim/123");
             Assert.AreEqual(HttpStatusCode.BadRequest, resp.StatusCode);
             var error = resp.Content.ReadAsAsync<ErrorModel>().Result;
             CollectionAssert.Contains(error.Errors, Messages.SubjectRequired);

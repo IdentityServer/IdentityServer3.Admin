@@ -128,6 +128,10 @@ namespace IdentityAdmin.Api.Controllers
             {
                 return MethodNotAllowed();
             }
+            if (properties == null)
+            {
+                ModelState.AddModelError("", Messages.ClientDataRequired);
+            }
 
             var errors = ValidateCreateProperties(coreMetadata.ClientMetaData, properties);
             foreach (var error in errors)
@@ -246,19 +250,25 @@ namespace IdentityAdmin.Api.Controllers
         [HttpDelete, Route("{subject}/claim/{id}", Name = Constants.RouteNames.RemoveClientClaim)]
         public async Task<IHttpActionResult> RemoveClaimAsync(string subject, string id)
         {
-            if (String.IsNullOrWhiteSpace(subject) ||
-                String.IsNullOrWhiteSpace(id))
+            if (String.IsNullOrWhiteSpace(subject))
             {
-                return NotFound();
+                ModelState.AddModelError("", Messages.SubjectRequired);
+            }
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                ModelState.AddModelError("", Messages.IdIsRequired);
+            }
+            if (ModelState.IsValid)
+            {
+                var result = await _identityAdminService.RemoveClientClaimAsync(subject, id);
+                if (result.IsSuccess)
+                {
+                    return NoContent();
+                }
+                return BadRequest(result.ToError());
             }
 
-            var result = await _identityAdminService.RemoveClientClaimAsync(subject, id);
-            if (result.IsSuccess)
-            {
-                return NoContent();
-            }
-
-            return BadRequest(result.ToError());
+            return BadRequest(ModelState.ToError());
         }
         
         #endregion
