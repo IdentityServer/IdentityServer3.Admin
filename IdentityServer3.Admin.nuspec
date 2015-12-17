@@ -13,10 +13,11 @@
         <language>en-US</language>
         <tags>IdentityAdmin, Identity</tags>
         <dependencies>
-            <group targetFramework=".NETFramework4.5" />
+			<group targetFramework=".NETFramework4.5.2" />
         </dependencies>
     </metadata>
     <files>
         <file src="Admin\IdentityServer3.Admin\Core\bin\Release\IdentityAdmin.dll" target="IdentityAdmin.dll" />
     </files>
 </package>
+

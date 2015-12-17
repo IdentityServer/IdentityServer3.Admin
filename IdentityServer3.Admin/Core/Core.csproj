@@ -206,8 +206,6 @@
     <Content Include="Assets\Content\Bootstrap.min.css">
       <DependentUpon>Bootstrap.css</DependentUpon>
     </Content>
-    <Content Include="Assets\Content\bootstrap\variables.css" />
-    <Content Include="Assets\Content\bootstrap\variables.min.css" />
     <Content Include="Assets\Content\Bundle.css">
       <DependentUpon>Bundle.css.bundle</DependentUpon>
     </Content>
@@ -329,7 +327,6 @@
     <None Include="Assets\Content\bootstrap\tooltip.less" />
     <None Include="Assets\Content\bootstrap\type.less" />
     <None Include="Assets\Content\bootstrap\utilities.less" />
-    <None Include="Assets\Content\bootstrap\variables.css.map" />
     <None Include="Assets\Content\bootstrap\variables.less" />
     <None Include="Assets\Content\bootstrap\wells.less" />
     <None Include="Assets\Content\Bundle.css.bundle" />

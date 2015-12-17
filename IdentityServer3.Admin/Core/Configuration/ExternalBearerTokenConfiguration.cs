@@ -29,7 +29,7 @@ namespace IdentityAdmin.Configuration
     {
         public ExternalBearerTokenConfiguration()
         {
-            Scope = Constants.IdMgrScope;
+            Scope = Constants.IdAdminScope;
         }
 
         public string Scope { get; set; }

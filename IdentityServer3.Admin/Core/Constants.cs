@@ -27,7 +27,7 @@ namespace IdentityAdmin
         public const string AuthorizePath = "/authorize";
         public const string CallbackFragment = "/#/callback/";
         public const string IdAdmMgrClientId = "idAdmin";
-        public const string IdMgrScope = "idAdmin";
+        public const string IdAdminScope = "idAdmin";
         public const string AdminRoleName = "IdentityAdminAdministrator";
 
         internal const string AutofacScope = "idAdmin:AutofacScope";
