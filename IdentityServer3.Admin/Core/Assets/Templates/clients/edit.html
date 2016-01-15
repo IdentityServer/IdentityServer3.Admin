@@ -2,7 +2,7 @@
     <h1 class="page-header text-overflow">
         <span ng-show="client.data.clientName">Client: {{client.data.clientName}}</span>
 
-        <form class="form-inline pull-right" style="margin-right: 20px;" name="deleteclientForm" ng-submit="deleteclient(client)">
+        <form class="form-inline pull-right" style="margin-right: 20px;" name="deleteclientForm" ng-submit="deleteClient(client)">
             <tt-prompt id="m" action="Delete">Are you sure you want to delete the client <strong>{{client.data.clientName}}</strong>?</tt-prompt>
             <button type="submit" class="btn btn-primary" tt-confirm-click="#m">Delete client</button>
         </form>
@@ -130,7 +130,8 @@
                 <td>
                     <button class="btn btn-warning btn-xs" ng-click="removeClientSecret(clientSecret)">delete</button>
                 </td>
-                <td>{{clientIdentityProviderRestriction.data.provider}}</td>
+                <td>{{clientSecret.data.type}}</td>
+                <td>{{clientSecret.data.value}}</td>
             </tr>
         </table>
     </div>
