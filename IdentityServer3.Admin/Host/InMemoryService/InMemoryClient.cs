@@ -56,6 +56,8 @@ namespace IdentityAdmin.Host.InMemoryService
         public bool RequireConsent { get; set; }
         public int SlidingRefreshTokenLifetime { get; set; }
         public bool UpdateAccessTokenOnRefresh { get; set; }
+        public bool LogoutSessionRequired { get; set; }
+        public string LogoutUri { get; set; }
         public TokenExpiration RefreshTokenExpiration { get; set; }
         public TokenUsage RefreshTokenUsage { get; set; }
         public AccessTokenType AccessTokenType { get; set; }

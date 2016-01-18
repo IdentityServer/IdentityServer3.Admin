@@ -36,6 +36,8 @@ namespace IdentityAdmin.Host.InMemoryService
         public ICollection<InMemoryScopeClaim> ScopeClaims { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public int Type { get; set; }
+    
+        public bool AllowUnrestrictedIntrospection { get; set; }
     }
 
     public class InMemoryScopeClaim
