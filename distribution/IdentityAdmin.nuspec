@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IdentityAdmin</id>
+    <version>0.0.0</version>
+    <title>IdentityAdmin</title>
+    <authors>Brock Allen, Dominick Baier, Bert Hoorne</authors>
+    <owners>Brock Allen, Dominick Baier, Bert Hoorne</owners>
+    <projectUrl>https://github.com/IdentityServer/IdentityServer3.Admin</projectUrl>
+	<iconUrl>https://identityserver.github.io/Documentation/assets/images/icons/IDserver_icon128.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>IdentityAdmin is an user admin tool for IdentityServer.</description>
+    <copyright>Copyright 2015</copyright>
+    <tags>IdentityAdmin Identity</tags>
+    <dependencies>
+      <dependency id="Owin" version="1.0"/>
+    </dependencies>
+  </metadata>
+</package>
