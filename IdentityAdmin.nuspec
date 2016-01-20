@@ -8,16 +8,12 @@
         <owners>Bert Hoorne,Brock Allen,Dominick Baier</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>IdentityAdmin is a tool for developers and/or administrators to manage the clients and scopes of their applications. This includes creating clients/scopes, editing client/scopes and deleting clients/scopes.</description>
-        <releaseNotes>First Release</releaseNotes>
         <copyright>Copyright 2015</copyright>
         <language>en-US</language>
         <tags>IdentityAdmin, Identity</tags>
-        <dependencies>
-			<group targetFramework=".NETFramework4.5.2" />
-        </dependencies>
+		<dependencies>
+		  <dependency id="Owin" version="1.0"/>
+		</dependencies>
     </metadata>
-    <files>
-        <file src="Admin\IdentityServer3.Admin\Core\bin\Release\IdentityAdmin.dll" target="IdentityAdmin.dll" />
-    </files>
 </package>
 

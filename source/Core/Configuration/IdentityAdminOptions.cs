@@ -23,7 +23,7 @@ namespace IdentityAdmin.Configuration
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="disableSecurity">Warning: If this parameter is set to <value>TRUE</value> ALL security will be switched off </param>
+        /// <param name="disableSecurity">Warning: If this parameter is set to <value>TRUE</value> ALL security will be switched off, this is only used for Unit testing purpose</param>
         public IdentityAdminOptions(bool disableSecurity = false)
         {
             DisableSecurity = disableSecurity;
