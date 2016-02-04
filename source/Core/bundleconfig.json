@@ -1,0 +1,17 @@
+[
+  {
+    "outputFileName": "Assets/Scripts/Bundle.js",
+    "inputFiles": [
+      "Assets/Scripts/Libs/jquery-2.1.0.min.js",
+      "Assets/Scripts/Libs/bootstrap.min.js",
+      "Assets/Scripts/Libs/angular.min.js",
+      "Assets/Scripts/Libs/angular-route.min.js",
+      "Assets/Scripts/Libs/oidc-token-manager.min.js",
+      "Assets/Scripts/App/ttidAdm.js",
+      "Assets/Scripts/App/ttidAdmUI.js",
+      "Assets/Scripts/App/ttidAdmClients.js",
+      "Assets/Scripts/App/ttidAdmScopes.js",
+      "Assets/Scripts/App/ttidAdmApp.js"
+    ]
+  }
+]

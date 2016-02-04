@@ -175,14 +175,14 @@
         $scope.addIdentityProviderRestriction = function (identityProviderRestrictions, identityProviderRestriction) {
             idAdmClients.addIdentityProviderRestriction(identityProviderRestrictions, identityProviderRestriction)
                 .then(function () {
-                    feedback.message = "Client Provider Restriction Added : " + identityProviderRestriction.data.provider;
+                    feedback.message = "Client Provider Restriction Added : " + identityProviderRestriction.provider;
                     loadClient();
                 }, feedback.errorHandler);
         };
         $scope.removeIdentityProviderRestriction = function (identityProviderRestriction) {
             idAdmClients.removeIdentityProviderRestriction(identityProviderRestriction)
                 .then(function () {
-                    feedback.message = "Client  Provider Restriction Removed : " + identityProviderRestriction.data.provider;
+                    feedback.message = "Client  Provider Restriction Removed : " + identityProviderRestriction.provider;
                     loadClient().then(function () {
                         $scope.identityProviderRestriction = identityProviderRestriction.data;
                     });
