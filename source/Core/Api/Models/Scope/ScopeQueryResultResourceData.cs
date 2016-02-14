@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Http.Routing;
+using AutoMapper;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Scope;
 
@@ -23,12 +24,16 @@ namespace IdentityAdmin.Api.Models.Scope
 {
     public class ScopeQueryResultResourceData : QueryResult<ScopeSummary>
     {
+        public static MapperConfiguration Config;
+        public static IMapper Mapper;
         static ScopeQueryResultResourceData()
         {
-            AutoMapper.Mapper.CreateMap<QueryResult<ScopeSummary>, ScopeQueryResultResourceData>()
-                .ForMember(x => x.Items, opts => opts.MapFrom(x => x.Items));
-            AutoMapper.Mapper.CreateMap<ScopeSummary, ScopeResultResource>()
-                .ForMember(x => x.Data, opts => opts.MapFrom(x => x));
+            Config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<QueryResult<ScopeSummary>, ScopeQueryResultResourceData>().ForMember(x => x.Items, opts => opts.MapFrom(x => x.Items));
+                cfg.CreateMap<ScopeSummary, ScopeResultResource>().ForMember(x => x.Data, opts => opts.MapFrom(x => x));
+            });
+            Mapper = Config.CreateMapper();
         }
 
         public ScopeQueryResultResourceData(QueryResult<ScopeSummary> result, UrlHelper url, ScopeMetaData meta)
@@ -37,9 +42,9 @@ namespace IdentityAdmin.Api.Models.Scope
             if (url == null) throw new ArgumentNullException("url");
             if (meta == null) throw new ArgumentNullException("meta");
 
-            AutoMapper.Mapper.Map(result, this);
+            Mapper.Map(result, this);
 
-            foreach (var scope in this.Items)
+            foreach (var scope in Items)
             {
                 var links = new Dictionary<string, string> { {"detail", url.Link(Constants.RouteNames.GetScope, new { subject = scope.Data.Subject })}
                 };

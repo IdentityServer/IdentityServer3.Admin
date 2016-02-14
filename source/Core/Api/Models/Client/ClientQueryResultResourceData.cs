@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Http.Routing;
+using AutoMapper;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
 
@@ -23,12 +24,18 @@ namespace IdentityAdmin.Api.Models.Client
 {
     public class ClientQueryResultResourceData : QueryResult<ClientSummary>
     {
+        public static MapperConfiguration Config;
+        public static IMapper Mapper;
         static ClientQueryResultResourceData()
         {
-            AutoMapper.Mapper.CreateMap<QueryResult<ClientSummary>, ClientQueryResultResourceData>()
+            Config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<QueryResult<ClientSummary>, ClientQueryResultResourceData>()
                 .ForMember(x => x.Items, opts => opts.MapFrom(x => x.Items));
-            AutoMapper.Mapper.CreateMap<ClientSummary, ClientResultResource>()
-                .ForMember(x => x.Data, opts => opts.MapFrom(x => x));
+                cfg.CreateMap<ClientSummary, ClientResultResource>()
+                    .ForMember(x => x.Data, opts => opts.MapFrom(x => x));
+            });
+            Mapper = Config.CreateMapper();
         }
 
         /// <summary>
@@ -45,7 +52,7 @@ namespace IdentityAdmin.Api.Models.Client
             if (url == null) throw new ArgumentNullException("url");
             if (meta == null) throw new ArgumentNullException("meta");
 
-            AutoMapper.Mapper.Map(result, this);
+            Mapper.Map(result, this);
 
             foreach (var client in this.Items)
             {

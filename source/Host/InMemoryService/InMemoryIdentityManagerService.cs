@@ -32,31 +32,35 @@ namespace IdentityAdmin.Host.InMemoryService
     {
         private ICollection<InMemoryClient> _clients;
         private ICollection<InMemoryScope> _scopes;
-
+        public static MapperConfiguration Config;
+        public static IMapper Mapper;
         public InMemoryIdentityManagerService(ICollection<InMemoryScope> scopes, ICollection<InMemoryClient> clients)
         {
             this._clients = clients;
             this._scopes = scopes;
-            Mapper.CreateMap<InMemoryClientClaim, ClientClaimValue>();
-            Mapper.CreateMap<ClientClaimValue, InMemoryClientClaim>();
-            Mapper.CreateMap<InMemoryClientSecret, ClientSecretValue>();
-            Mapper.CreateMap<ClientSecretValue, InMemoryClientSecret>();
-            Mapper.CreateMap<InMemoryClientIdPRestriction, ClientIdPRestrictionValue>();
-            Mapper.CreateMap<ClientIdPRestrictionValue, InMemoryClientIdPRestriction>();
-            Mapper.CreateMap<InMemoryClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriValue>();
-            Mapper.CreateMap<ClientPostLogoutRedirectUriValue, InMemoryClientPostLogoutRedirectUri>();
-            Mapper.CreateMap<InMemoryClientRedirectUri, ClientRedirectUriValue>();
-            Mapper.CreateMap<ClientRedirectUriValue, InMemoryClientRedirectUri>();
-            Mapper.CreateMap<InMemoryClientCorsOrigin, ClientCorsOriginValue>();
-            Mapper.CreateMap<ClientCorsOriginValue, InMemoryClientCorsOrigin>();
-            Mapper.CreateMap<InMemoryClientCustomGrantType, ClientCustomGrantTypeValue>();
-            Mapper.CreateMap<ClientCustomGrantTypeValue, InMemoryClientCustomGrantType>();
-            Mapper.CreateMap<InMemoryClientScope, ClientScopeValue>();
-            Mapper.CreateMap<ClientScopeValue, InMemoryClientScope>();
-            Mapper.CreateMap<InMemoryScopeClaim, ScopeClaimValue>();
-            Mapper.CreateMap<ScopeClaimValue, InMemoryScopeClaim>();
-            Mapper.CreateMap<InMemoryScope, Scope>();
-            Mapper.CreateMap<Scope, InMemoryScope>();
+            Config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<InMemoryClientClaim, ClientClaimValue>();
+                cfg.CreateMap<ClientClaimValue, InMemoryClientClaim>();
+                cfg.CreateMap<InMemoryClientSecret, ClientSecretValue>();
+                cfg.CreateMap<ClientSecretValue, InMemoryClientSecret>();
+                cfg.CreateMap<InMemoryClientIdPRestriction, ClientIdPRestrictionValue>();
+                cfg.CreateMap<ClientIdPRestrictionValue, InMemoryClientIdPRestriction>();
+                cfg.CreateMap<InMemoryClientPostLogoutRedirectUri, ClientPostLogoutRedirectUriValue>();
+                cfg.CreateMap<ClientPostLogoutRedirectUriValue, InMemoryClientPostLogoutRedirectUri>();
+                cfg.CreateMap<InMemoryClientRedirectUri, ClientRedirectUriValue>();
+                cfg.CreateMap<ClientRedirectUriValue, InMemoryClientRedirectUri>();
+                cfg.CreateMap<InMemoryClientCorsOrigin, ClientCorsOriginValue>();
+                cfg.CreateMap<ClientCorsOriginValue, InMemoryClientCorsOrigin>();
+                cfg.CreateMap<InMemoryClientCustomGrantType, ClientCustomGrantTypeValue>();
+                cfg.CreateMap<ClientCustomGrantTypeValue, InMemoryClientCustomGrantType>();
+                cfg.CreateMap<InMemoryClientScope, ClientScopeValue>();
+                cfg.CreateMap<ClientScopeValue, InMemoryClientScope>();
+                cfg.CreateMap<InMemoryScopeClaim, ScopeClaimValue>();
+                cfg.CreateMap<ScopeClaimValue, InMemoryScopeClaim>();
+                cfg.CreateMap<InMemoryScope, Scope>();
+                cfg.CreateMap<Scope, InMemoryScope>();
+            });
+            Mapper = Config.CreateMapper();
         }
 
 
