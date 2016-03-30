@@ -7,11 +7,18 @@
       "Assets/Scripts/Libs/angular.min.js",
       "Assets/Scripts/Libs/angular-route.min.js",
       "Assets/Scripts/Libs/oidc-token-manager.min.js",
+      "Assets/Scripts/Libs/sha.js",
       "Assets/Scripts/App/ttidAdm.js",
       "Assets/Scripts/App/ttidAdmUI.js",
       "Assets/Scripts/App/ttidAdmClients.js",
       "Assets/Scripts/App/ttidAdmScopes.js",
       "Assets/Scripts/App/ttidAdmApp.js"
+    ]
+  },
+  {
+    "outputFileName": "Assets/Content/style.css",
+    "inputFiles": [
+      "Assets/Content/style.css"
     ]
   }
 ]

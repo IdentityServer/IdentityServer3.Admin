@@ -211,6 +211,11 @@
     <Content Include="Assets\Content\Bundle.css">
       <DependentUpon>Bundle.css.bundle</DependentUpon>
     </Content>
+    <Content Include="Assets\Scripts\Libs\sha.js" />
+    <Content Include="Assets\Scripts\Libs\sha1.js" />
+    <Content Include="Assets\Scripts\Libs\sha256.js" />
+    <Content Include="Assets\Scripts\Libs\sha512.js" />
+    <Content Include="Assets\Scripts\Libs\sha_dev.js" />
     <EmbeddedResource Include="Assets\Content\Bundle.min.css">
       <DependentUpon>Bundle.css</DependentUpon>
     </EmbeddedResource>
@@ -345,6 +350,10 @@
     <None Include="Assets\Content\style.less" />
     <None Include="Assets\Scripts\Bundle.js.bundle" />
     <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

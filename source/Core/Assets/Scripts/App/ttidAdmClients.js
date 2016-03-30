@@ -154,11 +154,38 @@
                     });
                 }, feedback.errorHandler);
         };
-        //Client Scret
+        //Client Secret
+        $scope.availableHashes = {
+            chosenHash: "SHA-512",
+            choices:[
+            {
+                id: "SHA-256",
+                text: "SHA-256",
+                isDefault: "false"
+            }, {
+                id: "SHA-512",
+                text: "SHA-512",
+                isDefault: "true"
+            }
+            ]
+        };
+
+        $scope.calculateClientHash = function (clientSecret) {
+            var hashObj = new jsSHA(
+				$scope.availableHashes.chosenHash,
+				"TEXT",
+				{ numRounds: parseInt(1, 10) }
+			);
+            hashObj.update(clientSecret.value);
+            clientSecret.value = hashObj.getHash("B64");
+        }
         $scope.addClientSecret = function (clientSecrets, clientSecret) {
+            $scope.calculateClientHash(clientSecret);
             idAdmClients.addClientSecret(clientSecrets, clientSecret)
                 .then(function () {
                     feedback.message = "Client Secret Added : " + clientSecret.type + ", " + clientSecret.value;
+                    clientSecret.type = "";
+                    clientSecret.value = "";
                     loadClient();
                 }, feedback.errorHandler);
         };
