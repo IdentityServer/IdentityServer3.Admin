@@ -21,5 +21,6 @@ namespace IdentityAdmin.Core.Scope
     {
         public IEnumerable<PropertyValue> Properties { get; set; }
         public IEnumerable<ScopeClaimValue> ScopeClaimValues { get; set; }
+        public IEnumerable<ScopeSecretValue> ScopeSecretValues { get; set; }
     }
 }

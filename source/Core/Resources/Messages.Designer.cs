@@ -277,6 +277,15 @@ namespace IdentityAdmin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A scope secret is needed.
+        /// </summary>
+        public static string ScopeSecretNeeded {
+            get {
+                return ResourceManager.GetString("ScopeSecretNeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject is required..
         /// </summary>
         public static string SubjectRequired {

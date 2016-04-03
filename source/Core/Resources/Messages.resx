@@ -189,6 +189,9 @@
   <data name="PropertyTypeRequired" xml:space="preserve">
     <value>Property type is required.</value>
   </data>
+  <data name="ScopeSecretNeeded" xml:space="preserve">
+    <value>A scope secret is needed</value>
+  </data>
   <data name="SubjectRequired" xml:space="preserve">
     <value>Subject is required.</value>
   </data>

@@ -174,6 +174,16 @@ body{
     background-color:transparent;
 }
 /* Main body section */
+
+.fixedTable {
+    table-layout:fixed;
+   td {
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }
+}
 .side-body {
   margin-left: 310px;
 }
@@ -1322,6 +1332,80 @@ label{
     margin-left:0 !important;
   }
 
+
+    #identityNavBar .side-menu-container > .navbar-nav.slide-in {
+    -moz-animation: slidein 300ms forwards;
+    -o-animation: slidein 300ms forwards;
+    -webkit-animation: slidein 300ms forwards;
+    animation: slidein 300ms forwards;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    background-color: #32404e;
+  }
+  #identityNavBar .side-menu-container > .navbar-nav {
+    position: fixed;
+    left: -300px;
+    width: 300px;
+    top: 92px;
+    height: 100%;
+    border-right: 1px solid #e7e7e7;
+    -moz-animation: slideout 300ms forwards;
+    -o-animation: slideout 300ms forwards;
+    -webkit-animation: slideout 300ms forwards;
+    animation: slideout 300ms forwards;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+
+  .side-body {
+    margin-left: 5px;
+    margin-top: 70px;
+    position: relative;
+    -moz-animation: bodyslideout 300ms forwards;
+    -o-animation: bodyslideout 300ms forwards;
+    -webkit-animation: bodyslideout 300ms forwards;
+    animation: bodyslideout 300ms forwards;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+  .body-slide-in {
+    -moz-animation: bodyslidein 300ms forwards;
+    -o-animation: bodyslidein 300ms forwards;
+    -webkit-animation: bodyslidein 300ms forwards;
+    animation: bodyslidein 300ms forwards;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+  .navbar-toggle {
+    border: 0;
+    float: left;
+    padding: 18px;
+    margin: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .navbar-header {
+    position: absolute;
+    z-index: 3;
+    background-color: #32404e;
+  }
+  .navbar-default {
+     background-color: transparent; 
+     border:none;
+}
+  .dropdownSidebar .panel-body .navbar-nav {
+    margin: 0;
+  }
+  .navbar-toggle .icon-bar  {
+      background-color:#fff;
+  }
+   #content-container {
+        padding-top: 50px;
+    }
+}
+
+
   @-moz-keyframes slidein {
     0% {
       left: -300px;
@@ -1370,30 +1454,6 @@ label{
       left: -300px;
     }
   }
-  #identityNavBar .side-menu-container > .navbar-nav.slide-in {
-    -moz-animation: slidein 300ms forwards;
-    -o-animation: slidein 300ms forwards;
-    -webkit-animation: slidein 300ms forwards;
-    animation: slidein 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    background-color: #32404e;
-  }
-  #identityNavBar .side-menu-container > .navbar-nav {
-    position: fixed;
-    left: -300px;
-    width: 300px;
-    top: 92px;
-    height: 100%;
-    border-right: 1px solid #e7e7e7;
-    -moz-animation: slideout 300ms forwards;
-    -o-animation: slideout 300ms forwards;
-    -webkit-animation: slideout 300ms forwards;
-    animation: slideout 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-
   @-moz-keyframes bodyslidein {
     0% {
       left: 0;
@@ -1442,51 +1502,3 @@ label{
       left: 0;
     }
   }
-
-  .side-body {
-    margin-left: 5px;
-    margin-top: 70px;
-    position: relative;
-    -moz-animation: bodyslideout 300ms forwards;
-    -o-animation: bodyslideout 300ms forwards;
-    -webkit-animation: bodyslideout 300ms forwards;
-    animation: bodyslideout 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-  .body-slide-in {
-    -moz-animation: bodyslidein 300ms forwards;
-    -o-animation: bodyslidein 300ms forwards;
-    -webkit-animation: bodyslidein 300ms forwards;
-    animation: bodyslidein 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-  }
-  .navbar-toggle {
-    border: 0;
-    float: left;
-    padding: 18px;
-    margin: 0;
-    border-radius: 0;
-    background-color: transparent;
-  }
-  .navbar-header {
-    position: absolute;
-    z-index: 3;
-    background-color: #32404e;
-  }
-  .navbar-default {
-     background-color: transparent; 
-     border:none;
-}
-  .dropdownSidebar .panel-body .navbar-nav {
-    margin: 0;
-  }
-  .navbar-toggle .icon-bar
-  {
-      background-color:#fff;
-  }
-   #content-container {
-        padding-top: 50px;
-    }
-}

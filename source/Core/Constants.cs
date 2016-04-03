@@ -83,6 +83,9 @@ namespace IdentityAdmin
             public const string UpdateScopeProperty = "UpdateScopeProperty";
             public const string AddScopeClaim = "AddScopeClaim";
             public const string RemoveScopeClaim = "RemoveScopeClaim";
+            public const string AddScopeSecret = "AddScopeSecret";
+            public const string RemoveScopeSecret = "RemoveScopeSecret";
+            public const string UpdateScopeSecret = "UpdateScopeSecret";
 
             public const string Home = "Home";
             public const string Logout = "Logout";

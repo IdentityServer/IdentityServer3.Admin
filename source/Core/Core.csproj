@@ -83,6 +83,9 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\System.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -180,6 +183,7 @@
     <Compile Include="Core\Scope\ScopeClaimValue.cs" />
     <Compile Include="Core\Scope\ScopeDetail.cs" />
     <Compile Include="Core\Scope\ScopeMetaData.cs" />
+    <Compile Include="Core\Scope\ScopeSecret.cs" />
     <Compile Include="Core\Scope\ScopeSummary.cs" />
     <Compile Include="Extensions\ClaimsExtensions.cs" />
     <Compile Include="Extensions\IdentityAdminResultExtensions.cs" />
@@ -211,6 +215,7 @@
     <Content Include="Assets\Content\Bundle.css">
       <DependentUpon>Bundle.css.bundle</DependentUpon>
     </Content>
+    <Content Include="Assets\Scripts\Libs\moment.js" />
     <Content Include="Assets\Scripts\Libs\sha.js" />
     <Content Include="Assets\Scripts\Libs\sha1.js" />
     <Content Include="Assets\Scripts\Libs\sha256.js" />
@@ -362,6 +367,7 @@
     <EmbeddedResource Include="Resources\Messages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

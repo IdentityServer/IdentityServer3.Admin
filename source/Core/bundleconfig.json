@@ -8,6 +8,7 @@
       "Assets/Scripts/Libs/angular-route.min.js",
       "Assets/Scripts/Libs/oidc-token-manager.min.js",
       "Assets/Scripts/Libs/sha.js",
+      "Assets/Scripts/Libs/moment.js",
       "Assets/Scripts/App/ttidAdm.js",
       "Assets/Scripts/App/ttidAdmUI.js",
       "Assets/Scripts/App/ttidAdmClients.js",

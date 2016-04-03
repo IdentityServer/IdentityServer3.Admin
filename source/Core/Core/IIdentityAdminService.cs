@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityAdmin.Core.Client;
 using IdentityAdmin.Core.Metadata;
@@ -14,6 +15,9 @@ namespace IdentityAdmin.Core
         Task<IdentityAdminResult<CreateResult>> CreateScopeAsync(IEnumerable<PropertyValue> properties);
         Task<IdentityAdminResult> SetScopePropertyAsync(string subject, string type, string value);
         Task<IdentityAdminResult> DeleteScopeAsync(string subject);
+        Task<IdentityAdminResult> AddScopeSecretAsync(string subject, string type, string value, string description, DateTime? expiration);
+        Task<IdentityAdminResult> UpdateScopeSecret(string subject, string scopeSecretSubject, string type, string value, string description, DateTime? expiration);
+        Task<IdentityAdminResult> RemoveScopeSecretAsync(string subject, string id);
         Task<IdentityAdminResult> AddScopeClaimAsync(string subject, string name, string description,bool alwaysIncludeInIdToken);
         Task<IdentityAdminResult> RemoveScopeClaimAsync(string subject, string id);
         Task<IdentityAdminResult<ClientDetail>> GetClientAsync(string subject);       

@@ -169,8 +169,7 @@
             }
             ]
         };
-
-        $scope.calculateClientHash = function (clientSecret) {
+        function calculateClientHash (clientSecret) {
             var hashObj = new jsSHA(
 				$scope.availableHashes.chosenHash,
 				"TEXT",
@@ -180,7 +179,7 @@
             clientSecret.value = hashObj.getHash("B64");
         }
         $scope.addClientSecret = function (clientSecrets, clientSecret) {
-            $scope.calculateClientHash(clientSecret);
+            calculateClientHash(clientSecret);
             idAdmClients.addClientSecret(clientSecrets, clientSecret)
                 .then(function () {
                     feedback.message = "Client Secret Added : " + clientSecret.type + ", " + clientSecret.value;

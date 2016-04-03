@@ -20,6 +20,9 @@
                 <li class="{{tab==1?'active':''}}" ng-show="scope.data.claims">
                     <a ng-click="tab=1" href="#/scopes/edit/{{scope.data.subject}}" role="tab" data-toggle="tab">Claims</a>
                 </li>
+                <li class="{{tab==2?'active':''}}" ng-show="scope.data.secrets">
+                    <a ng-click="tab=2" href="#/scopes/edit/{{scope.data.subject}}" role="tab" data-toggle="tab">Secrets</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <id-adm-message message="feedback"></id-adm-message>
@@ -56,19 +59,83 @@
                     <div class="table-responsive">
                         <table class="table table-striped" ng-show="scope.data.claims.data.length">
                             <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="claim in scope.data.claims.data">
+                                <td>
+                                    <button class="btn btn-warning btn-xs" ng-click="removeScopeClaim(claim)">delete</button>
+                                </td>
+                                <td>{{claim.data.name}}</td>
+                                <td>{{claim.data.description}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane {{tab==2?'active':''}}" ng-show="scope.data.secrets">
+                    <div class="row section">
+                        <div class="col-sm-12">
+                            <form name="addSecretForm" class="form-inline" ng-submit="addScopeSecret(scope.data.secrets, secret)">
+                                <div class="form-group">
+                                    <label for="type" class="column">Choose hash &nbsp;</label>
+                                    <span data-ng-repeat="choice in availableHashes.choices">
+                                        <label class="form-radio form-normal form-primary form-text" ng-class="availableHashes.chosenHash == choice.id ? 'active form-radio form-normal form-primary form-text' : 'form-radio form-normal form-primary form-text'">
+                                            <input type="radio" name="hashChoices" class="user-edit-regular" value="{{choice.id}}" ng-model="availableHashes.chosenHash" />
+                                            {{choice.text}}
+                                        </label>
+                                    </span>
+
+                                </div>
+                                <br /><br />
+                                <div class="form-group">
+                                    <label for="type" class="column">Add Secret</label>
+                                    <input type="text" class="form-control" id="type" placeholder="Type" required autofocus ng-model="secret.type">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="value" placeholder="Value" required ng-model="secret.value">
+                                </div>
+                                <button type="submit" class="btn btn-primary" ng-disabled="addSecretForm.$invalid">Add</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div ng-hide="scope.data.secrets.data.length" class="col-sm-8">
+                            <div class="alert alert-info">
+                                <p>No secrets found for this scope</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped fixedTable" ng-show="scope.data.secrets.data.length" >
+                            <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Description</th>
+                                    <th style="width: 5%"></th>
+                                    <th style="width: 15%">Type</th>
+                                    <th style="width: 25%">Value</th>
+                                    <th style="width: 25%">Description</th>
+                                    <th style="width: 25%">Expiration</th>
+                                    <th style="width: 5%"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="claim in scope.data.claims.data">
+                                <tr ng-repeat="secret in scope.data.secrets.data">
                                     <td>
-                                        <button class="btn btn-warning btn-xs" ng-click="removeScopeClaim(claim)">delete</button>
+                                        <button class="btn btn-warning btn-xs" ng-click="removeScopeSecret(secret)">Delete</button>
                                     </td>
-                                    <td>{{claim.data.name}}</td>
-                                    <td>{{claim.data.description}}</td>
+                                    <td title="{{secret.data.type}}">{{secret.data.type}}</td>
+                                    <td title="{{secret.data.value}}">{{secret.data.value}}</td>
+                                    <td title="{{secret.data.description}}"><input type="text" placeholder="Description" value="{{secret.data.description}}" ng-model="secret.data.description" /></td>
+                                    <td title="{{secret.data.expiration}}"><input type="text" placeholder="Description" value="{{secret.data.expiration}}" ng-model="secret.data.expiration" /></td>
+                                    <td>
+                                        <button class="btn btn-primary btn-xs" ng-click="updateScopeSecret(secret)">Update</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

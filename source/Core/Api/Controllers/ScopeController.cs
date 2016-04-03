@@ -262,6 +262,84 @@ namespace IdentityAdmin.Api.Controllers
             return BadRequest(result.ToError());
         }
 
+        #endregion     
+        
+        #region ScopeSecret
+
+        [HttpPost, Route("{subject}/secret", Name = Constants.RouteNames.AddScopeSecret)]
+        public async Task<IHttpActionResult> AddScopeSecretAsync(string subject, ScopeSecretValue model)
+        {
+            if (String.IsNullOrWhiteSpace(subject))
+            {
+                ModelState["subject.String"].Errors.Clear();
+                ModelState.AddModelError("", Messages.SubjectRequired);
+            }
+
+            if (model == null)
+            {
+                ModelState.AddModelError("", Messages.ScopeSecretNeeded);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _identityAdminService.AddScopeSecretAsync(subject, model.Type, model.Value, model.Description, model.Expiration);
+                if (result.IsSuccess)
+                {
+                    return NoContent();
+                }
+
+                ModelState.AddErrors(result);
+            }
+
+            return BadRequest(ModelState.ToError());
+        }
+
+        [HttpDelete, Route("{subject}/secret/{id}", Name = Constants.RouteNames.RemoveScopeSecret)]
+        public async Task<IHttpActionResult> RemoveScopeSecretAsync(string subject, string id)
+        {
+            if (String.IsNullOrWhiteSpace(subject) ||
+                String.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+
+            var result = await _identityAdminService.RemoveScopeSecretAsync(subject, id);
+            if (result.IsSuccess)
+            {
+                return NoContent();
+            }
+
+            return BadRequest(result.ToError());
+        }
+
+        [HttpPut, Route("{subject}/secret/{id}", Name = Constants.RouteNames.UpdateScopeSecret)]
+        public async Task<IHttpActionResult> UpdateScopeSecret(string subject, ScopeSecretValue model)
+        {
+            if (String.IsNullOrWhiteSpace(subject))
+            {
+                ModelState["subject.String"].Errors.Clear();
+                ModelState.AddModelError("", Messages.SubjectRequired);
+            }
+
+            if (model == null)
+            {
+                ModelState.AddModelError("", Messages.ScopeSecretNeeded);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _identityAdminService.UpdateScopeSecret(subject,model.Id, model.Type, model.Value, model.Description, model.Expiration);
+                if (result.IsSuccess)
+                {
+                    return NoContent();
+                }
+
+                ModelState.AddErrors(result);
+            }
+
+            return BadRequest(ModelState.ToError());
+        }
+
         #endregion
 
         #endregion

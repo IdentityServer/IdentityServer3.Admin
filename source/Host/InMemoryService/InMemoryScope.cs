@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdentityAdmin.Host.InMemoryService
 {
@@ -23,6 +25,7 @@ namespace IdentityAdmin.Host.InMemoryService
         public InMemoryScope()
         {
             ScopeClaims = new List<InMemoryScopeClaim>();
+            ScopeSecrets = new List<InMemoryScopeSecret>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -34,6 +37,7 @@ namespace IdentityAdmin.Host.InMemoryService
         public bool IncludeAllClaimsForUser { get; set; }
         public bool Required { get; set; }
         public ICollection<InMemoryScopeClaim> ScopeClaims { get; set; }
+        public ICollection<InMemoryScopeSecret> ScopeSecrets { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public int Type { get; set; }
     
@@ -46,5 +50,14 @@ namespace IdentityAdmin.Host.InMemoryService
         public string Description { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+    }
+
+    public class InMemoryScopeSecret
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public DateTime? Expiration { get; set; }
+        public string Type { get; set; }
+        public virtual string Value { get; set; }
     }
 }
