@@ -210,6 +210,15 @@
                     loadScope();
                 }, feedback.errorHandler);
         };
+        $scope.updateScopeClaim = function (claim) {
+            idAdmScopes.updateScopeClaim(claim)
+                      .then(function () {
+                          feedback.message = "Scope claim updated : " + claim.data.name;
+                          loadScope().then(function () {
+                              $scope.claim = claim.data;
+                          });
+                      }, feedback.errorHandler);
+        }
         $scope.updateScopeSecret = function (scopeSecret) {
             idAdmScopes.updateScopeSecret(scopeSecret)
                 .then(function () {

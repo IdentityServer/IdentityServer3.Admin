@@ -4294,6 +4294,11 @@ angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.datepicker","ui
                 return $http.delete(scopeClaim.links.delete)
                     .then(nop, errorHandler("Error Removing Scope Claim"));
             };
+            svc.updateScopeClaim = function (claim) {
+                return $http.put(claim.links.update, claim.data)
+                    .then(nop, errorHandler("Error updating Scope Claim"));
+            };
+
             //Scope Secret
             svc.addScopeSecret = function (scopeSecrets, scopeSecret) {
                 return $http.post(scopeSecrets.links.create, scopeSecret)
@@ -4307,7 +4312,6 @@ angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.datepicker","ui
                 return $http.put(scopeSecret.links.update, scopeSecret.data)
                     .then(nop, errorHandler("Error updating Scope Secret"));
             };
-            
         });
 
         return svc;
@@ -5128,6 +5132,15 @@ angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.datepicker","ui
                     loadScope();
                 }, feedback.errorHandler);
         };
+        $scope.updateScopeClaim = function (claim) {
+            idAdmScopes.updateScopeClaim(claim)
+                      .then(function () {
+                          feedback.message = "Scope claim updated : " + claim.data.name;
+                          loadScope().then(function () {
+                              $scope.claim = claim.data;
+                          });
+                      }, feedback.errorHandler);
+        }
         $scope.updateScopeSecret = function (scopeSecret) {
             idAdmScopes.updateScopeSecret(scopeSecret)
                 .then(function () {

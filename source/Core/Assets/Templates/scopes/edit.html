@@ -63,16 +63,21 @@
                                     <th></th>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>AlwaysIncludeInIdToken</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="claim in scope.data.claims.data">
                                     <td>
-                                        <button class="btn btn-warning btn-xs" ng-click="removeScopeClaim(claim)">delete</button>
+                                        <button class="btn btn-warning" ng-click="removeScopeClaim(claim)">delete</button>
                                     </td>
                                     <td>{{claim.data.name}}</td>
                                     <td>{{claim.data.description}}</td>
-                                    <td>AlwaysIncludeInIdToken &nbsp; <input type="checkbox" class="user-edit-regular" name="AlwaysIncludeInIdToken" ng-model="claim.data.AlwaysIncludeInIdToken" ng-change="setProperty(property)"> </td>
+                                    <td>
+                                        <label class="form-checkbox form-normal form-primary form-text" ng-class="claim.data.alwaysIncludeInIdToken ? 'active form-checkbox form-normal form-primary form-text' : 'form-checkbox form-normal form-primary form-text'">
+                                            <input type="checkbox" class="user-edit-regular" name="AlwaysIncludeInIdToken" ng-model="claim.data.alwaysIncludeInIdToken" ng-change="updateScopeClaim(claim)">
+                                        </label>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -113,28 +118,30 @@
                         </div>
                     </div>
                     <div ng-show="scope.data.secrets.data.length" class="detailList">
-                        <div class="row dlHeader"  >
+                        <div class="row dlHeader">
+                            <div class="col-xs-2"></div>
                             <div class="col-xs-2">Type</div>
                             <div class="col-xs-2">Value</div>
                             <div class="col-xs-3">Description</div>
                             <div class="col-xs-3">Expiration</div>
-                            <div class="col-xs-2"></div>
+
                         </div>
                         <div class="row dlContent" ng-repeat="secret in scope.data.secrets.data">
+                            <div class="col-xs-2">
+                                <button class="btn btn-primary" ng-click="updateScopeSecret(secret)">Update</button>
+                                <button class="btn btn-warning" ng-click="removeScopeSecret(secret)">Delete</button>
+                            </div>
                             <div class="col-xs-2" title="{{secret.data.type}}">{{secret.data.type}}</div>
                             <div class="col-xs-2" title="{{secret.data.value}}">{{secret.data.value}}</div>
-                            <div class="col-xs-3"><input type="text" placeholder="Description" class="form-control" value="{{secret.data.description}}" ng-model="secret.data.description" /></div>
+                            <div class="col-xs-3"><input type="text" placeholder="Description" class="form-control" value="{{secret.data.description}}" ng-model="secret.data.description"/>
+                            </div>
                             <div class="col-xs-3 enableOverflow">
                                 <p class="input-group">
-                                    <input type="text" data-dateId="{{secret.data.id}}" class="form-control" ng-change="dateSelected(secret)" uib-datepicker-popup="{{format}}" ng-model="secret.data.expiration"  is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                    <input type="text" data-dateId="{{secret.data.id}}" class="form-control" ng-change="dateSelected(secret)" uib-datepicker-popup="{{format}}" ng-model="secret.data.expiration" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
-                            </div>
-                            <div class="col-xs-2">
-                                <button class="btn btn-primary" ng-click="updateScopeSecret(secret)">Update</button>
-                                <button class="btn btn-warning" ng-click="removeScopeSecret(secret)">Delete</button>
                             </div>
                         </div>
                     </div>

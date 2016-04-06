@@ -294,6 +294,11 @@
                 return $http.delete(scopeClaim.links.delete)
                     .then(nop, errorHandler("Error Removing Scope Claim"));
             };
+            svc.updateScopeClaim = function (claim) {
+                return $http.put(claim.links.update, claim.data)
+                    .then(nop, errorHandler("Error updating Scope Claim"));
+            };
+
             //Scope Secret
             svc.addScopeSecret = function (scopeSecrets, scopeSecret) {
                 return $http.post(scopeSecrets.links.create, scopeSecret)
@@ -307,7 +312,6 @@
                 return $http.put(scopeSecret.links.update, scopeSecret.data)
                     .then(nop, errorHandler("Error updating Scope Secret"));
             };
-            
         });
 
         return svc;

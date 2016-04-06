@@ -286,6 +286,28 @@ namespace IdentityAdmin.Host.InMemoryService
             return Task.FromResult(new IdentityAdminResult("Invalid subject"));
         }
 
+        public Task<IdentityAdminResult> UpdateScopeClaim(string subject, string scopeClaimSubject, string name, string description, bool alwaysIncludeInIdToken)
+        {
+            int parsedSubject, parsedScopeClaimSubject;
+            if (int.TryParse(subject, out parsedSubject) && int.TryParse(scopeClaimSubject, out parsedScopeClaimSubject))
+            {
+                var inMemoryScope = _scopes.FirstOrDefault(p => p.Id == parsedSubject);
+                if (inMemoryScope == null)
+                {
+                    return Task.FromResult(new IdentityAdminResult("Invalid subject"));
+                }
+                var existingClaim = inMemoryScope.ScopeClaims.FirstOrDefault(p => p.Id == parsedScopeClaimSubject);
+                if (existingClaim != null)
+                {
+                    existingClaim.AlwaysIncludeInIdToken = alwaysIncludeInIdToken;
+                    return Task.FromResult(IdentityAdminResult.Success);
+                }
+                return Task.FromResult(new IdentityAdminResult("Not found"));
+            }
+
+            return Task.FromResult(new IdentityAdminResult("Invalid subject"));
+        }
+
         public Task<IdentityAdminResult> RemoveScopeClaimAsync(string subject, string id)
         {
             int parsedSubject;
@@ -306,7 +328,8 @@ namespace IdentityAdmin.Host.InMemoryService
             }
             return Task.FromResult(new IdentityAdminResult("Invalid subject"));
         }
-          public Task<IdentityAdminResult> AddScopeSecretAsync(string subject, string type, string value, string description, DateTime? expiration)
+
+        public Task<IdentityAdminResult> AddScopeSecretAsync(string subject, string type, string value, string description, DateTime? expiration)
         {
             int parsedSubject;
             if (int.TryParse(subject, out parsedSubject))
@@ -333,7 +356,8 @@ namespace IdentityAdmin.Host.InMemoryService
 
             return Task.FromResult(new IdentityAdminResult("Invalid subject"));
         }
-          public Task<IdentityAdminResult> UpdateScopeSecret(string subject, string scopeSecretSubject, string type, string value, string description, DateTime? expiration)
+
+        public Task<IdentityAdminResult> UpdateScopeSecret(string subject, string scopeSecretSubject, string type, string value, string description, DateTime? expiration)
           {
             int parsedSubject, parsedScopeSecretSubject;
             if (int.TryParse(subject, out parsedSubject) && int.TryParse(scopeSecretSubject, out parsedScopeSecretSubject))
@@ -363,7 +387,7 @@ namespace IdentityAdmin.Host.InMemoryService
             return Task.FromResult(new IdentityAdminResult("Invalid subject"));
         }
 
-           public Task<IdentityAdminResult> RemoveScopeSecretAsync(string subject, string id)
+        public Task<IdentityAdminResult> RemoveScopeSecretAsync(string subject, string id)
         {
             int parsedSubject;
             int parsedScopeId;

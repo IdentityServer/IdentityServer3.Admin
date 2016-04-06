@@ -262,8 +262,35 @@ namespace IdentityAdmin.Api.Controllers
             return BadRequest(result.ToError());
         }
 
-        #endregion     
-        
+        [HttpPut, Route("{subject}/claim/{id}", Name = Constants.RouteNames.UpdateScopeClaim)]
+        public async Task<IHttpActionResult> UpdateScopeClaim(string subject, ScopeClaimValue model)
+        {
+            if (String.IsNullOrWhiteSpace(subject))
+            {
+                ModelState["subject.String"].Errors.Clear();
+                ModelState.AddModelError("", Messages.SubjectRequired);
+            }
+
+            if (model == null)
+            {
+                ModelState.AddModelError("", Messages.ScopeSecretNeeded);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _identityAdminService.UpdateScopeClaim(subject, model.Id, model.Name, model.Description, model.AlwaysIncludeInIdToken);
+                if (result.IsSuccess)
+                {
+                    return NoContent();
+                }
+
+                ModelState.AddErrors(result);
+            }
+
+            return BadRequest(ModelState.ToError());
+        }
+        #endregion
+
         #region ScopeSecret
 
         [HttpPost, Route("{subject}/secret", Name = Constants.RouteNames.AddScopeSecret)]

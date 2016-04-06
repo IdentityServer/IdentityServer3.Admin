@@ -20,6 +20,7 @@ namespace IdentityAdmin.Core
         Task<IdentityAdminResult> RemoveScopeSecretAsync(string subject, string id);
         Task<IdentityAdminResult> AddScopeClaimAsync(string subject, string name, string description,bool alwaysIncludeInIdToken);
         Task<IdentityAdminResult> RemoveScopeClaimAsync(string subject, string id);
+        Task<IdentityAdminResult> UpdateScopeClaim(string subject, string scopeClaimSubject, string name,string description, bool alwaysIncludeInIdToken);
         Task<IdentityAdminResult<ClientDetail>> GetClientAsync(string subject);       
         Task<IdentityAdminResult> DeleteClientAsync(string subject);
         Task<IdentityAdminResult> AddClientClaimAsync(string subject, string type, string value);

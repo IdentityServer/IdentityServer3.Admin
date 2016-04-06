@@ -79,7 +79,12 @@ namespace IdentityAdmin.Api.Models.Scope
                             {
                                 subject = scope.Subject,
                                 id = c.Id
-                            })
+                            }),
+                            update = url.Link(Constants.RouteNames.UpdateScopeClaim, new
+                            {
+                                subject = scope.Subject,
+                                id = c.Id
+                            }),
                         }
                     };
 
