@@ -221,6 +221,8 @@
     <Content Include="Assets\Scripts\Libs\sha256.js" />
     <Content Include="Assets\Scripts\Libs\sha512.js" />
     <Content Include="Assets\Scripts\Libs\sha_dev.js" />
+    <Content Include="Assets\Scripts\Libs\ui-bootstrap-custom-tpls-0.14.3.min.js" />
+    <Content Include="Assets\Scripts\Libs\ui-bootstrap-tpls-0.14.3.min.js" />
     <EmbeddedResource Include="Assets\Content\Bundle.min.css">
       <DependentUpon>Bundle.css</DependentUpon>
     </EmbeddedResource>

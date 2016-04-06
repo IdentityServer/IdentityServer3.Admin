@@ -278,21 +278,4 @@
     }
     idAdmPreventDefault.$inject = [];
     app.directive("idAdmPreventDefault", idAdmPreventDefault);
-
-    function ttDateTimePicker($timeout) {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function (scope, elem) {
-                elem.on("input", function () {
-                    $timeout(function () {
-                        scope.$apply(check);
-                    });
-                });
-            }
-        }
-    }
-    ttMatch.$inject = ["$timeout"];
-    app.directive("ttMatch", ttMatch);
-
 })(angular);

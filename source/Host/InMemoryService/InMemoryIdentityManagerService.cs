@@ -325,7 +325,7 @@ namespace IdentityAdmin.Host.InMemoryService
                         Type = type,
                         Value = value,
                         Description = description,
-                        Expiration = expiration ?? DateTime.Now
+                        Expiration = expiration
                     });
                 }
                 return Task.FromResult(IdentityAdminResult.Success);

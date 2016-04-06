@@ -6782,6 +6782,23 @@ body {
 .ng-hide {
   display: none !important;
 }
+.detailList {
+  margin-top: 20px;
+}
+.detailList .dlHeader {
+  font-weight: 600;
+  margin-bottom: 5px;
+  border-bottom: thin solid;
+}
+.detailList .dlContent > div {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.detailList .dlContent > div.enableOverflow {
+  overflow: visible;
+}
 .form-control {
   font-size: 12px;
   height: 100%;

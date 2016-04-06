@@ -3,7 +3,7 @@
 
 (function (angular) {
 
-    var app = angular.module("ttidAdmScopes", ['ngRoute', 'ttidAdm', 'ttidAdmUI', 'ui.bootstrap.datetimepicker']);
+    var app = angular.module("ttidAdmScopes", ['ngRoute', 'ttidAdm', 'ttidAdmUI', 'ui.bootstrap']);
     function config($routeProvider, PathBase) {
         $routeProvider
             .when("/scopes/list/:filter?/:page?", {
@@ -182,12 +182,28 @@
             hashObj.update(clientSecret.value);
             clientSecret.value = hashObj.getHash("B64");
         }
+
+        //Datepicker
+        $scope.open = function ($event, secret) {
+           $scope.status.opened = true;
+        };
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+        $scope.format = "yyyy/MM/dd hh:MM";
+        $scope.status = {opened: false};
+        $scope.dateSelected = function (secret) {
+            var value = $("[data-dateid='" + secret.data.id + "']").val();
+            secret.data.expiration = value;
+
+        }
         //Secrets
         $scope.addScopeSecret = function (scopeSecrets, scopeSecret) {
             calculateScopeScretHash(scopeSecret);
             idAdmScopes.addScopeSecret(scopeSecrets, scopeSecret)
                 .then(function () {
-                    feedback.message = "Scope Secret Added : " + scopeSecret.type + ", " + scopeSecret.value;
+                    feedback.message = "Scope Secret Added : " + scopeSecret.type;
                     loadScope().then(function () {
                         $scope.secret = scopeSecret.data;
                     });
@@ -197,7 +213,7 @@
         $scope.updateScopeSecret = function (scopeSecret) {
             idAdmScopes.updateScopeSecret(scopeSecret)
                 .then(function () {
-                    feedback.message = "Scope Secret updated : " + scopeSecret.data.type + ", " + scopeSecret.data.value;
+                    feedback.message = "Scope Secret updated : " + scopeSecret.data.type;
                     loadScope().then(function () {
                         $scope.secret = scopeSecret.data;
                     });
@@ -206,7 +222,7 @@
         $scope.removeScopeSecret = function (scopeSecret) {
             idAdmScopes.removeScopeSecret(scopeSecret)
                 .then(function () {
-                    feedback.message = "Scope Secret Removed : " + scopeSecret.data.type + ", " + scopeSecret.data.value;
+                    feedback.message = "Scope Secret Removed : " + scopeSecret.data.type;
                     loadScope().then(function () {
                         $scope.secret = scopeSecret.data;
                     });

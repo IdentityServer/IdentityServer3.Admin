@@ -16,6 +16,30 @@ body{
 }
 
 
+.detailList {
+    margin-top: 20px;
+
+    .dlHeader {
+        font-weight: 600;
+        margin-bottom: 5px;
+        border-bottom: thin solid;
+    }
+
+    .dlContent {
+
+        > div {
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+        }
+        >div.enableOverflow{
+            overflow:visible;
+        }
+       
+    }
+}
+
 .form-control {
     font-size: 12px;
     height: 100%;
@@ -1271,6 +1295,7 @@ label{
         border-bottom-right-radius: 0;
     }
 //End Panels
+
 @media (min-width: @screen-sm) {
     #page-title {
         display: table;

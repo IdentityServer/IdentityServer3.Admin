@@ -9,6 +9,7 @@
       "Assets/Scripts/Libs/oidc-token-manager.min.js",
       "Assets/Scripts/Libs/sha.js",
       "Assets/Scripts/Libs/moment.js",
+      "Assets/Scripts/Libs/ui-bootstrap-custom-tpls-0.14.3.min.js",
       "Assets/Scripts/App/ttidAdm.js",
       "Assets/Scripts/App/ttidAdmUI.js",
       "Assets/Scripts/App/ttidAdmClients.js",
