@@ -184,15 +184,17 @@
         }
 
         //Datepicker
-        $scope.open = function ($event, secret) {
-           $scope.status.opened = true;
-        };
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-        };
-        $scope.format = "yyyy/MM/dd hh:MM";
-        $scope.status = {opened: false};
+      
+        $scope.calendar = {
+            isopen: {},
+            dateFormat: "yyyy/MM/dd hh:MM",
+            dateOptions: {},
+            open: function ($event, index) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.calendar.isopen[index] = true;
+            }
+        };        
         $scope.dateSelected = function (secret) {
             var value = $("[data-dateid='" + secret.data.id + "']").val();
             secret.data.expiration = value;

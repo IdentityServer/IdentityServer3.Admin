@@ -137,9 +137,9 @@
                             </div>
                             <div class="col-xs-3 enableOverflow">
                                 <p class="input-group">
-                                    <input type="text" data-dateId="{{secret.data.id}}" class="form-control" ng-change="dateSelected(secret)" uib-datepicker-popup="{{format}}" ng-model="secret.data.expiration" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                    <input type="text" data-dateId="{{secret.data.id}}" class="form-control" ng-change="dateSelected(secret)" uib-datepicker-popup="{{calendar.dateFormat}}" ng-model="secret.data.expiration"  is-open="calendar.isopen[$index]" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="calendar.open($event, $index)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>

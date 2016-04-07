@@ -70,8 +70,9 @@ namespace IdentityAdmin.Host.InMemoryService
         public ICollection<InMemoryClientCorsOrigin> AllowedCorsOrigins { get; set; }
         public ICollection<InMemoryClientCustomGrantType> AllowedCustomGrantTypes { get; set; }
         public ICollection<InMemoryClientScope> AllowedScopes { get; set; }
+        public bool RequireSignOutPrompt { get; set; }
+        public bool AllowAccessTokensViaBrowser { get; set; }
 
-        
     }
 
     public class InMemoryClientClaim

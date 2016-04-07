@@ -344,7 +344,7 @@ namespace IdentityAdmin.Host.InMemoryService
                 {
                     inMemoryScope.ScopeSecrets.Add(new InMemoryScopeSecret
                     {
-                        Id = inMemoryScope.ScopeClaims.Count + 1,
+                        Id = inMemoryScope.ScopeSecrets.Count + 1,
                         Type = type,
                         Value = value,
                         Description = description,
@@ -541,7 +541,6 @@ namespace IdentityAdmin.Host.InMemoryService
                 SlidingRefreshTokenLifetime = client.SlidingRefreshTokenLifetime,
                 Enabled =  true,
                 EnableLocalLogin =  true,
-
             };
 
             foreach (var prop in otherProperties)
