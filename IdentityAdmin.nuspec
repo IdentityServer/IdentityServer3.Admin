@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>IdentityServer3.Admin</id>
-        <version>1.0.0-beta7</version>
+        <version>1.0.0-beta8</version>
         <title>IdentityServer3.Admin</title>
         <authors>hoorn_000</authors>
         <owners>Bert Hoorne,Brock Allen,Dominick Baier</owners>
