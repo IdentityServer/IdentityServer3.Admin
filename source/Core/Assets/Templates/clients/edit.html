@@ -98,10 +98,10 @@
     <div class="row section">
         <div class="col-sm-12">
             <form name="addSecretForm" class="form-inline" ng-submit="addClientSecret(client.data.clientSecrets, clientSecret)">
-                <div class="form-group">
+                <div class="form-group ">
                     <label for="type" class="column">Choose hash &nbsp;</label>
                     <span data-ng-repeat="choice in availableHashes.choices">
-                        <label class="form-radio form-normal form-primary form-text" ng-class="availableHashes.chosenHash == choice.id ? 'active form-radio form-normal form-primary form-text' : 'form-radio form-normal form-primary form-text'">
+                        <label class="form-radio form-normal form-primary form-text form-checkbox" ng-class="availableHashes.chosenHash == choice.id ? 'active form-radio form-normal form-primary form-text' : 'form-radio form-normal form-primary form-text'">
                             <input type="radio" name="hashChoices" class="user-edit-regular" value="{{choice.id}}" ng-model="availableHashes.chosenHash"/>
                             {{choice.text}} 
                         </label>
