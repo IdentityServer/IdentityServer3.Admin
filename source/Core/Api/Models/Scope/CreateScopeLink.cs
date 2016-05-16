@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using System.Web.Http.Routing;
 using IdentityAdmin.Core.Scope;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Models.Scope
 {
@@ -23,7 +24,7 @@ namespace IdentityAdmin.Api.Models.Scope
     {
         public CreateScopeLink(UrlHelper url, ScopeMetaData scopeMetaData)
         {
-            this["href"] = url.Link(Constants.RouteNames.CreateScope, null);
+            this["href"] = url.RelativeLink(Constants.RouteNames.CreateScope);
             this["meta"] = scopeMetaData.CreateProperties;
         }
     }

@@ -49,7 +49,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Meta = m,
                         Links = new
                         {
-                            update = url.Link(Constants.RouteNames.UpdateClientProperty,
+                            update = url.RelativeLink(Constants.RouteNames.UpdateClientProperty,
                                 new
                                 {
                                     subject = client.Subject,
@@ -75,7 +75,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientClaim, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientClaim, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -88,7 +88,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = claims.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientClaim, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientClaim, new { subject = client.Subject })
                     }
                 };
             }
@@ -104,7 +104,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientSecret, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientSecret, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -117,7 +117,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = clientSecrets.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientSecret, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientSecret, new { subject = client.Subject })
                     }
                 };
             }
@@ -133,7 +133,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientIdPRestriction, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientIdPRestriction, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -146,7 +146,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = clientIdentityProviderRestrictions.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientIdPRestriction, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientIdPRestriction, new { subject = client.Subject })
                     }
                 };
             }
@@ -162,7 +162,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientPostLogoutRedirectUri, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientPostLogoutRedirectUri, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -175,7 +175,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = postLogoutRedirectUris.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientPostLogoutRedirectUri, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientPostLogoutRedirectUri, new { subject = client.Subject })
                     }
                 };
             }
@@ -191,7 +191,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientRedirectUri, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientRedirectUri, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -204,7 +204,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = redirectUris.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientRedirectUri, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientRedirectUri, new { subject = client.Subject })
                     }
                 };
             }
@@ -220,7 +220,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientCorsOrigin, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientCorsOrigin, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -233,7 +233,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = alowedCorsOrigins.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientCorsOrigin, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientCorsOrigin, new { subject = client.Subject })
                     }
                 };
             }
@@ -249,7 +249,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientCustomGrantType, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientCustomGrantType, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -262,7 +262,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = allowedCustomGrantTypes.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientCustomGrantType, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientCustomGrantType, new { subject = client.Subject })
                     }
                 };
             }
@@ -278,7 +278,7 @@ namespace IdentityAdmin.Api.Models.Client
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveClientScope, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveClientScope, new
                             {
                                 subject = client.Subject,
                                 id = c.Id
@@ -291,7 +291,7 @@ namespace IdentityAdmin.Api.Models.Client
                     Data = allowedScopes.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddClientScope, new { subject = client.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddClientScope, new { subject = client.Subject })
                     }
                 };
             }

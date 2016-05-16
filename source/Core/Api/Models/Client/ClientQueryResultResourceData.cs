@@ -19,6 +19,7 @@ using System.Web.Http.Routing;
 using AutoMapper;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Client;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Models.Client
 {
@@ -57,11 +58,11 @@ namespace IdentityAdmin.Api.Models.Client
             foreach (var client in this.Items)
             {
                 var links = new Dictionary<string, string> {
-                    {"detail", url.Link(Constants.RouteNames.GetClient, new { subject = client.Data.Subject })}
+                    {"detail", url.RelativeLink(Constants.RouteNames.GetClient, new { subject = client.Data.Subject })}
                 };
                 if (meta.SupportsDelete)
                 {
-                    links.Add("delete", url.Link(Constants.RouteNames.DeleteClient, new { subject = client.Data.Subject }));
+                    links.Add("delete", url.RelativeLink(Constants.RouteNames.DeleteClient, new { subject = client.Data.Subject }));
                 }
                 client.Links = links;
             }

@@ -24,6 +24,7 @@ using IdentityAdmin.Api.Models.Client;
 using IdentityAdmin.Api.Models.Scope;
 using IdentityAdmin.Core;
 using IdentityAdmin.Core.Metadata;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Controllers
 {
@@ -66,22 +67,21 @@ namespace IdentityAdmin.Api.Controllers
             {
                 username = name
             });
-
+        
             var links = new Dictionary<string, object>();
-
-            links["clients"] = Url.Link(Constants.RouteNames.GetClients, null);
+                        
+            links["clients"] = Url.RelativeLink(Constants.RouteNames.GetClients);
             if (coreMeta.ClientMetaData.SupportsCreate)
             {
                 links["createClient"] = new CreateClientLink(Url, coreMeta.ClientMetaData);
             }
 
-            links["scopes"] = Url.Link(Constants.RouteNames.GetScopes, null);
+            links["scopes"] = Url.RelativeLink(Constants.RouteNames.GetScopes);
             if (coreMeta.ScopeMetaData.SupportsCreate)
             {
                 links["createScope"] = new CreateScopeLink(Url, coreMeta.ScopeMetaData);
             }
-
-
+            
             return Ok(new
             {
                 Data = data,

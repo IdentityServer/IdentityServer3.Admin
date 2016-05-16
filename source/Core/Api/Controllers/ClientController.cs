@@ -144,7 +144,7 @@ namespace IdentityAdmin.Api.Controllers
                 var result = await _identityAdminService.CreateClientAsync(properties);
                 if (result.IsSuccess)
                 {
-                    var url = Url.Link(Constants.RouteNames.GetClient, new { subject = result.Result.Subject });
+                    var url = Url.RelativeLink(Constants.RouteNames.GetClient, new { subject = result.Result.Subject });
                     var resource = new
                     {
                         Data = new { subject = result.Result.Subject },

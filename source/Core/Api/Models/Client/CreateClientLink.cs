@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using System.Web.Http.Routing;
 using IdentityAdmin.Core.Client;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Models.Client
 {
@@ -23,7 +24,7 @@ namespace IdentityAdmin.Api.Models.Client
     {
         public CreateClientLink(UrlHelper url, ClientMetaData clientMetaData)
         {
-            this["href"] = url.Link(Constants.RouteNames.CreateClient, null);
+            this["href"] = url.RelativeLink(Constants.RouteNames.CreateClient);
             this["meta"] = clientMetaData.CreateProperties;
         }
     }

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Web.Http.Routing;
 using IdentityAdmin.Core.Metadata;
 using IdentityAdmin.Core.Scope;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Models.Scope
 {
@@ -34,7 +35,7 @@ namespace IdentityAdmin.Api.Models.Scope
             var links = new Dictionary<string, string>();
             if (idmAdminMeta.ClientMetaData.SupportsDelete)
             {
-                links["Delete"] = url.Link(Constants.RouteNames.DeleteScope, new { subject = scope.Subject });
+                links["Delete"] = url.RelativeLink(Constants.RouteNames.DeleteScope, new { subject = scope.Subject });
             }
             Links = links;
         }
