@@ -15,14 +15,17 @@
  */
 
 using System;
+using System.Security.Cryptography.X509Certificates;
 using IdentityAdmin.Configuration.Hosting;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.DataHandler;
 using Owin;
 
 namespace IdentityAdmin.Configuration
 {
     public class AdminHostSecurityConfiguration : AdminSecurityConfiguration
     {
+        public X509Certificate2 TokenDataProtectorCertificate { get; set; }
         public string HostAuthenticationType { get; set; }
         public string AdditionalSignOutType { get; set; }
         public TimeSpan TokenExpiration { get; set; }

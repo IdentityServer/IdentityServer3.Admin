@@ -153,6 +153,7 @@
     <Compile Include="Configuration\Registration.cs" />
     <Compile Include="Configuration\AdminSecurityConfiguration.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
+    <Compile Include="Configuration\X509CertificateTicketDataProtector.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Core\Client\BaseClientValue.cs" />
     <Compile Include="Core\Client\ClientClaimValue.cs" />
