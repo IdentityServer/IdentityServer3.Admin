@@ -192,6 +192,7 @@
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\PropertyMetadataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Logging\DiagnosticsTraceLogProvider.cs" />
     <Compile Include="Logging\LibLogLoggerFactory.cs" />
     <Compile Include="Logging\LibLogTraceListener.cs" />

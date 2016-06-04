@@ -141,7 +141,7 @@ namespace IdentityAdmin.Api.Controllers
                 var result = await _identityAdminService.CreateScopeAsync(properties);
                 if (result.IsSuccess)
                 {
-                    var url = Url.Link(Constants.RouteNames.GetScope, new {subject = result.Result.Subject});
+                    var url = Url.RelativeLink(Constants.RouteNames.GetScope, new {subject = result.Result.Subject});
                     var resource = new
                     {
                         Data = new {subject = result.Result.Subject},
