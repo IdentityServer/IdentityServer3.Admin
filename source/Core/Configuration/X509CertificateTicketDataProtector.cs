@@ -5,7 +5,7 @@ using Microsoft.Owin.Security.DataProtection;
 namespace IdentityAdmin.Configuration
 {
     /// <summary>
-    /// X.509 certificate based data protector for state parameter
+    /// X.509 certificate based data protector
     /// </summary>
     public class X509CertificateTicketDataProtector : IDataProtector
     {

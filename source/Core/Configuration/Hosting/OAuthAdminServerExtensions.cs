@@ -28,7 +28,7 @@ namespace IdentityAdmin.Configuration.Hosting
 {
     static class OAuthAdminServerExtensions
     {
-        private readonly static ILog Logger = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog Logger = LogProvider.GetCurrentClassLogger(); 
 
         public static void UseOAuthAuthorizationServer(this IAppBuilder app, AdminHostSecurityConfiguration config)
         {
