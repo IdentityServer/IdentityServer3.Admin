@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Web.Http.Routing;
 using IdentityAdmin.Core.Client;
 using IdentityAdmin.Core.Metadata;
+using IdentityAdmin.Extensions;
 
 namespace IdentityAdmin.Api.Models.Client
 {
@@ -35,7 +36,7 @@ namespace IdentityAdmin.Api.Models.Client
             var links = new Dictionary<string, string>();
             if (idmAdminMeta.ClientMetaData.SupportsDelete)
             {
-                links["Delete"] = url.Link(Constants.RouteNames.DeleteClient, new {subject = client.Subject});
+                links["Delete"] = url.RelativeLink(Constants.RouteNames.DeleteClient, new {subject = client.Subject});
             }
             Links = links;
         }

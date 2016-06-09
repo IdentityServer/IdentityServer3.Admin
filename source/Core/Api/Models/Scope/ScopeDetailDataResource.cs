@@ -49,7 +49,7 @@ namespace IdentityAdmin.Api.Models.Scope
                         Meta = m,
                         Links = new
                         {
-                            update = url.Link(Constants.RouteNames.UpdateScopeProperty,
+                            update = url.RelativeLink(Constants.RouteNames.UpdateScopeProperty,
                                 new
                                 {
                                     subject = scope.Subject,
@@ -75,12 +75,12 @@ namespace IdentityAdmin.Api.Models.Scope
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveScopeClaim, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveScopeClaim, new
                             {
                                 subject = scope.Subject,
                                 id = c.Id
                             }),
-                            update = url.Link(Constants.RouteNames.UpdateScopeClaim, new
+                            update = url.RelativeLink(Constants.RouteNames.UpdateScopeClaim, new
                             {
                                 subject = scope.Subject,
                                 id = c.Id
@@ -93,7 +93,7 @@ namespace IdentityAdmin.Api.Models.Scope
                     Data = claimValues.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddScopeClaim, new { subject = scope.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddScopeClaim, new { subject = scope.Subject })
                     }
                 };
             }
@@ -106,12 +106,12 @@ namespace IdentityAdmin.Api.Models.Scope
                         Data = c,
                         Links = new
                         {
-                            delete = url.Link(Constants.RouteNames.RemoveScopeSecret, new
+                            delete = url.RelativeLink(Constants.RouteNames.RemoveScopeSecret, new
                             {
                                 subject = scope.Subject,
                                 id = c.Id
                             }),
-                            update = url.Link(Constants.RouteNames.UpdateScopeSecret, new
+                            update = url.RelativeLink(Constants.RouteNames.UpdateScopeSecret, new
                             {
                                 subject = scope.Subject,
                                 id = c.Id
@@ -124,7 +124,7 @@ namespace IdentityAdmin.Api.Models.Scope
                     Data = scopeSecrets.ToArray(),
                     Links = new
                     {
-                        create = url.Link(Constants.RouteNames.AddScopeSecret, new { subject = scope.Subject })
+                        create = url.RelativeLink(Constants.RouteNames.AddScopeSecret, new { subject = scope.Subject })
                     }
                 };
             }
