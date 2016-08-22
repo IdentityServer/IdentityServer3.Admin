@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>IdentityServer3.Admin</id>
-    <version>1.0.0-beta8</version>
+    <version>1.0.0-beta9</version>
     <title>IdentityServer3.Admin</title>
     <authors>Brock Allen, Dominick Baier, Bert Hoorne</authors>
     <owners>Brock Allen, Dominick Baier, Bert Hoorne</owners>
