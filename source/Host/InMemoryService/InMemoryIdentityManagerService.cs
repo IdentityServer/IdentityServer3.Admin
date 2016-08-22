@@ -145,10 +145,12 @@ namespace IdentityAdmin.Host.InMemoryService
                     };
 
                 result.Properties = props.ToArray();
-                result.ScopeClaimValues = new List<ScopeClaimValue>();
-                Mapper.Map(inMemoryScope.ScopeClaims.ToList(), result.ScopeClaimValues);
-                result.ScopeSecretValues = new List<ScopeSecretValue>();
-                Mapper.Map(inMemoryScope.ScopeSecrets.ToList(), result.ScopeSecretValues);
+                var scopeClaimValues = new List<ScopeClaimValue>();
+                Mapper.Map(inMemoryScope.ScopeClaims.ToList(), scopeClaimValues);
+                result.ScopeClaimValues = scopeClaimValues;
+                var scopeSecretValues = new List<ScopeSecretValue>();
+                Mapper.Map(inMemoryScope.ScopeSecrets.ToList(), scopeSecretValues);
+                result.ScopeSecretValues = scopeSecretValues;
                 return Task.FromResult(new IdentityAdminResult<ScopeDetail>(result));
             }
             return Task.FromResult(new IdentityAdminResult<ScopeDetail>((ScopeDetail) null));

@@ -85,7 +85,7 @@ namespace Core.Tests.Api
             };
             var response = Post("api/Clients", propertyValues);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
-            Assert.AreEqual(Url("api/clients/123"), response.Headers.Location.AbsoluteUri);
+            Assert.AreEqual("/api/clients/123", response.Headers.Location.ToString());
         }
 
         [TestMethod]
