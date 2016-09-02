@@ -32,9 +32,10 @@ namespace IdentityAdmin.Configuration
             {
                 AdminSecurityConfiguration = new LocalhostSecurityConfiguration();
             }
-
+            SiteName = "IdentityAdmin";
         }
 
+        public string SiteName { get; set; }
         public bool DisableSecurity { get; private set; }
         public IdentityAdminServiceFactory Factory { get; set; }
         public AdminSecurityConfiguration AdminSecurityConfiguration { get; set; }

@@ -27,15 +27,15 @@ namespace IdentityAdmin.Assets
         string path;
         string file;
         string authorization_endpoint;
-        AdminSecurityConfiguration _adminSecurityConfiguration;
+        IdentityAdminOptions _adminOptions;
 
-        public EmbeddedHtmlResult(HttpRequestMessage request, string file, AdminSecurityConfiguration securityConfiguration)
+        public EmbeddedHtmlResult(HttpRequestMessage request, string file, IdentityAdminOptions adminOptions)
         {
             var pathbase = request.GetOwinContext().Request.PathBase;
             this.path = pathbase.Value;
             this.file = file;
             this.authorization_endpoint = pathbase + Constants.AuthorizePath;
-            this._adminSecurityConfiguration = securityConfiguration;
+            this._adminOptions = adminOptions;
         }
 
         public Task<System.Net.Http.HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
@@ -51,7 +51,8 @@ namespace IdentityAdmin.Assets
                     model = Newtonsoft.Json.JsonConvert.SerializeObject(new
                     {
                         PathBase = this.path,
-                        ShowLoginButton = this._adminSecurityConfiguration.ShowLoginButton,
+                        ShowLoginButton = this._adminOptions.AdminSecurityConfiguration.ShowLoginButton,
+                        SiteName = this._adminOptions.SiteName,
                         oauthSettings = new
                         {
                             authorization_endpoint = this.authorization_endpoint,
