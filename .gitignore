@@ -104,6 +104,8 @@ _TeamCity*
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml
+*.ncrunchproject
+*.ncrunchsolution
 
 # MightyMoose
 *.mm.*
@@ -196,3 +198,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Ignore files which are created during build
+style.min.css
+Bundle.Js
+Bundle.min.js
