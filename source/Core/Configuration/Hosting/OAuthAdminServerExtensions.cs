@@ -20,6 +20,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityAdmin.Logging;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.DataHandler;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
@@ -27,12 +28,20 @@ namespace IdentityAdmin.Configuration.Hosting
 {
     static class OAuthAdminServerExtensions
     {
-        private readonly static ILog Logger = LogProvider.GetCurrentClassLogger();
+        private readonly static ILog Logger = LogProvider.GetCurrentClassLogger(); 
 
         public static void UseOAuthAuthorizationServer(this IAppBuilder app, AdminHostSecurityConfiguration config)
         {
+            TicketDataFormat tokenFormat = null;
+            if (config.TokenDataProtectorCertificate != null)
+            {
+                tokenFormat = new TicketDataFormat(new X509CertificateTicketDataProtector(config.TokenDataProtectorCertificate));
+            }
+
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
+                AccessTokenFormat = tokenFormat,
+                RefreshTokenFormat = tokenFormat,
                 AllowInsecureHttp = !config.RequireSsl,
                 AccessTokenExpireTimeSpan = config.TokenExpiration,
                 AuthorizeEndpointPath = new PathString(Constants.AuthorizePath),
@@ -66,7 +75,7 @@ namespace IdentityAdmin.Configuration.Hosting
                             Logger.InfoFormat("User is authenticated from {0}", config.HostAuthenticationType);
 
                             // we only want name and role claims
-                            var expected = new[]{config.NameClaimType, config.RoleClaimType};
+                            var expected = new[] { config.NameClaimType, config.RoleClaimType };
                             var claims = result.Identity.Claims.Where(x => expected.Contains(x.Type));
                             var id = new ClaimsIdentity(claims, Constants.BearerAuthenticationType, config.NameClaimType, config.RoleClaimType);
                             owin.Authentication.SignIn(id);
@@ -85,6 +94,7 @@ namespace IdentityAdmin.Configuration.Hosting
 
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             {
+                AccessTokenFormat = tokenFormat,
                 AuthenticationType = config.BearerAuthenticationType,
                 AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Passive
             });
