@@ -1,7 +1,7 @@
 ﻿<div class="navbar-content clearfix">
     <ul class="nav navbar-top-links pull-left">
         <img class="brand-icon" ng-src="{{PathBase}}/assets/Content.logo.png">
-        IdentityAdmin
+        {{layout.sitename}}
     </ul>
     <ul class="nav navbar-top-links pull-right">
         <li ng-hide="!layout.showLogin" >
@@ -34,7 +34,7 @@
                 <!-- Brand -->
                 <div class="brand-name-wrapper">
                     <a class="navbar-brand" href="#/home">
-                      {{username}}
+                      {{layout.username}}
                     </a>
                 </div>
             </div>

@@ -27,9 +27,10 @@
     config.$inject = ["PathBase", "$routeProvider"];
     app.config(config);
 
-    function LayoutCtrl($rootScope, PathBase, idAdmApi, $location, $window, idAdmTokenManager, idAdmErrorService, ShowLoginButton) {
+    function LayoutCtrl($rootScope, SiteName, PathBase, idAdmApi, $location, $window, idAdmTokenManager, idAdmErrorService, ShowLoginButton) {
         $rootScope.PathBase = PathBase;
         $rootScope.layout = {};
+        $rootScope.layout.sitename = SiteName;
 
         function removed() {
             idAdmErrorService.clear();
@@ -88,7 +89,7 @@
         }
        
     }
-    LayoutCtrl.$inject = ["$rootScope", "PathBase", "idAdmApi", "$location", "$window", "idAdmTokenManager", "idAdmErrorService", "ShowLoginButton"];
+    LayoutCtrl.$inject = ["$rootScope", "SiteName", "PathBase", "idAdmApi", "$location", "$window", "idAdmTokenManager", "idAdmErrorService", "ShowLoginButton"];
     app.controller("LayoutCtrl", LayoutCtrl);
 
     function HomeCtrl(ShowLoginButton, idAdmTokenManager, $routeParams) {
