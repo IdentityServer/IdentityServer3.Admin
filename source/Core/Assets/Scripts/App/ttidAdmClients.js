@@ -208,7 +208,7 @@
         $scope.removeIdentityProviderRestriction = function (identityProviderRestriction) {
             idAdmClients.removeIdentityProviderRestriction(identityProviderRestriction)
                 .then(function () {
-                    feedback.message = "Client  Provider Restriction Removed : " + identityProviderRestriction.provider;
+                    feedback.message = "Client  Provider Restriction Removed : " + identityProviderRestriction.data.provider;
                     loadClient().then(function () {
                         $scope.identityProviderRestriction = identityProviderRestriction.data;
                     });
