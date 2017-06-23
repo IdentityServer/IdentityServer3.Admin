@@ -22,6 +22,7 @@ namespace IdentityAdmin.Configuration
 {
     public abstract class AdminSecurityConfiguration
     {
+        public dynamic OidcSettings { get; set; } 
         public bool RequireSsl { get; set; }
         public string BearerAuthenticationType { get; set; }
 

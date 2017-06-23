@@ -4057,6 +4057,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.datepicker","ui
     function idAdmTokenManager(OidcTokenManager, oauthSettings, PathBase, $window, $rootScope) {
 
         oauthSettings.response_type = "token";
+        Object.assign(oauthSettings, oauthSettings.options);
 
         var mgr = new OidcTokenManager(oauthSettings);
 
