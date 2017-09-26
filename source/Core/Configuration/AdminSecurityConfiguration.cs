@@ -22,6 +22,7 @@ namespace IdentityAdmin.Configuration
 {
     public abstract class AdminSecurityConfiguration
     {
+        public dynamic OidcSettings { get; set; } 
         public bool RequireSsl { get; set; }
         public string BearerAuthenticationType { get; set; }
 
@@ -32,7 +33,7 @@ namespace IdentityAdmin.Configuration
 
         public virtual bool? ShowLoginButton { get; set; }
 
-        internal AdminSecurityConfiguration()
+        protected AdminSecurityConfiguration()
         {
             RequireSsl = true;
             BearerAuthenticationType = Constants.BearerAuthenticationType;
@@ -42,7 +43,7 @@ namespace IdentityAdmin.Configuration
             AdminRoleName = Constants.AdminRoleName;
         }
 
-        internal virtual void Validate()
+        protected virtual void Validate()
         {
             if (String.IsNullOrWhiteSpace(BearerAuthenticationType))
             {
@@ -64,7 +65,7 @@ namespace IdentityAdmin.Configuration
 
         public abstract void Configure(IAppBuilder app);
 
-        internal virtual void SignOut(IOwinContext context)
+        protected virtual void SignOut(IOwinContext context)
         {
         }
     }

@@ -56,7 +56,8 @@ namespace IdentityAdmin.Assets
                         oauthSettings = new
                         {
                             authorization_endpoint = this.authorization_endpoint,
-                            client_id = Constants.IdAdmMgrClientId
+                            client_id = Constants.IdAdmMgrClientId,
+                            options = this._adminOptions.AdminSecurityConfiguration.OidcSettings,
                         }
                     })
                 });
