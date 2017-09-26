@@ -1,7 +1,7 @@
 IdentityAdmin
 ============================
 
-**current status: unsupported samnple**
+**current status: unsupported sample**
 
 ## Overview ##
 
