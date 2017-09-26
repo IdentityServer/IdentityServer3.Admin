@@ -1,7 +1,7 @@
 IdentityAdmin
 ============================
 
-**current status: beta**
+**current status: unsupported samnple**
 
 ## Overview ##
 
