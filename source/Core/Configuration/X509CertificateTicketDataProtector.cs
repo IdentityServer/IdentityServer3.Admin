@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.IdentityModel;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Owin.Security.DataProtection;
 
@@ -9,8 +9,8 @@ namespace IdentityAdmin.Configuration
     /// </summary>
     public class X509CertificateTicketDataProtector : IDataProtector
     {
-        private readonly RSACryptoServiceProvider _encryptor;
-        private readonly RSACryptoServiceProvider _decryptor;
+        private readonly RsaSignatureCookieTransform _signatureTransform;
+        private readonly RsaEncryptionCookieTransform _encryptTransform;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="X509CertificateTicketDataProtector"/> class.
@@ -18,8 +18,8 @@ namespace IdentityAdmin.Configuration
         /// <param name="certificate">The certificate.</param>
         public X509CertificateTicketDataProtector(X509Certificate2 certificate)
         {
-            _encryptor = certificate.PublicKey.Key as RSACryptoServiceProvider;
-            _decryptor = (RSACryptoServiceProvider)certificate.PrivateKey;
+            _signatureTransform = new RsaSignatureCookieTransform(certificate);
+            _encryptTransform = new RsaEncryptionCookieTransform(certificate);
         }
 
         /// <summary>
@@ -29,8 +29,9 @@ namespace IdentityAdmin.Configuration
         /// <returns></returns>
         public byte[] Protect(byte[] data)
         {
-            var encrypted = _encryptor.Encrypt(data, true);
-            return encrypted;
+            var encrypted = encryptTransform.Encode(userData);
+            var signed = signatureTransform.Encode(encrypted);
+            return signed;
         }
 
         /// <summary>
@@ -40,7 +41,9 @@ namespace IdentityAdmin.Configuration
         /// <returns></returns>
         public byte[] Unprotect(byte[] data)
         {
-            return _decryptor.Decrypt(data, true);
+            var unsigned = signatureTransform.Decode(protectedData);
+            var decrypted = encryptTransform.Decode(unsigned);
+            return decrypted;
         }
     }
 }
